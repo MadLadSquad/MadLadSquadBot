@@ -1,4 +1,6 @@
 # MadLadSquadBot
+[![CI](https://github.com/MadLadSquad/MadLadSquadBot/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/MadLadSquad/MadLadSquadBot/actions/workflows/ci.yml)
+
 The official discord bot for the MadLadSquad discord server
 ## Features
 - Serverinfo
