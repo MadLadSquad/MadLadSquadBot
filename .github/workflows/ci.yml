@@ -1,0 +1,21 @@
+name: CI
+
+env:
+  BUILD_CONFIGURATION: Release
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  Linux:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Get dependencies
+      shell: bash
+      run: sudo snap install --classic go 
+    - name: Compile
+      shell: bash
+      run: go build .
