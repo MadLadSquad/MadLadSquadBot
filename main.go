@@ -77,21 +77,13 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 
 	if strings.Contains(content, prefix+"userinfo") {
 		showUserInfo(message[1], s, m)
-	}
-
-	if strings.Contains(content, prefix+"serverinfo") {
+	} else if strings.Contains(content, prefix+"serverinfo") {
 		showServerInfo(s, m)
-	}
-
-	if strings.Contains(content, prefix+"help") {
+	} else if strings.Contains(content, prefix+"help") {
 		help(s, m)
-	}
-
-	if strings.Contains(content, prefix+"kick") {
+	} else if strings.Contains(content, prefix+"kick") {
 		kick(message[1], s, m)
-	}
-
-	if strings.Contains(content, prefix+"ban") {
+	} else if strings.Contains(content, prefix+"ban") {
 		arg := [3]string{ message[1], message[2], message[3] }
 		ban(arg, s, m)
 	}
