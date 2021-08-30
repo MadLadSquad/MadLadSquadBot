@@ -3,12 +3,12 @@
 
 The official discord bot for the MadLadSquad discord server
 ## Features
-- Serverinfo
-- Userinfo
-- Help
+- Serverinfo ✅
+- Userinfo ✅
+- Help ✅
 - Playing music in vc
-- Ban
-- Kick
+- Ban ✅
+- Kick ✅
 - Event logs
 - Welcome images
 - Automatic moderation
