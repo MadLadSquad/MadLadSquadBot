@@ -30,6 +30,7 @@ func main() {
 	}
 
 	dg.AddHandler(messageCreate)
+	dg.AddHandler(onReady)
 
 	if err != nil {
 		return
@@ -62,6 +63,7 @@ func main() {
 	}
 }
 
+// This is the main event meaning it won't go into events.go
 func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 	content := strings.ToLower(m.Content)
 
@@ -98,22 +100,3 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 	}
 }
 
-func parseMessage(str string) [103]string {
-	ret := [103]string{}
-
-	index := 0
-
-	for i := 0; i < len(str); i++ {
-		if index < 103 {
-			if str[i] == ' ' {
-				index++
-			} else {
-				ret[index] += string(str[i])
-			}
-		} else {
-			break
-		}
-	}
-
-	return ret
-}

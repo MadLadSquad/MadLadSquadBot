@@ -34,3 +34,23 @@ func checkPerm(s *discordgo.Session, m *discordgo.MessageCreate, perm int64) boo
 
 	return false
 }
+
+func parseMessage(str string) [103]string {
+	ret := [103]string{}
+
+	index := 0
+
+	for i := 0; i < len(str); i++ {
+		if index < 103 {
+			if str[i] == ' ' {
+				index++
+			} else {
+				ret[index] += string(str[i])
+			}
+		} else {
+			break
+		}
+	}
+
+	return ret
+}
