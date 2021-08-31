@@ -32,6 +32,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Get dependencies
-        run: brew install go@1.16
+        run: brew install go@1.16 || brew link --overwrite go
       - name: Compile
         run: go build .
