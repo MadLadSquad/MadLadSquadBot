@@ -31,6 +31,7 @@ func main() {
 
 	dg.AddHandler(messageCreate)
 	dg.AddHandler(onReady)
+	dg.AddHandler(welcome)
 
 	if err != nil {
 		return
@@ -105,6 +106,10 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 		termsOfService(s, m)
 	} else if strings.Contains(content, prefix+"about") {
 		about(s, m)
+	} else if strings.Contains(content, prefix+"verify") {
+		verify(s, m)
+	} else if strings.Contains(content, prefix+"avatar") {
+		avatar(message[1], s, m)
 	}
 }
 

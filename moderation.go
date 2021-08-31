@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/MadLadSquad/discordgo"
+	"strings"
 )
 
 func kick(arg string, s *discordgo.Session, m *discordgo.MessageCreate) {
@@ -67,6 +68,22 @@ func ban(arg [2]string, s *discordgo.Session, m *discordgo.MessageCreate) {
 			if sendEmbed != nil {
 				return
 			}
+		}
+	}
+}
+
+func verify(s *discordgo.Session, m *discordgo.MessageCreate) {
+	guild, _ := s.State.Guild(m.GuildID)
+
+	for i := 0; i < len(guild.Channels); i++ {
+		if strings.ToLower(guild.Channels[i].Name) == "verify" || strings.Contains(strings.ToLower(guild.Channels[i].Topic), "ubot-verify") {
+			for j := 0; j < len(guild.Roles); j++ {
+				if strings.ToLower(guild.Roles[j].Name) == "member" || strings.ToLower(guild.Roles[j].Name) == "members" {
+					_ = s.GuildMemberRoleAdd(m.GuildID, m.Author.ID, guild.Roles[j].ID)
+					break
+				}
+			}
+			break
 		}
 	}
 }
