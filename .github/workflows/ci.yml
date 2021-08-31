@@ -32,6 +32,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Get dependencies
-        run: brew install go
+        run: brew install go@1.16
       - name: Compile
         run: go build .
