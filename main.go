@@ -84,18 +84,27 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 	} else if strings.Contains(content, prefix+"kick") {
 		kick(message[1], s, m)
 	} else if strings.Contains(content, prefix+"ban") {
-		arg := [3]string{ message[1], message[2], message[3] }
+		arg := [2]string{ message[1] }
+
+		for i := 2; i < 102; i++ {
+			if message[i] != "" {
+				arg[1] += message[i] + " "
+			} else {
+				break
+			}
+		}
+
 		ban(arg, s, m)
 	}
 }
 
-func parseMessage(str string) [50]string {
-	ret := [50]string{}
+func parseMessage(str string) [103]string {
+	ret := [103]string{}
 
 	index := 0
 
 	for i := 0; i < len(str); i++ {
-		if index < 50 {
+		if index < 103 {
 			if str[i] == ' ' {
 				index++
 			} else {
