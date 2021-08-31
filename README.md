@@ -12,14 +12,18 @@ The official discord bot for the MadLadSquad discord server
 - Event logs
 - Welcome images
 - Automatic moderation
-- Reaction roles
+- Verification
+- Verification with CAPTCHA
 - Restricted channels
 - Topic locked channels
 - Twitch, Twitter and Youtube updates
 - Activity leaderboard
 ## How to use
 To use the bot you can invite the UntitledDiscordBot using this link or you can build it yourself. By default the bot uses `&` as it's prefix. 
-### 
+### Verification
+Create a base role called `Member`. Next create a channel called `verify` for anyone except people with roles. Make them type `&verify` to enter the server. This is a base level verify command so it is better to use `Verification with CAPTCHA` when it comes out
+### Ban
+To ban a user type in `&ban <a ping to them> <reason up to 100 words>`. All messages in the past 30 days will be deleted from the server
 ## How to build
 1. Install golang version atleast 1.16
 2. Clone this repo with `git clone https://github.com/MadLadSquad/MadLadSquadBot.git`
