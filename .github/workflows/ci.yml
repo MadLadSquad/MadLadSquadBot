@@ -19,3 +19,19 @@ jobs:
     - name: Compile
       shell: bash
       run: go build .
+  Windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Get dependencies
+        run: choco install golang
+      - name: Compile
+        run: go build .
+  MacOS:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Get dependencies
+        run: brew install go
+      - name: Compile
+        run: go build .
