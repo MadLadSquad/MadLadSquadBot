@@ -20,6 +20,7 @@ func help(s* discordgo.Session, m* discordgo.MessageCreate) {
 		AddField(prefix+"verify", "If a role with the name \"Member\" or \"Members\" is found and a channel has the name \"Verify\" or has it's topic set to \"ubot-verify\" the member role will be given to the user").
 		InlineAllFields().
 		AddField(prefix+"avatar", "Sends a link to the user's avatar").
+		AddField(prefix+"mute <ping>", "Mutes a user by giving him a muted role").
 		InlineAllFields().
 		SetFooter("Message delivered using Untitled Technology", "https://avatars.githubusercontent.com/u/66491677?s=400&u=07d8dd94266f97e22ee5bd96aebb6a5f9190b4ec&v=4").
 		SetColor(0xf1c40f).MessageEmbed
