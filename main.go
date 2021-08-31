@@ -97,6 +97,14 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 		}
 
 		ban(arg, s, m)
+	} else if strings.Contains(content, prefix+"invite") {
+		invite(s, m)
+	} else if strings.Contains(content, prefix+"privacy") {
+		privacyPolicy(s, m)
+	} else if strings.Contains(content, prefix+"tos") {
+		termsOfService(s, m)
+	} else if strings.Contains(content, prefix+"about") {
+		about(s, m)
 	}
 }
 
