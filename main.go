@@ -110,6 +110,7 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 		verify(s, m)
 	} else if strings.Contains(content, prefix+"avatar") {
 		avatar(message[1], s, m)
+	} else if strings.Contains(content, prefix+"mute") {
+		mute(message[1], s, m)
 	}
 }
-

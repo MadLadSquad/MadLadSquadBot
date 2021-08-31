@@ -75,15 +75,33 @@ func ban(arg [2]string, s *discordgo.Session, m *discordgo.MessageCreate) {
 func verify(s *discordgo.Session, m *discordgo.MessageCreate) {
 	guild, _ := s.State.Guild(m.GuildID)
 
-	for i := 0; i < len(guild.Channels); i++ {
-		if strings.ToLower(guild.Channels[i].Name) == "verify" || strings.Contains(strings.ToLower(guild.Channels[i].Topic), "ubot-verify") {
-			for j := 0; j < len(guild.Roles); j++ {
-				if strings.ToLower(guild.Roles[j].Name) == "member" || strings.ToLower(guild.Roles[j].Name) == "members" {
-					_ = s.GuildMemberRoleAdd(m.GuildID, m.Author.ID, guild.Roles[j].ID)
-					break
-				}
-			}
+	for j := 0; j < len(guild.Roles); j++ {
+		if strings.ToLower(guild.Roles[j].Name) == "member" || strings.ToLower(guild.Roles[j].Name) == "members" {
+			_ = s.GuildMemberRoleAdd(m.GuildID, m.Author.ID, guild.Roles[j].ID)
+			_ = s.ChannelMessageDelete(m.ChannelID, m.ID)
 			break
+		}
+	}
+}
+
+func mute(arg string, s *discordgo.Session, m *discordgo.MessageCreate) {
+	if checkPerm(s, m, discordgo.PermissionAdministrator) && arg != "" {
+		user, _ := s.User(sanitizePings(arg))
+		guild, _ := s.State.Guild(m.GuildID)
+
+		for i := 0; i < len(guild.Roles); i++ {
+			if strings.ToLower(guild.Roles[i].Name) == "mute" || strings.ToLower(guild.Roles[i].Name) == "muted" {
+				_ = s.GuildMemberRoleAdd(m.GuildID, user.ID, guild.Roles[i].ID)
+				embed := NewEmbed().
+					SetTitle("Muted user!").
+					SetThumbnail(user.AvatarURL("")).
+					AddField("The following user has been muted", user.Mention()).
+					SetFooter("Message delivered using Untitled Technology", "https://avatars.githubusercontent.com/u/66491677?s=400&u=07d8dd94266f97e22ee5bd96aebb6a5f9190b4ec&v=4").
+					SetColor(0xf1c40f).MessageEmbed
+
+				_, _ = s.ChannelMessageSendEmbed(m.ChannelID, embed)
+				break
+			}
 		}
 	}
 }
