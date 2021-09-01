@@ -32,6 +32,7 @@ func main() {
 	dg.AddHandler(messageCreate)
 	dg.AddHandler(onReady)
 	dg.AddHandler(welcome)
+	dg.AddHandler(bye)
 
 	if err != nil {
 		return
