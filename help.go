@@ -17,7 +17,7 @@ func help(s* discordgo.Session, m* discordgo.MessageCreate) {
 		AddField(prefix+"privacy", "Displays the privacy policy for the bot").
 		AddField(prefix+"about", "Displays information about MadLad Squad and the bot").
 		InlineAllFields().
-		AddField(prefix+"verify", "If a role with the name \"Member\" or \"Members\" is found and a channel has the name \"Verify\" or has it's topic set to \"ubot-verify\" the member role will be given to the user").
+		AddField(prefix+"verify", "If a role with the name \"Member\" or \"Members\" is found it will give the person that role. Used for moderation. To use make everyone have perms to only 1 channel where they can type that command").
 		InlineAllFields().
 		AddField(prefix+"avatar <optional ping>", "Sends a link to the user's avatar").
 		AddField(prefix+"mute <ping>", "Mutes a user by giving him a muted role").
