@@ -21,6 +21,7 @@ func help(s* discordgo.Session, m* discordgo.MessageCreate) {
 		InlineAllFields().
 		AddField(prefix+"avatar", "Sends a link to the user's avatar").
 		AddField(prefix+"mute <ping>", "Mutes a user by giving him a muted role").
+		AddField(prefix+"sus", "Responds with a random sussy message").
 		InlineAllFields().
 		SetFooter("Message delivered using Untitled Technology", "https://avatars.githubusercontent.com/u/66491677?s=400&u=07d8dd94266f97e22ee5bd96aebb6a5f9190b4ec&v=4").
 		SetColor(0xf1c40f).MessageEmbed
