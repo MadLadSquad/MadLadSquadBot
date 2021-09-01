@@ -14,7 +14,7 @@ import (
 
 var (
 	Token  string
-	prefix = "!"
+	prefix = "&"
 )
 
 func init() {
