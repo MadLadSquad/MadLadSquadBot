@@ -19,7 +19,7 @@ func help(s* discordgo.Session, m* discordgo.MessageCreate) {
 		InlineAllFields().
 		AddField(prefix+"verify", "If a role with the name \"Member\" or \"Members\" is found and a channel has the name \"Verify\" or has it's topic set to \"ubot-verify\" the member role will be given to the user").
 		InlineAllFields().
-		AddField(prefix+"avatar", "Sends a link to the user's avatar").
+		AddField(prefix+"avatar <optional ping>", "Sends a link to the user's avatar").
 		AddField(prefix+"mute <ping>", "Mutes a user by giving him a muted role").
 		AddField(prefix+"sus", "Responds with a random sussy message").
 		InlineAllFields().
