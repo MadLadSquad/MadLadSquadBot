@@ -25,6 +25,11 @@ Create a base role called `Member`. Next create a channel called `verify` for an
 To ban a user type in `&ban <a ping to them> <reason up to 100 words>`. All messages in the past 30 days will be deleted from the server
 ### Event tracking
 To track events make a channel that is available to the bot and add to the topic the following word `ubot-event-log`. Now every time something happens in the server it will be logged!
+### Restricted/Topic locked channels
+Some channels can be restricted by adding one of the following keywords in the topic of a channel
+1. `ubot-restrict-text-only` text messages only
+2. `ubot-restrict-attachments-only` attachments and links only
+3. `ubot-restrict-links-only` links only
 ## How to build
 1. Install golang version atleast 1.16
 2. Clone this repo with `git clone https://github.com/MadLadSquad/MadLadSquadBot.git`
