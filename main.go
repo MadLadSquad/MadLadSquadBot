@@ -30,9 +30,24 @@ func main() {
 	}
 
 	dg.AddHandler(messageCreate)
+
 	dg.AddHandler(onReady)
+
+	dg.AddHandler(onChannelCreate)
+	dg.AddHandler(onChannelUpdate)
+	dg.AddHandler(onChannelRemove)
+	dg.AddHandler(onPinUpdate)
+
+	dg.AddHandler(onBanRemove)
+
+	dg.AddHandler(onGuildUpdate)
+	dg.AddHandler(onGuildMemberUpdate)
 	dg.AddHandler(welcome)
 	dg.AddHandler(bye)
+
+	dg.AddHandler(onRoleCreate)
+	dg.AddHandler(onRoleUpdate)
+	dg.AddHandler(onRoleRemove)
 
 	if err != nil {
 		return
