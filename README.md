@@ -14,8 +14,8 @@ The official discord bot for the MadLadSquad discord server
 - Automatic moderation
 - Verification ✅
 - Verification with CAPTCHA
-- Restricted channels
-- Topic locked channels
+- Restricted channels ✅
+- Topic locked channels ✅
 - Twitch, Twitter and Youtube updates
 ## How to use
 To use the bot you can invite the UntitledDiscordBot using this link or you can build it yourself. By default the bot uses `&` as it's prefix. 

@@ -386,3 +386,43 @@ func onRoleRemove(s *discordgo.Session, m *discordgo.GuildRoleDelete) {
 		}
 	}
 }
+
+func onMessageCreate(s *discordgo.Session, m *discordgo.MessageCreate, message [103]string, content string) {
+	if strings.Contains(content, prefix+"userinfo") {
+		showUserInfo(message[1], s, m)
+	} else if strings.Contains(content, prefix+"serverinfo") {
+		showServerInfo(s, m)
+	} else if strings.Contains(content, prefix+"help") {
+		help(s, m)
+	} else if strings.Contains(content, prefix+"kick") {
+		kick(message[1], s, m)
+	} else if strings.Contains(content, prefix+"ban") {
+		arg := [2]string{ message[1] }
+
+		for i := 2; i < 102; i++ {
+			if message[i] != "" {
+				arg[1] += message[i] + " "
+			} else {
+				break
+			}
+		}
+
+		ban(arg, s, m)
+	} else if strings.Contains(content, prefix+"invite") {
+		invite(s, m)
+	} else if strings.Contains(content, prefix+"privacy") {
+		privacyPolicy(s, m)
+	} else if strings.Contains(content, prefix+"tos") {
+		termsOfService(s, m)
+	} else if strings.Contains(content, prefix+"about") {
+		about(s, m)
+	} else if strings.Contains(content, prefix+"verify") {
+		verify(s, m)
+	} else if strings.Contains(content, prefix+"avatar") {
+		avatar(message[1], s, m)
+	} else if strings.Contains(content, prefix+"mute") {
+		mute(message[1], s, m)
+	} else if strings.Contains(content, prefix+"sus") {
+		sus(s, m)
+	}
+}

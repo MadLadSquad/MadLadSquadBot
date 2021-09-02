@@ -94,41 +94,17 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 
 	message := parseMessage(content)
 
-	if strings.Contains(content, prefix+"userinfo") {
-		showUserInfo(message[1], s, m)
-	} else if strings.Contains(content, prefix+"serverinfo") {
-		showServerInfo(s, m)
-	} else if strings.Contains(content, prefix+"help") {
-		help(s, m)
-	} else if strings.Contains(content, prefix+"kick") {
-		kick(message[1], s, m)
-	} else if strings.Contains(content, prefix+"ban") {
-		arg := [2]string{ message[1] }
-
-		for i := 2; i < 102; i++ {
-			if message[i] != "" {
-				arg[1] += message[i] + " "
-			} else {
-				break
-			}
-		}
-
-		ban(arg, s, m)
-	} else if strings.Contains(content, prefix+"invite") {
-		invite(s, m)
-	} else if strings.Contains(content, prefix+"privacy") {
-		privacyPolicy(s, m)
-	} else if strings.Contains(content, prefix+"tos") {
-		termsOfService(s, m)
-	} else if strings.Contains(content, prefix+"about") {
-		about(s, m)
-	} else if strings.Contains(content, prefix+"verify") {
-		verify(s, m)
-	} else if strings.Contains(content, prefix+"avatar") {
-		avatar(message[1], s, m)
-	} else if strings.Contains(content, prefix+"mute") {
-		mute(message[1], s, m)
-	} else if strings.Contains(content, prefix+"sus") {
-		sus(s, m)
+	channel, _ := s.State.Channel(m.ChannelID)
+	if strings.Contains(strings.ToLower(channel.Topic), "ubot-restrict-text-only") && (len(m.Attachments) > 0 || strings.Contains(content, "http://" ) || strings.Contains(content, "https://")) {
+		_ = s.ChannelMessageDelete(m.ChannelID, m.ID)
+		_, _ = s.ChannelMessageSend(m.ChannelID, "Message deleted due to it containing links or attachments in a text only channel!")
+	} else if strings.Contains(strings.ToLower(channel.Topic), "ubot-restrict-attachments-only") && len(m.Attachments) == 0 {
+		_ = s.ChannelMessageDelete(m.ChannelID, m.ID)
+		_, _ = s.ChannelMessageSend(m.ChannelID, "Message deleted due to it containing no attachments in an attachment only channel!")
+	} else if strings.Contains(strings.ToLower(channel.Topic), "ubot-restrict-links-only") && !(strings.Contains(content, "http://" ) || strings.Contains(content, "https://")) {
+		_ = s.ChannelMessageDelete(m.ChannelID, m.ID)
+		_, _ = s.ChannelMessageSend(m.ChannelID, "Message deleted due to it containing no links in link only channel!")
+	} else {
+		onMessageCreate(s, m, message, content)
 	}
 }
