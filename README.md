@@ -9,10 +9,10 @@ The official discord bot for the MadLadSquad discord server
 - Playing music in vc
 - Ban ✅
 - Kick ✅
-- Event logs
-- Welcome message
+- Event logs ✅
+- Welcome message ✅
 - Automatic moderation
-- Verification
+- Verification ✅
 - Verification with CAPTCHA
 - Restricted channels
 - Topic locked channels
@@ -23,6 +23,8 @@ To use the bot you can invite the UntitledDiscordBot using this link or you can 
 Create a base role called `Member`. Next create a channel called `verify` for anyone except people with roles. Make them type `&verify` to enter the server. This is a base level verify command so it is better to use `Verification with CAPTCHA` when it comes out
 ### Ban
 To ban a user type in `&ban <a ping to them> <reason up to 100 words>`. All messages in the past 30 days will be deleted from the server
+### Event tracking
+To track events make a channel that is available to the bot and add to the topic the following word `ubot-event-log`. Now every time something happens in the server it will be logged!
 ## How to build
 1. Install golang version atleast 1.16
 2. Clone this repo with `git clone https://github.com/MadLadSquad/MadLadSquadBot.git`
