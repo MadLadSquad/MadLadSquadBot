@@ -424,5 +424,18 @@ func onMessageCreate(s *discordgo.Session, m *discordgo.MessageCreate, message [
 		mute(message[1], s, m)
 	} else if strings.Contains(content, prefix+"sus") {
 		sus(s, m)
+	} else if strings.Contains(content, prefix+"set-welcome") {
+		channelChangeMetadata(message[1], s, m, " ubot-welcome", "welcome")
+	} else if strings.Contains(content, prefix+"set-event-tracking") {
+		channelChangeMetadata(message[1], s, m, " ubot-event-log", "event logging")
+	} else if strings.Contains(content, prefix+"set-text-only") {
+		channelChangeMetadata(message[1], s, m, " ubot-restrict-text-only", "text only")
+	} else if strings.Contains(content, prefix+"set-attachments-only") {
+		channelChangeMetadata(message[1], s, m, " ubot-restrict-attachments-only", "attachments only")
+	} else if strings.Contains(content, prefix+"set-links-only") {
+		channelChangeMetadata(message[1], s, m, " ubot-restrict-links-only", "links only")
+	} else if strings.Contains(content, prefix+"generate-member-role") {
+		createMemberRole(s, m)
 	}
 }
+

@@ -105,3 +105,8 @@ func mute(arg string, s *discordgo.Session, m *discordgo.MessageCreate) {
 		}
 	}
 }
+
+func createMemberRole(s *discordgo.Session, m *discordgo.MessageCreate) {
+	role, _ := s.GuildRoleCreate(m.GuildID)
+	_, _ = s.GuildRoleEdit(m.GuildID, role.ID, "Members", role.Color, role.Hoist, role.Permissions, role.Mentionable)
+}

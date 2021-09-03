@@ -54,3 +54,31 @@ func parseMessage(str string) [103]string {
 
 	return ret
 }
+
+func channelChangeMetadata(arg string, s *discordgo.Session, m *discordgo.MessageCreate, template1 string, template2 string) {
+	if arg != "" {
+		channel, _ := s.Channel(sanitizePings(arg))
+
+		e := discordgo.ChannelEdit{
+			Name: channel.Name,
+			Topic: channel.Topic + template1,
+			NSFW: channel.NSFW,
+			Position: channel.Position,
+			Bitrate: channel.Bitrate,
+			UserLimit: channel.UserLimit,
+			PermissionOverwrites: channel.PermissionOverwrites,
+			ParentID: channel.ParentID,
+			RateLimitPerUser: channel.RateLimitPerUser,
+		}
+
+		s.ChannelEditComplex(channel.ID, &e)
+
+		embed := NewEmbed().
+			SetTitle("Set a channel as a " + template2 + " channel!").
+			AddField("Channel", channel.Mention()).
+			SetFooter("Message delivered using Untitled Technology", "https://avatars.githubusercontent.com/u/66491677?s=400&u=07d8dd94266f97e22ee5bd96aebb6a5f9190b4ec&v=4").
+			SetColor(0xf1c40f).MessageEmbed
+
+		_, _ = s.ChannelMessageSendEmbed(m.ChannelID, embed)
+	}
+}

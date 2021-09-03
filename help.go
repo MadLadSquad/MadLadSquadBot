@@ -1,6 +1,8 @@
 package main
 
-import "github.com/MadLadSquad/discordgo"
+import (
+	"github.com/MadLadSquad/discordgo"
+)
 
 func help(s* discordgo.Session, m* discordgo.MessageCreate) {
 	embed := NewEmbed().
@@ -17,11 +19,19 @@ func help(s* discordgo.Session, m* discordgo.MessageCreate) {
 		AddField(prefix+"privacy", "Displays the privacy policy for the bot").
 		AddField(prefix+"about", "Displays information about MadLad Squad and the bot").
 		InlineAllFields().
-		AddField(prefix+"verify", "If a role with the name \"Member\" or \"Members\" is found it will give the person that role. Used for moderation. To use make everyone have perms to only 1 channel where they can type that command").
+		AddField(prefix+"verify", "If a role with the name \"Member\" or \"Members\" is found it will give the person that role").
 		InlineAllFields().
 		AddField(prefix+"avatar <optional ping>", "Sends a link to the user's avatar").
 		AddField(prefix+"mute <ping>", "Mutes a user by giving him a muted role").
 		AddField(prefix+"sus", "Responds with a random sussy message").
+		InlineAllFields().
+		AddField(prefix+"generate-member-role", "Automatically generates a role for members used for verification").
+		AddField(prefix+"set-welcome <ping to channel>", "Sets a given channel as the welcome channel").
+		AddField(prefix+"set-event-tracking <ping to channel>", "Sets up event tracking in a channel").
+		InlineAllFields().
+		AddField(prefix+"set-text-only <ping to channel>", "Sets a channel as text only").
+		AddField(prefix+"set-attachments-only <ping to channel>", "Sets a channel as attachments only").
+		AddField(prefix+"set-links-only <ping to channel>", "Sets a channel as links only").
 		InlineAllFields().
 		SetFooter("Message delivered using Untitled Technology", "https://avatars.githubusercontent.com/u/66491677?s=400&u=07d8dd94266f97e22ee5bd96aebb6a5f9190b4ec&v=4").
 		SetColor(0xf1c40f).MessageEmbed
