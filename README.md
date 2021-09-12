@@ -6,23 +6,19 @@ The official discord bot for the MadLadSquad discord server
 - Serverinfo ✅
 - Userinfo ✅
 - Help ✅
-- Playing music in vc
 - Ban ✅
 - Kick ✅
 - Event logs ✅
 - Welcome message ✅
 - Easy set commands ✅
 - Welcome messages with custom images
-- Automatic moderation
 - Verification ✅
-- Verification with CAPTCHA
 - Restricted channels ✅
 - Topic locked channels ✅
-- Twitch, Twitter and Youtube updates
 ## How to use
 To use the bot you can invite the UntitledDiscordBot using this link or you can build it yourself. By default the bot uses `&` as it's prefix. 
 ### Verification
-Create a base role called `Member`. Next create a channel called `verify` for anyone except people with roles. Make them type `&verify` to enter the server. This is a base level verify command so it is better to use `Verification with CAPTCHA` when it comes out
+Create a base role called `Member`. Next create a channel called `verify` for anyone except people with roles. Make them type `&verify` to enter the server
 
 You can also use the following set command to make a member role
 ```
