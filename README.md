@@ -1,6 +1,8 @@
 # MadLadSquadBot
 [![CI](https://github.com/MadLadSquad/MadLadSquadBot/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/MadLadSquad/MadLadSquadBot/actions/workflows/ci.yml)
 
+> This bot is currently finished but still maintained and open for suggestions and new features
+
 The official discord bot for the MadLadSquad discord server
 ## Features
 - Serverinfo ✅
@@ -8,13 +10,13 @@ The official discord bot for the MadLadSquad discord server
 - Help ✅
 - Ban ✅
 - Kick ✅
-- Event logs ✅
+- Advanced event logs ✅
 - Welcome message ✅
 - Easy set commands ✅
-- Welcome messages with custom images
 - Verification ✅
 - Restricted channels ✅
 - Topic locked channels ✅
+- Fun commands ✅
 ## How to use
 To use the bot you can invite the UntitledDiscordBot using this link or you can build it yourself. By default the bot uses `&` as it's prefix. 
 ### Verification
