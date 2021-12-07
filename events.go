@@ -264,7 +264,7 @@ func onGuildUpdate(s *discordgo.Session, m *discordgo.GuildUpdate) {
 		//guildDescription = guild.Description
 	}
 	embed := NewEmbed().
-		SetTitle(m.Guild.Name + " was updated!").
+		SetTitle(m.Guild.Name+" was updated!").
 		SetThumbnail(m.Guild.IconURL()).
 		AddField("Member Count", strconv.Itoa(len(m.Guild.Members))).
 		AddField("Region", m.Guild.Region).
@@ -272,7 +272,7 @@ func onGuildUpdate(s *discordgo.Session, m *discordgo.GuildUpdate) {
 		InlineAllFields().
 		AddField("Server ID", m.Guild.ID).
 		AddField("Large", strconv.FormatBool(m.Guild.Large)).
-		AddField("AFK Timeout", strconv.Itoa(m.Guild.AfkTimeout) + " seconds").
+		AddField("AFK Timeout", strconv.Itoa(m.Guild.AfkTimeout)+" seconds").
 		InlineAllFields().
 		AddField("Emoji Count", strconv.Itoa(len(m.Guild.Emojis))).
 		AddField("Owner", owner.Mention()).
@@ -310,7 +310,7 @@ func onGuildMemberUpdate(s *discordgo.Session, m *discordgo.GuildMemberUpdate) {
 	}
 
 	embed := NewEmbed().
-		SetTitle(m.User.Username + "'s profile was updated!").
+		SetTitle(m.User.Username+"'s profile was updated!").
 		SetThumbnail(m.User.AvatarURL("")).
 		AddField("Bot", strconv.FormatBool(m.User.Bot)).
 		AddField("Mention", m.User.Mention()).
@@ -336,7 +336,7 @@ func onRoleCreate(s *discordgo.Session, m *discordgo.GuildRoleCreate) {
 	embed := NewEmbed().
 		SetTitle("A new role was created!").
 		AddField("Role", m.GuildRole.Role.Mention()).
-		AddField("Colour", "0x" + strconv.FormatInt(int64(m.GuildRole.Role.Color), 16)).
+		AddField("Colour", "0x"+strconv.FormatInt(int64(m.GuildRole.Role.Color), 16)).
 		InlineAllFields().
 		AddField("ID", m.GuildRole.Role.ID).
 		SetFooter("Message delivered using Untitled Technology", "https://avatars.githubusercontent.com/u/66491677?s=400&u=07d8dd94266f97e22ee5bd96aebb6a5f9190b4ec&v=4").
@@ -356,7 +356,7 @@ func onRoleUpdate(s *discordgo.Session, m *discordgo.GuildRoleUpdate) {
 	embed := NewEmbed().
 		SetTitle("A role was updated!").
 		AddField("Role", m.GuildRole.Role.Mention()).
-		AddField("Colour", "0x" + strconv.FormatInt(int64(m.GuildRole.Role.Color), 16)).
+		AddField("Colour", "0x"+strconv.FormatInt(int64(m.GuildRole.Role.Color), 16)).
 		InlineAllFields().
 		AddField("ID", m.GuildRole.Role.ID).
 		SetFooter("Message delivered using Untitled Technology", "https://avatars.githubusercontent.com/u/66491677?s=400&u=07d8dd94266f97e22ee5bd96aebb6a5f9190b4ec&v=4").
@@ -397,7 +397,7 @@ func onMessageCreate(s *discordgo.Session, m *discordgo.MessageCreate, message [
 	} else if strings.Contains(content, prefix+"kick") {
 		kick(message[1], s, m)
 	} else if strings.Contains(content, prefix+"ban") {
-		arg := [2]string{ message[1] }
+		arg := [2]string{message[1]}
 
 		for i := 2; i < 102; i++ {
 			if message[i] != "" {
@@ -436,6 +436,7 @@ func onMessageCreate(s *discordgo.Session, m *discordgo.MessageCreate, message [
 		channelChangeMetadata(message[1], s, m, " ubot-restrict-links-only", "links only")
 	} else if strings.Contains(content, prefix+"generate-member-role") {
 		createMemberRole(s, m)
+	} else if strings.Contains(content, prefix+"pernik") {
+		pernik(s, m)
 	}
 }
-
