@@ -20,6 +20,7 @@ func help(s* discordgo.Session, m* discordgo.MessageCreate) {
 		AddField(prefix+"about", "Displays information about MadLad Squad and the bot").
 		InlineAllFields().
 		AddField(prefix+"verify", "If a role with the name \"Member\" or \"Members\" is found it will give the person that role").
+		AddField(prefix+"pernik", "Displays a Pernik meme").
 		InlineAllFields().
 		AddField(prefix+"avatar <optional ping>", "Sends a link to the user's avatar").
 		AddField(prefix+"mute <ping>", "Mutes a user by giving him a muted role").
