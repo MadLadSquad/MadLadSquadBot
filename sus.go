@@ -125,6 +125,12 @@ func pernik(s *discordgo.Session, m *discordgo.MessageCreate) {
 		"https://www.flagman.bg/files/images/4%281169%29.jpg",
 		"https://cdn.discordapp.com/attachments/827543014959480842/917568732392480798/istinski_pernichanin.png",
 		"https://cdn.discordapp.com/attachments/827543014959480842/917571247842426930/IMG_4291.jpg",
+		"https://cdn.discordapp.com/attachments/827543014959480842/917738838531649556/Screenshot_20211207-132554_Google.jpg",
+		"https://cdn.discordapp.com/attachments/827543014959480842/917739558525878282/IMG_4292.jpg",
+		"https://cdn.discordapp.com/attachments/827543014959480842/917739910218256384/Screenshot_20211207-133035_Google.jpg",
+		"https://cdn.discordapp.com/attachments/827543014959480842/917742572036821012/IMG_4303.jpg",
+		"https://cdn.discordapp.com/attachments/827543014959480842/917751142409207838/Screenshot_20211207-141507_Google.jpg",
+		"https://cdn.discordapp.com/attachments/827543014959480842/917769793745076254/IMG_4306.jpg",
 	}
 	rand.Seed(time.Now().UnixNano())
 	s.ChannelMessageSend(m.ChannelID, sussyMessages[rand.Intn(len(sussyMessages))])
