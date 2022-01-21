@@ -438,5 +438,11 @@ func onMessageCreate(s *discordgo.Session, m *discordgo.MessageCreate, message [
 		createMemberRole(s, m)
 	} else if strings.Contains(content, prefix+"pernik") {
 		pernik(s, m)
+	} else if strings.Contains(content, prefix+"set-colour-role-channel") && message[1] != "" {
+		channelChangeMetadata(message[1], s, m, " ubot-colour-pick", "colour role")
+	} else if strings.Contains(content, prefix+"set-colour-role") && message[1] != "" {
+		giveColour(message[1], s, m)
+	} else if strings.Contains(content, prefix+"list-colour-roles") {
+		listColours(s, m)
 	}
 }

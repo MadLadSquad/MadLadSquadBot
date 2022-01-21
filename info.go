@@ -5,7 +5,7 @@ import (
 	"strconv"
 )
 
-func showUserInfo(arg string, s* discordgo.Session, m* discordgo.MessageCreate) {
+func showUserInfo(arg string, s *discordgo.Session, m *discordgo.MessageCreate) {
 	if arg != "" {
 		usr, _ := s.User(sanitizePings(arg))
 		premiumType := "None"
@@ -22,7 +22,7 @@ func showUserInfo(arg string, s* discordgo.Session, m* discordgo.MessageCreate) 
 		}
 
 		embed := NewEmbed().
-			SetTitle(usr.Username + "'s user information").
+			SetTitle(usr.Username+"'s user information").
 			SetThumbnail(usr.AvatarURL("")).
 			AddField("Bot", strconv.FormatBool(usr.Bot)).
 			AddField("Mention", usr.Mention()).
@@ -54,7 +54,7 @@ func showUserInfo(arg string, s* discordgo.Session, m* discordgo.MessageCreate) 
 		}
 
 		embed := NewEmbed().
-			SetTitle(m.Author.Username + "'s user information").
+			SetTitle(m.Author.Username+"'s user information").
 			SetThumbnail(m.Author.AvatarURL("")).
 			AddField("Bot", strconv.FormatBool(m.Author.Bot)).
 			AddField("Mention", m.Author.Mention()).
@@ -73,7 +73,7 @@ func showUserInfo(arg string, s* discordgo.Session, m* discordgo.MessageCreate) 
 	}
 }
 
-func showServerInfo(s* discordgo.Session, m* discordgo.MessageCreate) {
+func showServerInfo(s *discordgo.Session, m *discordgo.MessageCreate) {
 	guild, _ := s.State.Guild(m.GuildID)
 	owner, _ := s.User(guild.OwnerID)
 
@@ -127,7 +127,7 @@ func showServerInfo(s* discordgo.Session, m* discordgo.MessageCreate) {
 		//guildDescription = guild.Description
 	}
 	embed := NewEmbed().
-		SetTitle(guild.Name + " server information").
+		SetTitle(guild.Name+" server information").
 		SetThumbnail(guild.IconURL()).
 		AddField("Member Count", strconv.Itoa(len(guild.Members))).
 		AddField("Region", guild.Region).
@@ -135,7 +135,7 @@ func showServerInfo(s* discordgo.Session, m* discordgo.MessageCreate) {
 		InlineAllFields().
 		AddField("Server ID", guild.ID).
 		AddField("Large", strconv.FormatBool(guild.Large)).
-		AddField("AFK Timeout", strconv.Itoa(guild.AfkTimeout) + " seconds").
+		AddField("AFK Timeout", strconv.Itoa(guild.AfkTimeout)+" seconds").
 		InlineAllFields().
 		AddField("Emoji Count", strconv.Itoa(len(guild.Emojis))).
 		AddField("Owner", owner.Mention()).
@@ -155,7 +155,7 @@ func showServerInfo(s* discordgo.Session, m* discordgo.MessageCreate) {
 	}
 }
 
-func privacyPolicy(s* discordgo.Session, m* discordgo.MessageCreate) {
+func privacyPolicy(s *discordgo.Session, m *discordgo.MessageCreate) {
 	embed := NewEmbed().
 		SetTitle("Privacy policy").
 		AddField("This bot is completely open source under the MIT permissive license", "https://github.com/MadLadSquad/MadLadSquadBot/blob/master/LICENSE").
@@ -170,7 +170,7 @@ func privacyPolicy(s* discordgo.Session, m* discordgo.MessageCreate) {
 	}
 }
 
-func termsOfService(s* discordgo.Session, m* discordgo.MessageCreate) {
+func termsOfService(s *discordgo.Session, m *discordgo.MessageCreate) {
 	embed := NewEmbed().
 		SetTitle("Terms of service").
 		AddField("We don't have any!", "Use this bot for whatever you like as long as you respect it's licence: https://github.com/MadLadSquad/MadLadSquadBot/blob/master/LICENSE").
@@ -183,7 +183,7 @@ func termsOfService(s* discordgo.Session, m* discordgo.MessageCreate) {
 	}
 }
 
-func about(s* discordgo.Session, m* discordgo.MessageCreate) {
+func about(s *discordgo.Session, m *discordgo.MessageCreate) {
 	embed := NewEmbed().
 		SetTitle("About").
 		SetThumbnail("https://cdn.discordapp.com/avatars/697420452712284202/924342db89aa1f0acd5239646a835bec.png").
@@ -199,12 +199,12 @@ func about(s* discordgo.Session, m* discordgo.MessageCreate) {
 	}
 }
 
-func avatar(arg string, s* discordgo.Session, m* discordgo.MessageCreate) {
+func avatar(arg string, s *discordgo.Session, m *discordgo.MessageCreate) {
 	if arg != "" {
 		usr, _ := s.User(sanitizePings(arg))
 
 		embed := NewEmbed().
-			SetTitle(usr.Username + "'s avatar!").
+			SetTitle(usr.Username+"'s avatar!").
 			SetImage(usr.AvatarURL("")).
 			SetFooter("Message delivered using Untitled Technology", "https://avatars.githubusercontent.com/u/66491677?s=400&u=07d8dd94266f97e22ee5bd96aebb6a5f9190b4ec&v=4").
 			SetColor(0xf1c40f).MessageEmbed
@@ -215,7 +215,7 @@ func avatar(arg string, s* discordgo.Session, m* discordgo.MessageCreate) {
 		}
 	} else {
 		embed := NewEmbed().
-			SetTitle(m.Author.Username + "'s avatar!").
+			SetTitle(m.Author.Username+"'s avatar!").
 			SetImage(m.Author.AvatarURL("")).
 			SetFooter("Message delivered using Untitled Technology", "https://avatars.githubusercontent.com/u/66491677?s=400&u=07d8dd94266f97e22ee5bd96aebb6a5f9190b4ec&v=4").
 			SetColor(0xf1c40f).MessageEmbed

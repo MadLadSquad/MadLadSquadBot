@@ -4,7 +4,7 @@ import (
 	"github.com/MadLadSquad/discordgo"
 )
 
-func help(s* discordgo.Session, m* discordgo.MessageCreate) {
+func help(s *discordgo.Session, m *discordgo.MessageCreate) {
 	embed := NewEmbed().
 		SetTitle("Help").
 		AddField(prefix+"serverinfo", "Displays info about he current server").
@@ -34,6 +34,9 @@ func help(s* discordgo.Session, m* discordgo.MessageCreate) {
 		AddField(prefix+"set-attachments-only <ping to channel>", "Sets a channel as attachments only").
 		AddField(prefix+"set-links-only <ping to channel>", "Sets a channel as links only").
 		InlineAllFields().
+		AddField(prefix+"set-colour-role-channel <ping to channel>", "Sets a channel as one where colours can be selected").
+		AddField(prefix+"set-colour-role <colour-name>", "Adds the specific colour role from the colour list to the user").
+		AddField(prefix+"list-colour-roles", "Lists all available colours for the colour role").
 		SetFooter("Message delivered using Untitled Technology", "https://avatars.githubusercontent.com/u/66491677?s=400&u=07d8dd94266f97e22ee5bd96aebb6a5f9190b4ec&v=4").
 		SetColor(0xf1c40f).MessageEmbed
 
@@ -43,7 +46,7 @@ func help(s* discordgo.Session, m* discordgo.MessageCreate) {
 	}
 }
 
-func invite(s* discordgo.Session, m* discordgo.MessageCreate) {
+func invite(s *discordgo.Session, m *discordgo.MessageCreate) {
 	embed := NewEmbed().
 		SetTitle("Invite").
 		AddField("Use this link", "https://discord.com/oauth2/authorize?client_id=697420452712284202&scope=bot&permissions=2134207679").
