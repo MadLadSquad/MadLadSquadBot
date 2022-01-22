@@ -17,6 +17,9 @@ The official discord bot for the MadLadSquad discord server
 - Restricted channels ✅
 - Topic locked channels ✅
 - Fun commands ✅
+- Command macros/aliases ✅ 
+- Colour roles ✅
+- Meta roles ✅
 ## How to use
 To use the bot you can invite the UntitledDiscordBot using this link or you can build it yourself. By default the bot uses `&` as it's prefix. 
 ### Verification
