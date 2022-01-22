@@ -2,7 +2,6 @@ package main
 
 import (
 	"github.com/MadLadSquad/discordgo"
-	"strconv"
 	"strings"
 )
 
@@ -152,16 +151,21 @@ var (
 
 func listColours(s *discordgo.Session, m *discordgo.MessageCreate) {
 	embed := NewEmbed().
-		SetTitle("Available colour names")
+		SetTitle("Available colour names").
+		AddField("A colour/name table can be found here", "https://www.spycolor.com/w3c-colors").
+		AddField("How to use", "Find a colour you like, get its name, fill any spaces with '-' and run the \"set-colour-role\" command with it").
+		InlineAllFields().
+		AddField("The following colours don't have a name so we made up a name for them", "#40e0d0, #a0522d, #fa8072, #7f007f, #ffe4b5, #66cdaa").
+		AddField("#40e0d0", "Light-Cyan-2").
+		AddField("#a0522d", "Dark-Sand").
+		AddField("#fa8072", "Salmon").
+		AddField("#7f007f", "Sienna").
+		AddField("#ffe4b5", "SandySahara").
+		AddField("#66cdaa", "Tropical-Green").
+		InlineAllFields().
+		SetFooter("Message delivered using Untitled Technology", "https://avatars.githubusercontent.com/u/66491677?s=400&u=07d8dd94266f97e22ee5bd96aebb6a5f9190b4ec&v=4").SetColor(0xf1c40f).MessageEmbed
 
-	for key, val := range colours {
-		embed = embed.AddField(key, "https://via.placeholder.com/15/"+strconv.FormatInt(int64(val), 16)+"/000000?text=+")
-	}
-	embed = embed.InlineAllFields()
-	embed = embed.AddField("You can find a lookup table here:", "https://www.spycolor.com/w3c-colors")
-	embed = embed.SetFooter("Message delivered using Untitled Technology", "https://avatars.githubusercontent.com/u/66491677?s=400&u=07d8dd94266f97e22ee5bd96aebb6a5f9190b4ec&v=4").SetColor(0xf1c40f)
-
-	_, _ = s.ChannelMessageSendEmbed(m.ChannelID, embed.MessageEmbed)
+	_, _ = s.ChannelMessageSendEmbed(m.ChannelID, embed)
 }
 
 func giveColour(arg string, s *discordgo.Session, m *discordgo.MessageCreate) {

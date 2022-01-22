@@ -7,7 +7,7 @@ import (
 )
 
 func onReady(s *discordgo.Session, m *discordgo.Ready) {
-	err := s.UpdateStreamingStatus(1, "&help | Click watch for music!", "https://www.youtube.com/playlist?list=PL8yFU3veFghtteYYFdSnc-vaBZ3hHh4Wc")
+	err := s.UpdateStreamingStatus(1, "&help | Click watch for music!", "https://www.youtube.com/watch?v=XoX6zS5-jOY&list=PL8yFU3veFghtteYYFdSnc-vaBZ3hHh4Wc&index=1")
 	if err != nil {
 		return
 	}
@@ -388,15 +388,24 @@ func onRoleRemove(s *discordgo.Session, m *discordgo.GuildRoleDelete) {
 }
 
 func onMessageCreate(s *discordgo.Session, m *discordgo.MessageCreate, message [103]string, content string) {
-	if strings.Contains(content, prefix+"userinfo") {
+	channel, _ := s.Channel(m.ChannelID)
+	redirect := ""
+	f := 0
+	bAlreadyChecked := false
+	var aliasStrings [10]string
+	var cmdStrings [10]string
+	var currentAliasIndex = 0
+
+checkAgain:
+	if strings.Contains(content, prefix+"userinfo") || redirect == "userinfo" {
 		showUserInfo(message[1], s, m)
-	} else if strings.Contains(content, prefix+"serverinfo") {
+	} else if strings.Contains(content, prefix+"serverinfo") || redirect == "serverinfo" {
 		showServerInfo(s, m)
-	} else if strings.Contains(content, prefix+"help") {
+	} else if strings.Contains(content, prefix+"help") || redirect == "help" {
 		help(s, m)
-	} else if strings.Contains(content, prefix+"kick") {
+	} else if strings.Contains(content, prefix+"kick") || redirect == "kick" {
 		kick(message[1], s, m)
-	} else if strings.Contains(content, prefix+"ban") {
+	} else if strings.Contains(content, prefix+"ban") || redirect == "ban" {
 		arg := [2]string{message[1]}
 
 		for i := 2; i < 102; i++ {
@@ -408,41 +417,81 @@ func onMessageCreate(s *discordgo.Session, m *discordgo.MessageCreate, message [
 		}
 
 		ban(arg, s, m)
-	} else if strings.Contains(content, prefix+"invite") {
+	} else if strings.Contains(content, prefix+"invite") || redirect == "invite" {
 		invite(s, m)
-	} else if strings.Contains(content, prefix+"privacy") {
+	} else if strings.Contains(content, prefix+"privacy") || redirect == "privacy" {
 		privacyPolicy(s, m)
-	} else if strings.Contains(content, prefix+"tos") {
+	} else if strings.Contains(content, prefix+"tos") || redirect == "tos" {
 		termsOfService(s, m)
-	} else if strings.Contains(content, prefix+"about") {
+	} else if strings.Contains(content, prefix+"about") || redirect == "about" {
 		about(s, m)
-	} else if strings.Contains(content, prefix+"verify") {
+	} else if strings.Contains(content, prefix+"verify") || redirect == "verify" {
 		verify(s, m)
-	} else if strings.Contains(content, prefix+"avatar") {
+	} else if strings.Contains(content, prefix+"avatar") || redirect == "avatar" {
 		avatar(message[1], s, m)
-	} else if strings.Contains(content, prefix+"mute") {
+	} else if strings.Contains(content, prefix+"mute") || redirect == "mute" {
 		mute(message[1], s, m)
-	} else if strings.Contains(content, prefix+"sus") {
+	} else if strings.Contains(content, prefix+"sus") || redirect == "sus" {
 		sus(s, m)
-	} else if strings.Contains(content, prefix+"set-welcome") {
+	} else if strings.Contains(content, prefix+"set-welcome") || redirect == "set-welcome" {
 		channelChangeMetadata(message[1], s, m, " ubot-welcome", "welcome")
-	} else if strings.Contains(content, prefix+"set-event-tracking") {
+	} else if strings.Contains(content, prefix+"set-event-tracking") || redirect == "set-event-tracking" {
 		channelChangeMetadata(message[1], s, m, " ubot-event-log", "event logging")
-	} else if strings.Contains(content, prefix+"set-text-only") {
+	} else if strings.Contains(content, prefix+"set-text-only") || redirect == "set-text-only" {
 		channelChangeMetadata(message[1], s, m, " ubot-restrict-text-only", "text only")
-	} else if strings.Contains(content, prefix+"set-attachments-only") {
+	} else if strings.Contains(content, prefix+"set-attachments-only") || redirect == "set-attachments-only" {
 		channelChangeMetadata(message[1], s, m, " ubot-restrict-attachments-only", "attachments only")
-	} else if strings.Contains(content, prefix+"set-links-only") {
+	} else if strings.Contains(content, prefix+"set-links-only") || redirect == "set-links-only" {
 		channelChangeMetadata(message[1], s, m, " ubot-restrict-links-only", "links only")
-	} else if strings.Contains(content, prefix+"generate-member-role") {
+	} else if strings.Contains(content, prefix+"generate-member-role") || redirect == "generate-member-role" {
 		createMemberRole(s, m)
-	} else if strings.Contains(content, prefix+"pernik") {
+	} else if strings.Contains(content, prefix+"pernik") || redirect == "pernik" {
 		pernik(s, m)
-	} else if strings.Contains(content, prefix+"set-colour-role-channel") && message[1] != "" {
+	} else if (strings.Contains(content, prefix+"set-colour-role-channel") || redirect == "set-colour-role-channel") && message[1] != "" {
 		channelChangeMetadata(message[1], s, m, " ubot-colour-pick", "colour role")
-	} else if strings.Contains(content, prefix+"set-colour-role") && message[1] != "" {
+	} else if (strings.Contains(content, prefix+"set-colour-role") || redirect == "set-colour-role") && message[1] != "" {
 		giveColour(message[1], s, m)
-	} else if strings.Contains(content, prefix+"list-colour-roles") {
+	} else if strings.Contains(content, prefix+"list-colour-roles") || redirect == "list-colour-roles" {
 		listColours(s, m)
+	} else if strings.Contains(strings.ToLower(channel.Topic), "ubot-macro:") {
+		if !bAlreadyChecked {
+			topic := strings.ToLower(channel.Topic)
+			i := strings.Index(topic, "ubot-macro:")
+
+			if i != -1 {
+				i += len("ubot-macro:")
+			} else {
+				return
+			}
+
+			bRecordingAlias := true
+			for j := i; j < len(topic); j++ {
+				if bRecordingAlias {
+					if topic[j] == '>' {
+						bRecordingAlias = false
+					} else {
+						aliasStrings[currentAliasIndex] += string(topic[j])
+					}
+				} else {
+					if topic[j] == ';' && currentAliasIndex < 10 {
+						bRecordingAlias = true
+						currentAliasIndex++
+					} else if topic[j] == ']' || topic[j] == '[' || currentAliasIndex == 10 {
+						break
+					} else {
+						cmdStrings[currentAliasIndex] += string(topic[j])
+					}
+				}
+			}
+			bAlreadyChecked = true
+		}
+
+		for ; f <= currentAliasIndex; f++ {
+			if strings.Contains(content, prefix+aliasStrings[f]) {
+				redirect = strings.ToLower(cmdStrings[f])
+
+				goto checkAgain
+			}
+		}
 	}
 }
