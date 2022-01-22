@@ -451,6 +451,10 @@ checkAgain:
 		channelChangeMetadata(message[1], s, m, " ubot-colour-pick", "colour role")
 	} else if (strings.Contains(content, prefix+"set-colour-role") || redirect == "set-colour-role") && message[1] != "" {
 		giveColour(message[1], s, m)
+	} else if (strings.Contains(content, prefix+"set-meta-role") || redirect == "set-meta-role") && message[1] != "" {
+		giveMetarole(message[1], s, m)
+	} else if strings.Contains(content, prefix+"set-meta-role-channel") || redirect == "set-meta-role-channel" {
+		channelChangeMetadata(message[1], s, m, "ubot-meta-role-pick", "meta role")
 	} else if strings.Contains(content, prefix+"list-colour-roles") || redirect == "list-colour-roles" {
 		listColours(s, m)
 	} else if strings.Contains(strings.ToLower(channel.Topic), "ubot-macro:") {

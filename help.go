@@ -37,6 +37,10 @@ func help(s *discordgo.Session, m *discordgo.MessageCreate) {
 		AddField(prefix+"set-colour-role-channel <ping to channel>", "Sets a channel as one where colours can be selected").
 		AddField(prefix+"set-colour-role <colour-name>", "Adds the specific colour role from the colour list to the user").
 		AddField(prefix+"list-colour-roles", "Lists all available colours for the colour role").
+		InlineAllFields().
+		AddField(prefix+"set-meta-role <role-name>", "Gives/Creates a meta role(a role with default perms for customizing your user's profile)").
+		AddField(prefix+"set-meta-role-channel <channel-ping>", "Sets a channel as a valid meta role channel").
+		InlineAllFields().
 		SetFooter("Message delivered using Untitled Technology", "https://avatars.githubusercontent.com/u/66491677?s=400&u=07d8dd94266f97e22ee5bd96aebb6a5f9190b4ec&v=4").
 		SetColor(0xf1c40f).MessageEmbed
 

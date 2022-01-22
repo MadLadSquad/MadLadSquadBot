@@ -189,6 +189,12 @@ func giveColour(arg string, s *discordgo.Session, m *discordgo.MessageCreate) {
 			for i := 0; i < len(roles); i++ {
 				if name == roles[i].Name {
 					_ = s.GuildMemberRoleAdd(m.GuildID, m.Author.ID, roles[i].ID)
+					embed := NewEmbed().
+						SetTitle("Added you to the "+name+" role!").
+						AddField("Role", roles[i].Mention()).
+						SetFooter("Message delivered using Untitled Technology", "https://avatars.githubusercontent.com/u/66491677?s=400&u=07d8dd94266f97e22ee5bd96aebb6a5f9190b4ec&v=4").
+						SetColor(0xf1c40f).MessageEmbed
+					_, _ = s.ChannelMessageSendEmbed(m.ChannelID, embed)
 					return
 				}
 			}
@@ -205,6 +211,38 @@ func giveColour(arg string, s *discordgo.Session, m *discordgo.MessageCreate) {
 			_, _ = s.ChannelMessageSend(m.ChannelID, "Invalid colour! Run colour-role-list to get a list of all available colours!")
 		}
 	} else {
-		_, _ = s.ChannelMessageSend(m.ChannelID, "Channel not marked as ubot-colour-pick, contact your server's moderator to run the \"setup-colour-roles\" command in order to set up colour roles!")
+		_, _ = s.ChannelMessageSend(m.ChannelID, "Channel not marked as \"ubot-colour-pick\", contact your server's moderator to run the \"set-colour-role-channel\" command in order to set up colour roles!")
+	}
+}
+
+func giveMetarole(arg string, s *discordgo.Session, m *discordgo.MessageCreate) {
+	channel, _ := s.Channel(m.ChannelID)
+
+	if strings.Contains(strings.ToLower(channel.Topic), "ubot-meta-role-pick") {
+		roles, _ := s.GuildRoles(m.GuildID)
+		for i := 0; i < len(roles); i++ {
+			// That magic number that you see here is the default permissions integer when a new role is created
+			if strings.ToLower(roles[i].Name) == strings.ToLower(arg) && roles[i].Permissions == 1071698533953 {
+				_ = s.GuildMemberRoleAdd(m.GuildID, m.Author.ID, roles[i].ID)
+				embed := NewEmbed().
+					SetTitle("Added you to the "+roles[i].Name+" role!").
+					AddField("Role", roles[i].Mention()).
+					SetFooter("Message delivered using Untitled Technology", "https://avatars.githubusercontent.com/u/66491677?s=400&u=07d8dd94266f97e22ee5bd96aebb6a5f9190b4ec&v=4").
+					SetColor(0xf1c40f).MessageEmbed
+				_, _ = s.ChannelMessageSendEmbed(m.ChannelID, embed)
+				return
+			}
+		}
+		role, _ := s.GuildRoleCreate(m.GuildID)
+		_, _ = s.GuildRoleEdit(m.GuildID, role.ID, arg, role.Color, role.Hoist, role.Permissions, role.Mentionable)
+		_ = s.GuildMemberRoleAdd(m.GuildID, m.Author.ID, role.ID)
+		embed := NewEmbed().
+			SetTitle("Added you to the "+role.Name+" role!").
+			AddField("Role", role.Mention()).
+			SetFooter("Message delivered using Untitled Technology", "https://avatars.githubusercontent.com/u/66491677?s=400&u=07d8dd94266f97e22ee5bd96aebb6a5f9190b4ec&v=4").
+			SetColor(0xf1c40f).MessageEmbed
+		_, _ = s.ChannelMessageSendEmbed(m.ChannelID, embed)
+	} else {
+		_, _ = s.ChannelMessageSend(m.ChannelID, "Channel not marked as \"ubot-meta-role-pick\", contact your server's moderator to run the \"set-meta-role-channel\" command in order to set up colour roles!")
 	}
 }
