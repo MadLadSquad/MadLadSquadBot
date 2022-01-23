@@ -208,7 +208,7 @@ func giveColour(arg string, s *discordgo.Session, m *discordgo.MessageCreate) {
 				SetColor(0xf1c40f).MessageEmbed
 			_, _ = s.ChannelMessageSendEmbed(m.ChannelID, embed)
 		} else {
-			_, _ = s.ChannelMessageSend(m.ChannelID, "Invalid colour! Run colour-role-list to get a list of all available colours!")
+			_, _ = s.ChannelMessageSend(m.ChannelID, "Invalid colour! Run \"list-colour-roles\" to get a list of all available colours!")
 		}
 	} else {
 		_, _ = s.ChannelMessageSend(m.ChannelID, "Channel not marked as \"ubot-colour-pick\", contact your server's moderator to run the \"set-colour-role-channel\" command in order to set up colour roles!")
