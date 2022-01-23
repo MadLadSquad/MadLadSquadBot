@@ -387,7 +387,7 @@ func onRoleRemove(s *discordgo.Session, m *discordgo.GuildRoleDelete) {
 	}
 }
 
-func onMessageCreate(s *discordgo.Session, m *discordgo.MessageCreate, message [103]string, content string) {
+func onMessageCreate(s *discordgo.Session, m *discordgo.MessageCreate, message []string, content string) {
 	channel, _ := s.Channel(m.ChannelID)
 	redirect := ""
 	f := 0

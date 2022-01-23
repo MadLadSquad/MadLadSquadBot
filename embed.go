@@ -1,4 +1,5 @@
 package main
+
 import (
 	"github.com/MadLadSquad/discordgo"
 )
@@ -32,26 +33,15 @@ func (e *Embed) SetTitle(name string) *Embed {
 
 //SetDescription [desc]
 func (e *Embed) SetDescription(description string) *Embed {
-	if len(description) > 2048 {
-		description = description[:2048]
-	}
-	e.Description = description
+	e.Description = truncateString(description, 2048)
 	return e
 }
 
 //AddField [name] [value]
 func (e *Embed) AddField(name, value string) *Embed {
-	if len(value) > 1024 {
-		value = value[:1024]
-	}
-
-	if len(name) > 1024 {
-		name = name[:1024]
-	}
-
 	e.Fields = append(e.Fields, &discordgo.MessageEmbedField{
-		Name:  name,
-		Value: value,
+		Name:  truncateString(name, 1024),
+		Value: truncateString(value, 1024),
 	})
 
 	return e
@@ -185,10 +175,10 @@ func (e *Embed) InlineAllFields() *Embed {
 
 // Truncate truncates any embed value over the character limit.
 func (e *Embed) Truncate() *Embed {
-	e.TruncateDescription()
+	e.Description = truncateString(e.Description, EmbedLimitDescription)
+	e.Footer.Text = truncateString(e.Footer.Text, EmbedLimitFooter)
+	e.Title = truncateString(e.Title, EmbedLimitTitle)
 	e.TruncateFields()
-	e.TruncateFooter()
-	e.TruncateTitle()
 	return e
 }
 
@@ -199,39 +189,8 @@ func (e *Embed) TruncateFields() *Embed {
 	}
 
 	for _, v := range e.Fields {
-
-		if len(v.Name) > EmbedLimitFieldName {
-			v.Name = v.Name[:EmbedLimitFieldName]
-		}
-
-		if len(v.Value) > EmbedLimitFieldValue {
-			v.Value = v.Value[:EmbedLimitFieldValue]
-		}
-
-	}
-	return e
-}
-
-// TruncateDescription ...
-func (e *Embed) TruncateDescription() *Embed {
-	if len(e.Description) > EmbedLimitDescription {
-		e.Description = e.Description[:EmbedLimitDescription]
-	}
-	return e
-}
-
-// TruncateTitle ...
-func (e *Embed) TruncateTitle() *Embed {
-	if len(e.Title) > EmbedLimitTitle {
-		e.Title = e.Title[:EmbedLimitTitle]
-	}
-	return e
-}
-
-// TruncateFooter ...
-func (e *Embed) TruncateFooter() *Embed {
-	if e.Footer != nil && len(e.Footer.Text) > EmbedLimitFooter {
-		e.Footer.Text = e.Footer.Text[:EmbedLimitFooter]
+		v.Name = truncateString(v.Name, EmbedLimitFieldName)
+		v.Value = truncateString(v.Value, EmbedLimitFieldValue)
 	}
 	return e
 }

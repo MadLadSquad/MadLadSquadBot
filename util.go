@@ -2,17 +2,15 @@ package main
 
 import (
 	"github.com/MadLadSquad/discordgo"
+	"strings"
+)
+
+var (
+	pingReplacer = strings.NewReplacer("<", "", "#", "", ">", "", "@", "", "!", "")
 )
 
 func sanitizePings(str string) string {
-	var newStr string
-	for i := 0; i < len(str); i++ {
-		if !(str[i] == '<' || str[i] == '#' || str[i] == '>' || str[i] == '@' || str[i] == '!') {
-			newStr += string(str[i])
-		}
-	}
-
-	return newStr
+	return pingReplacer.Replace(str)
 }
 
 func checkPerm(s *discordgo.Session, m *discordgo.MessageCreate, perm int64) bool {
@@ -35,26 +33,6 @@ func checkPerm(s *discordgo.Session, m *discordgo.MessageCreate, perm int64) boo
 	}
 
 	return false
-}
-
-func parseMessage(str string) [103]string {
-	ret := [103]string{}
-
-	index := 0
-
-	for i := 0; i < len(str); i++ {
-		if index < 103 {
-			if str[i] == ' ' {
-				index++
-			} else {
-				ret[index] += string(str[i])
-			}
-		} else {
-			break
-		}
-	}
-
-	return ret
 }
 
 func channelChangeMetadata(arg string, s *discordgo.Session, m *discordgo.MessageCreate, template1 string, template2 string) {
@@ -83,4 +61,13 @@ func channelChangeMetadata(arg string, s *discordgo.Session, m *discordgo.Messag
 
 		_, _ = s.ChannelMessageSendEmbed(m.ChannelID, embed)
 	}
+}
+
+func truncateString(str string, ln int) string {
+	runeSlice := []rune(str)
+
+	if len(runeSlice) > ln {
+		return string(runeSlice[:ln])
+	}
+	return str
 }

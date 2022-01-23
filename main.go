@@ -92,16 +92,16 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 		return
 	}
 
-	message := parseMessage(content)
+	message := strings.Split(content, " ")
 
 	channel, _ := s.State.Channel(m.ChannelID)
-	if strings.Contains(strings.ToLower(channel.Topic), "ubot-restrict-text-only") && (len(m.Attachments) > 0 || strings.Contains(content, "http://" ) || strings.Contains(content, "https://")) {
+	if strings.Contains(strings.ToLower(channel.Topic), "ubot-restrict-text-only") && (len(m.Attachments) > 0 || strings.Contains(content, "http://") || strings.Contains(content, "https://")) {
 		_ = s.ChannelMessageDelete(m.ChannelID, m.ID)
 		_, _ = s.ChannelMessageSend(m.ChannelID, "Message deleted due to it containing links or attachments in a text only channel!")
 	} else if strings.Contains(strings.ToLower(channel.Topic), "ubot-restrict-attachments-only") && len(m.Attachments) == 0 {
 		_ = s.ChannelMessageDelete(m.ChannelID, m.ID)
 		_, _ = s.ChannelMessageSend(m.ChannelID, "Message deleted due to it containing no attachments in an attachment only channel!")
-	} else if strings.Contains(strings.ToLower(channel.Topic), "ubot-restrict-links-only") && !(strings.Contains(content, "http://" ) || strings.Contains(content, "https://")) {
+	} else if strings.Contains(strings.ToLower(channel.Topic), "ubot-restrict-links-only") && !(strings.Contains(content, "http://") || strings.Contains(content, "https://")) {
 		_ = s.ChannelMessageDelete(m.ChannelID, m.ID)
 		_, _ = s.ChannelMessageSend(m.ChannelID, "Message deleted due to it containing no links in link only channel!")
 	} else {
