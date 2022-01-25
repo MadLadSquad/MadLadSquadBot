@@ -403,20 +403,10 @@ checkAgain:
 		showServerInfo(s, m)
 	} else if strings.Contains(content, prefix+"help") || redirect == "help" {
 		help(s, m)
-	} else if strings.Contains(content, prefix+"kick") || redirect == "kick" {
+	} else if (strings.Contains(content, prefix+"kick") || redirect == "kick") && len(message) > 1 {
 		kick(message[1], s, m)
-	} else if strings.Contains(content, prefix+"ban") || redirect == "ban" {
-		arg := [2]string{message[1]}
-
-		for i := 2; i < 102; i++ {
-			if message[i] != "" {
-				arg[1] += message[i] + " "
-			} else {
-				break
-			}
-		}
-
-		ban(arg, s, m)
+	} else if (strings.Contains(content, prefix+"ban") || redirect == "ban") && len(message) > 1 {
+		ban(message, s, m)
 	} else if strings.Contains(content, prefix+"invite") || redirect == "invite" {
 		invite(s, m)
 	} else if strings.Contains(content, prefix+"privacy") || redirect == "privacy" {
@@ -427,36 +417,42 @@ checkAgain:
 		about(s, m)
 	} else if strings.Contains(content, prefix+"verify") || redirect == "verify" {
 		verify(s, m)
-	} else if strings.Contains(content, prefix+"avatar") || redirect == "avatar" {
+	} else if (strings.Contains(content, prefix+"avatar") || redirect == "avatar") && len(message) > 1 {
 		avatar(message[1], s, m)
-	} else if strings.Contains(content, prefix+"mute") || redirect == "mute" {
+	} else if (strings.Contains(content, prefix+"mute") || redirect == "mute") && len(message) > 1 {
 		mute(message[1], s, m)
 	} else if strings.Contains(content, prefix+"sus") || redirect == "sus" {
 		sus(s, m)
-	} else if strings.Contains(content, prefix+"set-welcome") || redirect == "set-welcome" {
+	} else if (strings.Contains(content, prefix+"set-welcome") || redirect == "set-welcome") && len(message) > 1 {
 		channelChangeMetadata(message[1], s, m, " ubot-welcome", "welcome")
-	} else if strings.Contains(content, prefix+"set-event-tracking") || redirect == "set-event-tracking" {
+	} else if (strings.Contains(content, prefix+"set-event-tracking") || redirect == "set-event-tracking") && len(message) > 1 {
 		channelChangeMetadata(message[1], s, m, " ubot-event-log", "event logging")
-	} else if strings.Contains(content, prefix+"set-text-only") || redirect == "set-text-only" {
+	} else if (strings.Contains(content, prefix+"set-text-only") || redirect == "set-text-only") && len(message) > 1 {
 		channelChangeMetadata(message[1], s, m, " ubot-restrict-text-only", "text only")
-	} else if strings.Contains(content, prefix+"set-attachments-only") || redirect == "set-attachments-only" {
+	} else if (strings.Contains(content, prefix+"set-attachments-only") || redirect == "set-attachments-only") && len(message) > 1 {
 		channelChangeMetadata(message[1], s, m, " ubot-restrict-attachments-only", "attachments only")
-	} else if strings.Contains(content, prefix+"set-links-only") || redirect == "set-links-only" {
+	} else if (strings.Contains(content, prefix+"set-links-only") || redirect == "set-links-only") && len(message) > 1 {
 		channelChangeMetadata(message[1], s, m, " ubot-restrict-links-only", "links only")
 	} else if strings.Contains(content, prefix+"generate-member-role") || redirect == "generate-member-role" {
 		createMemberRole(s, m)
 	} else if strings.Contains(content, prefix+"pernik") || redirect == "pernik" {
 		pernik(s, m)
-	} else if (strings.Contains(content, prefix+"set-colour-role-channel") || redirect == "set-colour-role-channel") && message[1] != "" {
+	} else if (strings.Contains(content, prefix+"set-colour-role-channel") || redirect == "set-colour-role-channel") && len(message) > 1 && message[1] != "" {
 		channelChangeMetadata(message[1], s, m, " ubot-colour-pick", "colour role")
-	} else if (strings.Contains(content, prefix+"set-colour-role") || redirect == "set-colour-role") && message[1] != "" {
+	} else if (strings.Contains(content, prefix+"set-colour-role") || redirect == "set-colour-role") && len(message) > 1 && message[1] != "" {
 		giveColour(message[1], s, m)
-	} else if (strings.Contains(content, prefix+"set-meta-role") || redirect == "set-meta-role") && message[1] != "" {
-		giveMetarole(message[1], s, m)
-	} else if strings.Contains(content, prefix+"set-meta-role-channel") || redirect == "set-meta-role-channel" {
+	} else if (strings.Contains(content, prefix+"set-meta-role-channel") || redirect == "set-meta-role-channel") && len(message) > 1 {
 		channelChangeMetadata(message[1], s, m, "ubot-meta-role-pick", "meta role")
+	} else if (strings.Contains(content, prefix+"set-meta-role") || redirect == "set-meta-role") && len(message) > 1 && message[1] != "" {
+		giveMetarole(message[1], s, m)
 	} else if strings.Contains(content, prefix+"list-colour-roles") || redirect == "list-colour-roles" {
 		listColours(s, m)
+	} else if strings.Contains(content, prefix+"list-aliases") || redirect == "list-aliases" {
+		listAliases(s, m)
+	} else if (strings.Contains(content, prefix+"remove-meta-role") || redirect == "remove-meta-role") && len(message) > 1 {
+		removeMetarole(message[1], s, m)
+	} else if strings.Contains(content, prefix+"alias-help") || redirect == "alias-help" {
+		aliasHelp(s, m)
 	} else if strings.Contains(strings.ToLower(channel.Topic), "ubot-macro:") {
 		if !bAlreadyChecked {
 			topic := strings.ToLower(channel.Topic)

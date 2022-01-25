@@ -40,16 +40,21 @@ func kick(arg string, s *discordgo.Session, m *discordgo.MessageCreate) {
 	}
 }
 
-func ban(arg [2]string, s *discordgo.Session, m *discordgo.MessageCreate) {
+func ban(arg []string, s *discordgo.Session, m *discordgo.MessageCreate) {
 	if arg[0] != "" && arg[1] != "" {
 		if checkPerm(s, m, discordgo.PermissionAdministrator) {
 			usr, err := s.User(sanitizePings(arg[0]))
+
+			reason := ""
+			for i := 0; i < len(arg); i++ {
+				reason += arg[i] + " "
+			}
 
 			err = s.GuildBanCreateWithReason(m.GuildID, usr.ID, arg[1], 7)
 			embed := NewEmbed().
 				SetTitle("Banned a user!").
 				AddField("The following user has been banned from the server", arg[0]).
-				AddField("With reason", arg[1]).
+				AddField("With reason", reason).
 				SetFooter("Message delivered using Untitled Technology", "https://avatars.githubusercontent.com/u/66491677?s=400&u=07d8dd94266f97e22ee5bd96aebb6a5f9190b4ec&v=4").
 				SetColor(0xf1c40f).MessageEmbed
 

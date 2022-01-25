@@ -5,15 +5,15 @@ import (
 	"strings"
 )
 
-func welcome(s* discordgo.Session, m* discordgo.GuildMemberAdd) {
+func welcome(s *discordgo.Session, m *discordgo.GuildMemberAdd) {
 	guild, _ := s.State.Guild(m.GuildID)
 
-	timestamp, _ := m.JoinedAt.Parse()
+	timestamp := m.JoinedAt.String()
 
 	embed := NewEmbed().
-		SetTitle("Welcome to " + guild.Name + ", " + m.User.Username + "!").
+		SetTitle("Welcome to "+guild.Name+", "+m.User.Username+"!").
 		SetThumbnail(m.User.AvatarURL("")).
-		AddField("Joined on", timestamp.String()).
+		AddField("Joined on", timestamp).
 		SetFooter("Message delivered using Untitled Technology", "https://avatars.githubusercontent.com/u/66491677?s=400&u=07d8dd94266f97e22ee5bd96aebb6a5f9190b4ec&v=4").
 		SetColor(0xf1c40f).MessageEmbed
 
@@ -27,13 +27,13 @@ func welcome(s* discordgo.Session, m* discordgo.GuildMemberAdd) {
 	}
 }
 
-func bye(s* discordgo.Session, m* discordgo.GuildMemberRemove) {
+func bye(s *discordgo.Session, m *discordgo.GuildMemberRemove) {
 	guild, _ := s.State.Guild(m.GuildID)
 
 	embed := NewEmbed().
-		SetTitle("Goodbye to " + m.User.Username + "!").
+		SetTitle("Goodbye to "+m.User.Username+"!").
 		SetThumbnail(m.User.AvatarURL("")).
-		AddField("The following person has left " + guild.Name, m.User.Mention()).
+		AddField("The following person has left "+guild.Name, m.User.Mention()).
 		SetFooter("Message delivered using Untitled Technology", "https://avatars.githubusercontent.com/u/66491677?s=400&u=07d8dd94266f97e22ee5bd96aebb6a5f9190b4ec&v=4").
 		SetColor(0xf1c40f).MessageEmbed
 

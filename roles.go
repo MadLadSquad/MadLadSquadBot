@@ -246,3 +246,79 @@ func giveMetarole(arg string, s *discordgo.Session, m *discordgo.MessageCreate) 
 		_, _ = s.ChannelMessageSend(m.ChannelID, "Channel not marked as \"ubot-meta-role-pick\", contact your server's moderator to run the \"set-meta-role-channel\" command in order to set up colour roles!")
 	}
 }
+
+func listAliases(s *discordgo.Session, m *discordgo.MessageCreate) {
+	channel, _ := s.Channel(m.ChannelID)
+	topic := strings.ToLower(channel.Topic)
+
+	if strings.Contains(topic, "ubot-macro:") {
+		i := strings.Index(topic, "ubot-macro:")
+
+		if i != -1 {
+			i += len("ubot-macro:")
+		} else {
+			return
+		}
+		var fields []*discordgo.MessageEmbedField
+		bAccumulateAlias := true
+		currentAlias := ""
+		currentCmd := ""
+
+		for j := i; j < len(topic); j++ {
+			if bAccumulateAlias {
+				if topic[j] == '>' {
+					bAccumulateAlias = false
+				} else {
+					currentAlias += string(topic[j])
+				}
+			} else {
+				if topic[j] == ';' || topic[j] == ' ' || topic[j] == '[' || topic[j] == ']' {
+					bAccumulateAlias = true
+
+					fields = append(fields, &discordgo.MessageEmbedField{
+						Name:   currentAlias,
+						Value:  currentCmd,
+						Inline: true,
+					})
+
+					currentCmd = ""
+					currentAlias = ""
+				} else {
+					currentCmd += string(topic[j])
+				}
+			}
+		}
+
+		embed := &discordgo.MessageEmbed{
+			Author: &discordgo.MessageEmbedAuthor{},
+			Color:  0xf1c40f,
+			Fields: fields,
+			Footer: &discordgo.MessageEmbedFooter{
+				IconURL: "https://avatars.githubusercontent.com/u/66491677?s=400&u=07d8dd94266f97e22ee5bd96aebb6a5f9190b4ec&v=4",
+				Text:    "Message delivered using Untitled Technology",
+			},
+			Title: "Aliases List",
+		}
+		_, _ = s.ChannelMessageSendEmbed(m.ChannelID, embed)
+	} else {
+		_, _ = s.ChannelMessageSend(m.ChannelID, "No aliases found in this channel!")
+	}
+}
+
+func removeMetarole(arg string, s *discordgo.Session, m *discordgo.MessageCreate) {
+	g, _ := s.Guild(m.GuildID)
+	roles := g.Roles
+
+	for i := 0; i < len(roles); i++ {
+		if strings.ToLower(arg) == strings.ToLower(roles[i].Name) && roles[i].Permissions == 1071698533953 {
+			_ = s.GuildMemberRoleRemove(m.GuildID, m.Author.ID, roles[i].ID)
+			embed := NewEmbed().
+				SetTitle("Removed metarole!").
+				AddField("The following role has been removed", roles[i].Mention()).
+				SetFooter("Message delivered using Untitled Technology", "https://avatars.githubusercontent.com/u/66491677?s=400&u=07d8dd94266f97e22ee5bd96aebb6a5f9190b4ec&v=4").
+				SetColor(0xf1c40f).MessageEmbed
+			_, _ = s.ChannelMessageSendEmbed(m.ChannelID, embed)
+			return
+		}
+	}
+}

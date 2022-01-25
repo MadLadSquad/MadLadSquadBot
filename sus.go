@@ -25,7 +25,7 @@ func sus(s *discordgo.Session, m *discordgo.MessageCreate) {
 		"https://cdn.discordapp.com/attachments/887988701907533856/892100345700966400/eba36cd940792a84ff43018a5d71711c.mp4", "https://cdn.discordapp.com/attachments/887988701907533856/892100346095210516/526e176017b85c6d0e38c438e27c8d1b.mp4", "https://cdn.discordapp.com/attachments/887988701907533856/892101096598798346/unknown.png",
 	}
 	rand.Seed(time.Now().UnixNano())
-	s.ChannelMessageSend(m.ChannelID, sussyMessages[rand.Intn(len(sussyMessages))])
+	_, _ = s.ChannelMessageSend(m.ChannelID, sussyMessages[rand.Intn(len(sussyMessages))])
 }
 
 func pernik(s *discordgo.Session, m *discordgo.MessageCreate) {
@@ -133,5 +133,5 @@ func pernik(s *discordgo.Session, m *discordgo.MessageCreate) {
 		"https://cdn.discordapp.com/attachments/827543014959480842/917769793745076254/IMG_4306.jpg",
 	}
 	rand.Seed(time.Now().UnixNano())
-	s.ChannelMessageSend(m.ChannelID, sussyMessages[rand.Intn(len(sussyMessages))])
+	_, _ = s.ChannelMessageSend(m.ChannelID, sussyMessages[rand.Intn(len(sussyMessages))])
 }

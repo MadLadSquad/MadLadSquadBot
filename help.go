@@ -44,7 +44,16 @@ func help(s *discordgo.Session, m *discordgo.MessageCreate) {
 		SetFooter("Message delivered using Untitled Technology", "https://avatars.githubusercontent.com/u/66491677?s=400&u=07d8dd94266f97e22ee5bd96aebb6a5f9190b4ec&v=4").
 		SetColor(0xf1c40f).MessageEmbed
 
-	_, err := s.ChannelMessageSendEmbed(m.ChannelID, embed)
+	embed2 := NewEmbed().
+		SetTitle("Help2").
+		AddField(prefix+"list-aliases", "Lists the aliases stored in the channel, and their respective command").
+		AddField(prefix+"remove-meta-role <role name>", "Removes a meta role from your profile").
+		AddField(prefix+"alias-help", "Shows a help message on how to construct aliases").
+		InlineAllFields().
+		SetFooter("Message delivered using Untitled Technology", "https://avatars.githubusercontent.com/u/66491677?s=400&u=07d8dd94266f97e22ee5bd96aebb6a5f9190b4ec&v=4").
+		SetColor(0xf1c40f).MessageEmbed
+
+	_, err := s.ChannelMessageSendEmbeds(m.ChannelID, []*discordgo.MessageEmbed{embed, embed2})
 	if err != nil {
 		return
 	}
@@ -61,4 +70,18 @@ func invite(s *discordgo.Session, m *discordgo.MessageCreate) {
 	if err != nil {
 		return
 	}
+}
+
+func aliasHelp(s *discordgo.Session, m *discordgo.MessageCreate) {
+	embed := NewEmbed().
+		SetTitle("Alias help").
+		AddField("Introduction to aliases", "Aliases are a way of giving a new name to a pre-existing command on a per-channel basis").
+		AddField("Syntax", "To add an alias all you need to do is find a channel and add the following string to the topic \"ubot-macro:\". After the ':' character, follow the following syntax \"alias-name>command;alias-name>command]\"").
+		AddField("Symbols", "The \"ubot-macro:\", introduces a new macro sequence. The '>' character can be imagined as an arrow pointing to the command. The ';' symbol is used as a separator between aliases. The ']' symbol is used as a terminator for the expression").
+		InlineAllFields().
+		AddField("Example", "ubot-macro:set-game-role>set-meta-role;set-city>set-meta-role;set-fav-food-role>set-meta-role]").
+		SetFooter("Message delivered using Untitled Technology", "https://avatars.githubusercontent.com/u/66491677?s=400&u=07d8dd94266f97e22ee5bd96aebb6a5f9190b4ec&v=4").
+		SetColor(0xf1c40f).MessageEmbed
+
+	_, _ = s.ChannelMessageSendEmbed(m.ChannelID, embed)
 }
