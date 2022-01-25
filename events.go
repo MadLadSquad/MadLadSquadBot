@@ -455,11 +455,15 @@ checkAgain:
 		aliasHelp(s, m)
 	} else if strings.Contains(strings.ToLower(channel.Topic), "ubot-macro:") {
 		if !bAlreadyChecked {
-			topic := strings.ToLower(channel.Topic)
-			i := strings.Index(topic, "ubot-macro:")
+			topic := []rune(strings.ToLower(channel.Topic))
 
-			if i != -1 {
-				i += len("ubot-macro:")
+			i := 0
+			if topic[len(topic)-1] == ']' || topic[len(topic)-1] == '[' {
+				for i = len(topic) - 1; i > 0; i-- {
+					if topic[i] == ':' {
+						break
+					}
+				}
 			} else {
 				return
 			}
