@@ -199,7 +199,7 @@ func giveColour(arg string, s *discordgo.Session, m *discordgo.MessageCreate) {
 				}
 			}
 			role, _ := s.GuildRoleCreate(m.GuildID)
-			_, _ = s.GuildRoleEdit(m.GuildID, role.ID, name, int(colour), role.Hoist, role.Permissions, role.Mentionable)
+			_, _ = s.GuildRoleEdit(m.GuildID, role.ID, name, int(colour), role.Hoist, 0, role.Mentionable)
 			_ = s.GuildMemberRoleAdd(m.GuildID, m.Author.ID, role.ID)
 			embed := NewEmbed().
 				SetTitle("Added you to the "+name+" role!").
@@ -222,7 +222,7 @@ func giveMetarole(arg string, s *discordgo.Session, m *discordgo.MessageCreate) 
 		roles, _ := s.GuildRoles(m.GuildID)
 		for i := 0; i < len(roles); i++ {
 			// That magic number that you see here is the default permissions integer when a new role is created
-			if strings.ToLower(roles[i].Name) == strings.ToLower(arg) && roles[i].Permissions == 1071698533953 {
+			if strings.ToLower(roles[i].Name) == strings.ToLower(arg) && roles[i].Permissions == 0 {
 				_ = s.GuildMemberRoleAdd(m.GuildID, m.Author.ID, roles[i].ID)
 				embed := NewEmbed().
 					SetTitle("Added you to the "+roles[i].Name+" role!").
@@ -234,7 +234,7 @@ func giveMetarole(arg string, s *discordgo.Session, m *discordgo.MessageCreate) 
 			}
 		}
 		role, _ := s.GuildRoleCreate(m.GuildID)
-		_, _ = s.GuildRoleEdit(m.GuildID, role.ID, arg, role.Color, role.Hoist, role.Permissions, role.Mentionable)
+		_, _ = s.GuildRoleEdit(m.GuildID, role.ID, arg, role.Color, role.Hoist, 0, role.Mentionable)
 		_ = s.GuildMemberRoleAdd(m.GuildID, m.Author.ID, role.ID)
 		embed := NewEmbed().
 			SetTitle("Added you to the "+role.Name+" role!").
@@ -310,7 +310,7 @@ func removeMetarole(arg string, s *discordgo.Session, m *discordgo.MessageCreate
 	roles := g.Roles
 
 	for i := 0; i < len(roles); i++ {
-		if strings.ToLower(arg) == strings.ToLower(roles[i].Name) && roles[i].Permissions == 1071698533953 {
+		if strings.ToLower(arg) == strings.ToLower(roles[i].Name) && roles[i].Permissions == 0 {
 			_ = s.GuildMemberRoleRemove(m.GuildID, m.Author.ID, roles[i].ID)
 			embed := NewEmbed().
 				SetTitle("Removed metarole!").
