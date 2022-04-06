@@ -2,6 +2,8 @@ github.com/MadLadSquad/discordgo v0.23.42 h1:Jyq91tfnZ79LNG9c0Fj1TYWjcFGHDBzalz8
 github.com/MadLadSquad/discordgo v0.23.42/go.mod h1:6CztLmEriEF9AX/Ks1T9OsySt7cfrqSgAT5ndncGVZE=
 github.com/MadLadSquad/discordgo v0.23.46 h1:NySpzeH+XFilMI6Jsdko2Wx2ztujs4EVlisY5wBfie0=
 github.com/MadLadSquad/discordgo v0.23.46/go.mod h1:6CztLmEriEF9AX/Ks1T9OsySt7cfrqSgAT5ndncGVZE=
+github.com/MadLadSquad/discordgo v0.23.47 h1:GaajluB7lPKRboU1DPqbcoRbO1GaJ5sIznv2Oj9F6i8=
+github.com/MadLadSquad/discordgo v0.23.47/go.mod h1:6CztLmEriEF9AX/Ks1T9OsySt7cfrqSgAT5ndncGVZE=
 github.com/bwmarrin/discordgo v0.23.2 h1:BzrtTktixGHIu9Tt7dEE6diysEF9HWnXeHuoJEt2fH4=
 github.com/bwmarrin/discordgo v0.23.2/go.mod h1:c1WtWUGN6nREDmzIpyTp/iD3VYt4Fpx+bVyfBG7JE+M=
 github.com/gorilla/websocket v1.4.0/go.mod h1:E7qHFY5m1UJ88s3WnNqhKjPHQ0heANvMoAMk2YaljkQ=
