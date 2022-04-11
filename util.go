@@ -48,7 +48,7 @@ func channelChangeMetadata(arg string, s *discordgo.Session, m *discordgo.Messag
 			UserLimit:            channel.UserLimit,
 			PermissionOverwrites: channel.PermissionOverwrites,
 			ParentID:             channel.ParentID,
-			RateLimitPerUser:     channel.RateLimitPerUser,
+			RateLimitPerUser:     &channel.RateLimitPerUser,
 		}
 
 		s.ChannelEditComplex(channel.ID, &e)
