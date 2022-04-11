@@ -18,7 +18,7 @@ jobs:
       run: sudo snap install --classic go 
     - name: Compile
       shell: bash
-      run: sh ci.sh
+      run: bash ci.sh
   Windows:
     runs-on: windows-latest
     steps:
