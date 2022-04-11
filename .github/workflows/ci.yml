@@ -18,7 +18,7 @@ jobs:
       run: sudo snap install --classic go 
     - name: Compile
       shell: bash
-      run: go build .
+      run: go mod download github.com/MadLadSquad/discordgo && go build .
   Windows:
     runs-on: windows-latest
     steps:
@@ -26,7 +26,7 @@ jobs:
       - name: Get dependencies
         run: choco install golang
       - name: Compile
-        run: go build .
+        run: go mod download github.com/MadLadSquad/discordgo && go build .
   MacOS:
     runs-on: macos-latest
     steps:
@@ -34,4 +34,4 @@ jobs:
       - name: Get dependencies
         run: brew install go@1.16 || brew link --overwrite go
       - name: Compile
-        run: go build .
+        run: go mod download github.com/MadLadSquad/discordgo && go build .
