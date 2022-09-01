@@ -172,13 +172,13 @@ func giveColour(arg string, s *discordgo.Session, m *discordgo.MessageCreate) {
 	channel, _ := s.Channel(m.ChannelID)
 	if strings.Contains(strings.ToLower(channel.Topic), "ubot-colour-pick") {
 		bFound := false
-		var colour uint = 0
+		colour := 0
 		var name = ""
 
 		for key, val := range colours {
 			if strings.ToLower(key) == strings.ToLower(arg) {
 				bFound = true
-				colour = val
+				colour = int(val)
 				name = key
 				break
 			}
@@ -198,8 +198,14 @@ func giveColour(arg string, s *discordgo.Session, m *discordgo.MessageCreate) {
 					return
 				}
 			}
-			role, _ := s.GuildRoleCreate(m.GuildID)
-			_, _ = s.GuildRoleEdit(m.GuildID, role.ID, name, int(colour), role.Hoist, 0, role.Mentionable)
+
+			perms := int64(0)
+
+			roledata := discordgo.RoleParams{}
+			roledata.Permissions = &perms
+			roledata.Color = &colour
+
+			role, _ := s.GuildRoleCreate(m.GuildID, &roledata)
 			_ = s.GuildMemberRoleAdd(m.GuildID, m.Author.ID, role.ID)
 			embed := NewEmbed().
 				SetTitle("Added you to the "+name+" role!").
@@ -233,8 +239,13 @@ func giveMetarole(arg string, s *discordgo.Session, m *discordgo.MessageCreate) 
 				return
 			}
 		}
-		role, _ := s.GuildRoleCreate(m.GuildID)
-		_, _ = s.GuildRoleEdit(m.GuildID, role.ID, arg, role.Color, role.Hoist, 0, role.Mentionable)
+		perms := int64(0)
+
+		roleinfo := discordgo.RoleParams{}
+		roleinfo.Permissions = &perms
+		roleinfo.Name = arg
+
+		role, _ := s.GuildRoleCreate(m.GuildID, &roleinfo)
 		_ = s.GuildMemberRoleAdd(m.GuildID, m.Author.ID, role.ID)
 		embed := NewEmbed().
 			SetTitle("Added you to the "+role.Name+" role!").

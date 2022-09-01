@@ -42,7 +42,7 @@ func channelChangeMetadata(arg string, s *discordgo.Session, m *discordgo.Messag
 		e := discordgo.ChannelEdit{
 			Name:                 channel.Name,
 			Topic:                channel.Topic + template1,
-			NSFW:                 channel.NSFW,
+			NSFW:                 &channel.NSFW,
 			Position:             channel.Position,
 			Bitrate:              channel.Bitrate,
 			UserLimit:            channel.UserLimit,
@@ -51,7 +51,7 @@ func channelChangeMetadata(arg string, s *discordgo.Session, m *discordgo.Messag
 			RateLimitPerUser:     &channel.RateLimitPerUser,
 		}
 
-		s.ChannelEditComplex(channel.ID, &e)
+		_, _ = s.ChannelEditComplex(channel.ID, &e)
 
 		embed := NewEmbed().
 			SetTitle("Set a channel as a "+template2+" channel!").
