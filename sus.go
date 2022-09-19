@@ -6,7 +6,25 @@ import (
 	"time"
 )
 
-func sus(s *discordgo.Session, m *discordgo.MessageCreate) {
+func createSus(s *discordgo.Session) {
+	command := &discordgo.ApplicationCommand{
+		Name:        "sus",
+		Type:        discordgo.ChatApplicationCommand,
+		Description: "Returns a sussy message",
+	}
+	_, _ = s.ApplicationCommandCreate(s.State.User.ID, "", command)
+}
+
+func createPernik(s *discordgo.Session) {
+	command := &discordgo.ApplicationCommand{
+		Name:        "pernik",
+		Type:        discordgo.ChatApplicationCommand,
+		Description: "Returns a pernik message",
+	}
+	_, _ = s.ApplicationCommandCreate(s.State.User.ID, "", command)
+}
+
+func sus(s *discordgo.Session, m *discordgo.InteractionCreate) {
 	sussyMessages := []string{"Say \"sus\" but backwards", "Say \"bus\" but replace the B with S",
 		"Say \"pegasus\" but replace the 'p' with 'm'", "Say \"sus\" but replace \"sus\" with \"sus\"",
 		"Say \"Amongus\" but replace \"Among\" with s", "Say \"I invented\" but remove the \"in\"",
@@ -25,10 +43,17 @@ func sus(s *discordgo.Session, m *discordgo.MessageCreate) {
 		"https://cdn.discordapp.com/attachments/887988701907533856/892100345700966400/eba36cd940792a84ff43018a5d71711c.mp4", "https://cdn.discordapp.com/attachments/887988701907533856/892100346095210516/526e176017b85c6d0e38c438e27c8d1b.mp4", "https://cdn.discordapp.com/attachments/887988701907533856/892101096598798346/unknown.png",
 	}
 	rand.Seed(time.Now().UnixNano())
-	_, _ = s.ChannelMessageSend(m.ChannelID, sussyMessages[rand.Intn(len(sussyMessages))])
+	_ = s.InteractionRespond(m.Interaction, &discordgo.InteractionResponse{
+		Type: discordgo.InteractionResponseChannelMessageWithSource,
+		Data: &discordgo.InteractionResponseData{
+			TTS:     false,
+			Content: sussyMessages[rand.Intn(len(sussyMessages))],
+			Flags:   discordgo.MessageFlagsEphemeral,
+		},
+	})
 }
 
-func pernik(s *discordgo.Session, m *discordgo.MessageCreate) {
+func pernik(s *discordgo.Session, m *discordgo.InteractionCreate) {
 	sussyMessages := []string{
 		"https://cdn.discordapp.com/attachments/827543014959480842/917454171001737236/9k.png",
 		"https://cdn.discordapp.com/attachments/827543014959480842/917454638276546570/himichesko.png",
@@ -133,5 +158,12 @@ func pernik(s *discordgo.Session, m *discordgo.MessageCreate) {
 		"https://cdn.discordapp.com/attachments/827543014959480842/917769793745076254/IMG_4306.jpg",
 	}
 	rand.Seed(time.Now().UnixNano())
-	_, _ = s.ChannelMessageSend(m.ChannelID, sussyMessages[rand.Intn(len(sussyMessages))])
+	_ = s.InteractionRespond(m.Interaction, &discordgo.InteractionResponse{
+		Type: discordgo.InteractionResponseChannelMessageWithSource,
+		Data: &discordgo.InteractionResponseData{
+			TTS:     false,
+			Content: sussyMessages[rand.Intn(len(sussyMessages))],
+			Flags:   discordgo.MessageFlagsEphemeral,
+		},
+	})
 }

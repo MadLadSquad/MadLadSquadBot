@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"os"
 	"os/signal"
-	"strings"
 	"syscall"
 	"time"
 
@@ -13,8 +12,7 @@ import (
 )
 
 var (
-	Token  string
-	prefix = "&"
+	Token string
 )
 
 func init() {
@@ -29,7 +27,9 @@ func main() {
 		return
 	}
 
-	dg.AddHandler(messageCreate)
+	dg.AddHandler(onMessageCreate)
+
+	dg.AddHandler(onApplicationCommand)
 
 	dg.AddHandler(onReady)
 
@@ -42,8 +42,8 @@ func main() {
 
 	dg.AddHandler(onGuildUpdate)
 	dg.AddHandler(onGuildMemberUpdate)
-	dg.AddHandler(welcome)
-	dg.AddHandler(bye)
+	dg.AddHandler(onWelcome)
+	dg.AddHandler(onBye)
 
 	dg.AddHandler(onRoleCreate)
 	dg.AddHandler(onRoleUpdate)
@@ -80,31 +80,100 @@ func main() {
 	}
 }
 
-// This is the main event meaning it won't go into events.go
-func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
-	content := strings.ToLower(m.Content)
-
-	if m.Author.ID == s.State.User.ID {
+// Main command handler here for usability reasons
+func onApplicationCommand(s *discordgo.Session, m *discordgo.InteractionCreate) {
+	if m.Type != discordgo.InteractionApplicationCommand {
 		return
 	}
 
-	if m.Author.Bot {
-		return
+	data := m.ApplicationCommandData()
+	str := ""
+	switch data.Name {
+	case "userinfo":
+		if data.Options != nil && data.Options[0].Value != nil {
+			str = data.Options[0].StringValue()
+		}
+		showUserInfo(str, s, m)
+		break
+	case "serverinfo":
+		showServerInfo(s, m)
+		break
+	case "privacy":
+		privacyPolicy(s, m)
+		break
+	case "tos":
+		termsOfService(s, m)
+		break
+	case "about":
+		about(s, m)
+		break
+	case "avatar":
+		if data.Options != nil && data.Options[0].Value != nil {
+			str = data.Options[0].StringValue()
+		}
+		avatar(str, s, m)
+		break
+	case "invite":
+		invite(s, m)
+		break
+	case "verify":
+		verify(s, m)
+		break
+	case "generate-member-role":
+		createMemberRole(s, m)
+	case "sus":
+		sus(s, m)
+		break
+	case "pernik":
+		pernik(s, m)
+		break
+	case "alias-help":
+		aliasHelp(s, m)
+		break
+	case "list-colour-roles":
+		listColours(s, m)
+		break
+	case "list-aliases":
+		listAliases(s, m)
+		break
+	case "set-channel":
+		switch data.Options[0].Name {
+		case "welcome":
+			channelChangeMetadata(data.Options[0].Options[0].StringValue(), s, m, " ubot-welcome", "welcome")
+			break
+		case "event-tracking":
+			channelChangeMetadata(data.Options[0].Options[0].StringValue(), s, m, " ubot-event-log", "event logging")
+			break
+		case "text-only":
+			channelChangeMetadata(data.Options[0].Options[0].StringValue(), s, m, " ubot-restrict-text-only", "text only")
+			break
+		case "attachments-only":
+			channelChangeMetadata(data.Options[0].Options[0].StringValue(), s, m, " ubot-restrict-attachments-only", "attachments only")
+			break
+		case "links-only":
+			channelChangeMetadata(data.Options[0].Options[0].StringValue(), s, m, " ubot-restrict-links-only", "links only")
+			break
+		case "colour-role":
+			channelChangeMetadata(data.Options[0].Options[0].StringValue(), s, m, " ubot-colour-pick", "colour role")
+			break
+		case "meta-role":
+			channelChangeMetadata(data.Options[0].Options[0].StringValue(), s, m, " ubot-meta-role-pick", "meta role")
+			break
+		}
+		break
+	case "meta-role":
+		switch data.Options[0].Name {
+		case "give":
+			giveMetarole(data.Options[0].Options[0].StringValue(), s, m)
+			break
+		case "remove":
+			removeMetarole(data.Options[0].Options[0].StringValue(), s, m)
+			break
+		}
+		break
+	case "set-colour-role":
+		giveColour(data.Options[0].StringValue(), s, m)
+		break
 	}
 
-	message := strings.Split(content, " ")
-
-	channel, _ := s.State.Channel(m.ChannelID)
-	if strings.Contains(strings.ToLower(channel.Topic), "ubot-restrict-text-only") && (len(m.Attachments) > 0 || strings.Contains(content, "http://") || strings.Contains(content, "https://")) {
-		_ = s.ChannelMessageDelete(m.ChannelID, m.ID)
-		_, _ = s.ChannelMessageSend(m.ChannelID, "Message deleted due to it containing links or attachments in a text only channel!")
-	} else if strings.Contains(strings.ToLower(channel.Topic), "ubot-restrict-attachments-only") && len(m.Attachments) == 0 {
-		_ = s.ChannelMessageDelete(m.ChannelID, m.ID)
-		_, _ = s.ChannelMessageSend(m.ChannelID, "Message deleted due to it containing no attachments in an attachment only channel!")
-	} else if strings.Contains(strings.ToLower(channel.Topic), "ubot-restrict-links-only") && !(strings.Contains(content, "http://") || strings.Contains(content, "https://")) {
-		_ = s.ChannelMessageDelete(m.ChannelID, m.ID)
-		_, _ = s.ChannelMessageSend(m.ChannelID, "Message deleted due to it containing no links in link only channel!")
-	} else {
-		onMessageCreate(s, m, message, content)
-	}
 }

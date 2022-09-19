@@ -11,6 +11,31 @@ func onReady(s *discordgo.Session, m *discordgo.Ready) {
 	if err != nil {
 		return
 	}
+	createApplicationCommands(s)
+}
+
+func createApplicationCommands(s *discordgo.Session) {
+	createUserInfo(s)
+	createServerInfo(s)
+	createPrivacy(s)
+	createTos(s)
+	createAbout(s)
+	createAvatar(s)
+	createInvite(s)
+	createAliasHelp(s)
+	createListAliases(s)
+
+	createVerify(s)
+	createMember(s)
+
+	createSus(s)
+	createPernik(s)
+
+	createGiveColour(s)
+	createListColourRoles(s)
+
+	createMetaRole(s)
+	createSetChannel(s)
 }
 
 func onChannelCreate(s *discordgo.Session, m *discordgo.ChannelCreate) {
@@ -34,14 +59,23 @@ func onChannelCreate(s *discordgo.Session, m *discordgo.ChannelCreate) {
 	case 5:
 		channelType = "News"
 		break
-	case 6:
-		channelType = "Store"
-		break
 	case 10:
 		channelType = "News Thread"
 		break
 	case 11:
 		channelType = "Public Thread"
+		break
+	case 13:
+		channelType = "Stage"
+		break
+	case 14:
+		channelType = "Directory"
+		break
+	case 15:
+		channelType = "Forum"
+		break
+	default:
+		channelType = "Unknown"
 		break
 	}
 
@@ -88,14 +122,23 @@ func onChannelUpdate(s *discordgo.Session, m *discordgo.ChannelUpdate) {
 	case 5:
 		channelType = "News"
 		break
-	case 6:
-		channelType = "Store"
-		break
 	case 10:
 		channelType = "News Thread"
 		break
 	case 11:
 		channelType = "Public Thread"
+		break
+	case 13:
+		channelType = "Stage"
+		break
+	case 14:
+		channelType = "Directory"
+		break
+	case 15:
+		channelType = "Forum"
+		break
+	default:
+		channelType = "Unknown"
 		break
 	}
 
@@ -141,14 +184,23 @@ func onChannelRemove(s *discordgo.Session, m *discordgo.ChannelDelete) {
 	case 5:
 		channelType = "News"
 		break
-	case 6:
-		channelType = "Store"
-		break
 	case 10:
 		channelType = "News Thread"
 		break
 	case 11:
 		channelType = "Public Thread"
+		break
+	case 13:
+		channelType = "Stage"
+		break
+	case 14:
+		channelType = "Directory"
+		break
+	case 15:
+		channelType = "Forum"
+		break
+	default:
+		channelType = "Unknown"
 		break
 	}
 
@@ -259,9 +311,43 @@ func onGuildUpdate(s *discordgo.Session, m *discordgo.GuildUpdate) {
 		break
 	}
 
-	//guildDescription := "None"
+	nsfwLevel := "Default"
+	switch m.Guild.NSFWLevel {
+	case 0:
+		nsfwLevel = "Default"
+		break
+	case 1:
+		nsfwLevel = "Explicit"
+		break
+	case 2:
+		nsfwLevel = "Safe"
+		break
+	case 3:
+		nsfwLevel = "Age Restricted"
+		break
+	}
+
+	explicitContentFilter := "Disabled"
+	switch m.Guild.ExplicitContentFilter {
+	case 0:
+		explicitContentFilter = "None"
+		break
+	case 1:
+		explicitContentFilter = "Members with no roles"
+		break
+	case 2:
+		explicitContentFilter = "All members"
+		break
+	}
+
+	defaultNotificationLevel := "All Messages"
+	if m.Guild.DefaultMessageNotifications == 1 {
+		defaultNotificationLevel = "Only Mentions"
+	}
+
+	guildDescription := "None"
 	if len(m.Guild.Description) > 2 {
-		//guildDescription = guild.Description
+		guildDescription = m.Guild.Description
 	}
 	embed := NewEmbed().
 		SetTitle(m.Guild.Name+" was updated!").
@@ -282,6 +368,14 @@ func onGuildUpdate(s *discordgo.Session, m *discordgo.GuildUpdate) {
 		AddField("Boost Level", premiumTier).
 		AddField("Verification Level", verificationLevel).
 		InlineAllFields().
+		AddField("NSFW Level", nsfwLevel).
+		AddField("Explicit content filter level", explicitContentFilter).
+		AddField("Sticker Count", strconv.Itoa(len(m.Guild.Stickers))).
+		InlineAllFields().
+		AddField("Boost Count", strconv.Itoa(m.Guild.PremiumSubscriptionCount)).
+		AddField("Default Notification Level", defaultNotificationLevel).
+		InlineAllFields().
+		AddField("Description", guildDescription).
 		SetFooter("Message delivered using Untitled Technology", "https://avatars.githubusercontent.com/u/66491677?s=400&u=07d8dd94266f97e22ee5bd96aebb6a5f9190b4ec&v=4").
 		SetColor(0xf1c40f).MessageEmbed
 
@@ -309,6 +403,51 @@ func onGuildMemberUpdate(s *discordgo.Session, m *discordgo.GuildMemberUpdate) {
 		break
 	}
 
+	userFlags := ""
+	if (m.User.PublicFlags & discordgo.UserFlagDiscordEmployee) != 0 {
+		userFlags += "Staff, "
+	}
+	if (m.User.PublicFlags & discordgo.UserFlagDiscordPartner) != 0 {
+		userFlags += "Partner, "
+	}
+	if (m.User.PublicFlags & discordgo.UserFlagHypeSquadEvents) != 0 {
+		userFlags += "Hype Squad, "
+	}
+	if (m.User.PublicFlags & discordgo.UserFlagBugHunterLevel1) != 0 {
+		userFlags += "Bug Hunter 1, "
+	}
+	if (m.User.PublicFlags & discordgo.UserFlagBugHunterLevel2) != 0 {
+		userFlags += "Bug Hunter 2, "
+	}
+	if (m.User.PublicFlags & discordgo.UserFlagHouseBravery) != 0 {
+		userFlags += "Hype Squad House Bravery, "
+	}
+	if (m.User.PublicFlags & discordgo.UserFlagHouseBrilliance) != 0 {
+		userFlags += "Hype Squad House Brilliance, "
+	}
+	if (m.User.PublicFlags & discordgo.UserFlagHouseBalance) != 0 {
+		userFlags += "Hype Squad House Balance, "
+	}
+	if (m.User.PublicFlags & discordgo.UserFlagEarlySupporter) != 0 {
+		userFlags += "Nitro Early Supporter, "
+	}
+	if (m.User.PublicFlags & discordgo.UserFlagVerifiedBot) != 0 {
+		userFlags += "Verified Bot, "
+	}
+	if (m.User.PublicFlags & discordgo.UserFlagVerifiedBotDeveloper) != 0 {
+		userFlags += "Verified Bot Developer, "
+	}
+	if (m.User.PublicFlags & discordgo.UserFlagDiscordCertifiedModerator) != 0 {
+		userFlags += "Certified Moderator, "
+	}
+
+	if userFlags == "" {
+		userFlags = "None"
+	} else {
+		// Truncate the last 2 symbols if not empty i.e. ',' and ' '
+		userFlags = userFlags[:2]
+	}
+
 	embed := NewEmbed().
 		SetTitle(m.User.Username+"'s profile was updated!").
 		SetThumbnail(m.User.AvatarURL("")).
@@ -318,6 +457,7 @@ func onGuildMemberUpdate(s *discordgo.Session, m *discordgo.GuildMemberUpdate) {
 		InlineAllFields().
 		AddField("User ID", m.User.ID).
 		AddField("System", strconv.FormatBool(m.User.System)).
+		AddField("User flags", userFlags).
 		InlineAllFields().
 		SetFooter("Message delivered using Untitled Technology", "https://avatars.githubusercontent.com/u/66491677?s=400&u=07d8dd94266f97e22ee5bd96aebb6a5f9190b4ec&v=4").
 		SetColor(0xf1c40f).MessageEmbed
@@ -387,115 +527,26 @@ func onRoleRemove(s *discordgo.Session, m *discordgo.GuildRoleDelete) {
 	}
 }
 
-func onMessageCreate(s *discordgo.Session, m *discordgo.MessageCreate, message []string, content string) {
-	channel, _ := s.Channel(m.ChannelID)
-	redirect := ""
-	f := 0
-	bAlreadyChecked := false
-	var aliasStrings [10]string
-	var cmdStrings [10]string
-	var currentAliasIndex = 0
+func onMessageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
+	content := strings.ToLower(m.Content)
 
-checkAgain:
-	if strings.Contains(content, prefix+"userinfo") || redirect == "userinfo" {
-		showUserInfo(message[1], s, m)
-	} else if strings.Contains(content, prefix+"serverinfo") || redirect == "serverinfo" {
-		showServerInfo(s, m)
-	} else if strings.Contains(content, prefix+"help") || redirect == "help" {
-		help(s, m)
-	} else if (strings.Contains(content, prefix+"kick") || redirect == "kick") && len(message) > 1 {
-		kick(message[1], s, m)
-	} else if (strings.Contains(content, prefix+"ban") || redirect == "ban") && len(message) > 1 {
-		ban(message, s, m)
-	} else if strings.Contains(content, prefix+"invite") || redirect == "invite" {
-		invite(s, m)
-	} else if strings.Contains(content, prefix+"privacy") || redirect == "privacy" {
-		privacyPolicy(s, m)
-	} else if strings.Contains(content, prefix+"tos") || redirect == "tos" {
-		termsOfService(s, m)
-	} else if strings.Contains(content, prefix+"about") || redirect == "about" {
-		about(s, m)
-	} else if strings.Contains(content, prefix+"verify") || redirect == "verify" {
-		verify(s, m)
-	} else if (strings.Contains(content, prefix+"avatar") || redirect == "avatar") && len(message) > 1 {
-		avatar(message[1], s, m)
-	} else if (strings.Contains(content, prefix+"mute") || redirect == "mute") && len(message) > 1 {
-		mute(message[1], s, m)
-	} else if strings.Contains(content, prefix+"sus") || redirect == "sus" {
-		sus(s, m)
-	} else if (strings.Contains(content, prefix+"set-welcome") || redirect == "set-welcome") && len(message) > 1 {
-		channelChangeMetadata(message[1], s, m, " ubot-welcome", "welcome")
-	} else if (strings.Contains(content, prefix+"set-event-tracking") || redirect == "set-event-tracking") && len(message) > 1 {
-		channelChangeMetadata(message[1], s, m, " ubot-event-log", "event logging")
-	} else if (strings.Contains(content, prefix+"set-text-only") || redirect == "set-text-only") && len(message) > 1 {
-		channelChangeMetadata(message[1], s, m, " ubot-restrict-text-only", "text only")
-	} else if (strings.Contains(content, prefix+"set-attachments-only") || redirect == "set-attachments-only") && len(message) > 1 {
-		channelChangeMetadata(message[1], s, m, " ubot-restrict-attachments-only", "attachments only")
-	} else if (strings.Contains(content, prefix+"set-links-only") || redirect == "set-links-only") && len(message) > 1 {
-		channelChangeMetadata(message[1], s, m, " ubot-restrict-links-only", "links only")
-	} else if strings.Contains(content, prefix+"generate-member-role") || redirect == "generate-member-role" {
-		createMemberRole(s, m)
-	} else if strings.Contains(content, prefix+"pernik") || redirect == "pernik" {
-		pernik(s, m)
-	} else if (strings.Contains(content, prefix+"set-colour-role-channel") || redirect == "set-colour-role-channel") && len(message) > 1 && message[1] != "" {
-		channelChangeMetadata(message[1], s, m, " ubot-colour-pick", "colour role")
-	} else if (strings.Contains(content, prefix+"set-colour-role") || redirect == "set-colour-role") && len(message) > 1 && message[1] != "" {
-		giveColour(message[1], s, m)
-	} else if (strings.Contains(content, prefix+"set-meta-role-channel") || redirect == "set-meta-role-channel") && len(message) > 1 {
-		channelChangeMetadata(message[1], s, m, "ubot-meta-role-pick", "meta role")
-	} else if (strings.Contains(content, prefix+"set-meta-role") || redirect == "set-meta-role") && len(message) > 1 && message[1] != "" {
-		giveMetarole(message[1], s, m)
-	} else if strings.Contains(content, prefix+"list-colour-roles") || redirect == "list-colour-roles" {
-		listColours(s, m)
-	} else if strings.Contains(content, prefix+"list-aliases") || redirect == "list-aliases" {
-		listAliases(s, m)
-	} else if (strings.Contains(content, prefix+"remove-meta-role") || redirect == "remove-meta-role") && len(message) > 1 {
-		removeMetarole(message[1], s, m)
-	} else if strings.Contains(content, prefix+"alias-help") || redirect == "alias-help" {
-		aliasHelp(s, m)
-	} else if strings.Contains(strings.ToLower(channel.Topic), "ubot-macro:") {
-		if !bAlreadyChecked {
-			topic := []rune(strings.ToLower(channel.Topic))
+	if m.Author.ID == s.State.User.ID {
+		return
+	}
 
-			i := 0
-			if topic[len(topic)-1] == ']' || topic[len(topic)-1] == '[' {
-				for i = len(topic) - 1; i > 0; i-- {
-					if topic[i] == ':' {
-						break
-					}
-				}
-			} else {
-				return
-			}
+	if m.Author.Bot {
+		return
+	}
 
-			bRecordingAlias := true
-			for j := i; j < len(topic); j++ {
-				if bRecordingAlias {
-					if topic[j] == '>' {
-						bRecordingAlias = false
-					} else {
-						aliasStrings[currentAliasIndex] += string(topic[j])
-					}
-				} else {
-					if topic[j] == ';' && currentAliasIndex < 10 {
-						bRecordingAlias = true
-						currentAliasIndex++
-					} else if topic[j] == ']' || topic[j] == '[' || currentAliasIndex == 10 {
-						break
-					} else {
-						cmdStrings[currentAliasIndex] += string(topic[j])
-					}
-				}
-			}
-			bAlreadyChecked = true
-		}
-
-		for ; f <= currentAliasIndex; f++ {
-			if strings.Contains(content, prefix+aliasStrings[f]) {
-				redirect = strings.ToLower(cmdStrings[f])
-
-				goto checkAgain
-			}
-		}
+	channel, _ := s.State.Channel(m.ChannelID)
+	if strings.Contains(strings.ToLower(channel.Topic), "ubot-restrict-text-only") && (len(m.Attachments) > 0 || strings.Contains(content, "http://") || strings.Contains(content, "https://")) {
+		_ = s.ChannelMessageDelete(m.ChannelID, m.ID)
+		_, _ = s.ChannelMessageSend(m.ChannelID, "Message deleted due to it containing links or attachments in a text only channel!")
+	} else if strings.Contains(strings.ToLower(channel.Topic), "ubot-restrict-attachments-only") && len(m.Attachments) == 0 {
+		_ = s.ChannelMessageDelete(m.ChannelID, m.ID)
+		_, _ = s.ChannelMessageSend(m.ChannelID, "Message deleted due to it containing no attachments in an attachment only channel!")
+	} else if strings.Contains(strings.ToLower(channel.Topic), "ubot-restrict-links-only") && !(strings.Contains(content, "http://") || strings.Contains(content, "https://")) {
+		_ = s.ChannelMessageDelete(m.ChannelID, m.ID)
+		_, _ = s.ChannelMessageSend(m.ChannelID, "Message deleted due to it containing no links in link only channel!")
 	}
 }

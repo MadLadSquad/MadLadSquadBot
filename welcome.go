@@ -5,7 +5,7 @@ import (
 	"strings"
 )
 
-func welcome(s *discordgo.Session, m *discordgo.GuildMemberAdd) {
+func onWelcome(s *discordgo.Session, m *discordgo.GuildMemberAdd) {
 	guild, _ := s.State.Guild(m.GuildID)
 
 	timestamp := m.JoinedAt.String()
@@ -27,7 +27,7 @@ func welcome(s *discordgo.Session, m *discordgo.GuildMemberAdd) {
 	}
 }
 
-func bye(s *discordgo.Session, m *discordgo.GuildMemberRemove) {
+func onBye(s *discordgo.Session, m *discordgo.GuildMemberRemove) {
 	guild, _ := s.State.Guild(m.GuildID)
 
 	embed := NewEmbed().
@@ -47,7 +47,7 @@ func bye(s *discordgo.Session, m *discordgo.GuildMemberRemove) {
 	}
 }
 
-func invited(s *discordgo.Session, m *discordgo.GuildCreate) {
+func onInvited(s *discordgo.Session, m *discordgo.GuildCreate) {
 	embed := NewEmbed().
 		SetTitle("Thanks for inviting me").
 		SetThumbnail("https://cdn.discordapp.com/avatars/697420452712284202/924342db89aa1f0acd5239646a835bec.png").

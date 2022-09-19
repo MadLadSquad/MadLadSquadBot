@@ -35,7 +35,7 @@ func checkPerm(s *discordgo.Session, m *discordgo.MessageCreate, perm int64) boo
 	return false
 }
 
-func channelChangeMetadata(arg string, s *discordgo.Session, m *discordgo.MessageCreate, template1 string, template2 string) {
+func channelChangeMetadata(arg string, s *discordgo.Session, m *discordgo.InteractionCreate, template1 string, template2 string) {
 	if arg != "" {
 		channel, _ := s.Channel(sanitizePings(arg))
 
@@ -59,7 +59,15 @@ func channelChangeMetadata(arg string, s *discordgo.Session, m *discordgo.Messag
 			SetFooter("Message delivered using Untitled Technology", "https://avatars.githubusercontent.com/u/66491677?s=400&u=07d8dd94266f97e22ee5bd96aebb6a5f9190b4ec&v=4").
 			SetColor(0xf1c40f).MessageEmbed
 
-		_, _ = s.ChannelMessageSendEmbed(m.ChannelID, embed)
+		_ = s.InteractionRespond(m.Interaction, &discordgo.InteractionResponse{
+			Type: discordgo.InteractionResponseChannelMessageWithSource,
+			Data: &discordgo.InteractionResponseData{
+				TTS:     false,
+				Content: "",
+				Flags:   discordgo.MessageFlagsEphemeral,
+				Embeds:  []*discordgo.MessageEmbed{embed},
+			},
+		})
 	}
 }
 

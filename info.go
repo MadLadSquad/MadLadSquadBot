@@ -5,7 +5,77 @@ import (
 	"strconv"
 )
 
-func showUserInfo(arg string, s *discordgo.Session, m *discordgo.MessageCreate) {
+func createUserInfo(s *discordgo.Session) {
+	command := &discordgo.ApplicationCommand{
+		Name:        "userinfo",
+		Type:        discordgo.ChatApplicationCommand,
+		Description: "Returns information about the caller or the mentioned user",
+		Options: []*discordgo.ApplicationCommandOption{
+			{
+				Name:        "The user's mention",
+				Type:        discordgo.ApplicationCommandOptionString,
+				Description: "Provide a mention to get the info of a user rather than yourself",
+				Required:    false,
+			},
+		},
+	}
+	_, _ = s.ApplicationCommandCreate(s.State.User.ID, "", command)
+}
+
+func createServerInfo(s *discordgo.Session) {
+	command := &discordgo.ApplicationCommand{
+		Name:        "serverinfo",
+		Type:        discordgo.ChatApplicationCommand,
+		Description: "Returns information about the current server",
+	}
+	_, _ = s.ApplicationCommandCreate(s.State.User.ID, "", command)
+}
+
+func createPrivacy(s *discordgo.Session) {
+	command := &discordgo.ApplicationCommand{
+		Name:        "privacy",
+		Type:        discordgo.ChatApplicationCommand,
+		Description: "Returns the privacy policy statement",
+	}
+	_, _ = s.ApplicationCommandCreate(s.State.User.ID, "", command)
+}
+
+func createTos(s *discordgo.Session) {
+	command := &discordgo.ApplicationCommand{
+		Name:        "tos",
+		Type:        discordgo.ChatApplicationCommand,
+		Description: "Returns the terms of service statement",
+	}
+	_, _ = s.ApplicationCommandCreate(s.State.User.ID, "", command)
+}
+
+func createAbout(s *discordgo.Session) {
+	command := &discordgo.ApplicationCommand{
+		Name:        "about",
+		Type:        discordgo.ChatApplicationCommand,
+		Description: "Returns information about the bot and its developers",
+	}
+	_, _ = s.ApplicationCommandCreate(s.State.User.ID, "", command)
+}
+
+func createAvatar(s *discordgo.Session) {
+	command := &discordgo.ApplicationCommand{
+		Name:        "avatar",
+		Type:        discordgo.ChatApplicationCommand,
+		Description: "Returns the avatar image of the caller or the mentioned user",
+		Options: []*discordgo.ApplicationCommandOption{
+			{
+				Name:        "mention",
+				Type:        discordgo.ApplicationCommandOptionString,
+				Description: "Provide a mention to get another person's avatar rather than yours",
+				Required:    false,
+			},
+		},
+	}
+	_, _ = s.ApplicationCommandCreate(s.State.User.ID, "", command)
+}
+
+func showUserInfo(arg string, s *discordgo.Session, m *discordgo.InteractionCreate) {
 	if arg != "" {
 		usr, _ := s.User(sanitizePings(arg))
 		premiumType := "None"
@@ -34,14 +104,21 @@ func showUserInfo(arg string, s *discordgo.Session, m *discordgo.MessageCreate) 
 			SetFooter("Message delivered using Untitled Technology", "https://avatars.githubusercontent.com/u/66491677?s=400&u=07d8dd94266f97e22ee5bd96aebb6a5f9190b4ec&v=4").
 			SetColor(0xf1c40f).MessageEmbed
 
-		_, err := s.ChannelMessageSendEmbed(m.ChannelID, embed)
-		if err != nil {
-			return
-		}
+		_ = s.InteractionRespond(m.Interaction, &discordgo.InteractionResponse{
+			Type: discordgo.InteractionResponseChannelMessageWithSource,
+			Data: &discordgo.InteractionResponseData{
+				TTS:     false,
+				Content: "",
+				Flags:   discordgo.MessageFlagsEphemeral,
+				Embeds: []*discordgo.MessageEmbed{
+					embed,
+				},
+			},
+		})
 	} else {
 		premiumType := "None"
 
-		switch m.Author.PremiumType {
+		switch m.Member.User.PremiumType {
 		case 0:
 			premiumType = "None"
 			break
@@ -54,26 +131,33 @@ func showUserInfo(arg string, s *discordgo.Session, m *discordgo.MessageCreate) 
 		}
 
 		embed := NewEmbed().
-			SetTitle(m.Author.Username+"'s user information").
-			SetThumbnail(m.Author.AvatarURL("")).
-			AddField("Bot", strconv.FormatBool(m.Author.Bot)).
-			AddField("Mention", m.Author.Mention()).
+			SetTitle(m.Member.User.Username+"'s user information").
+			SetThumbnail(m.Member.User.AvatarURL("")).
+			AddField("Bot", strconv.FormatBool(m.Member.User.Bot)).
+			AddField("Mention", m.Member.User.Mention()).
 			AddField("Nitro type", premiumType).
 			InlineAllFields().
-			AddField("User ID", m.Author.ID).
-			AddField("System", strconv.FormatBool(m.Author.System)).
+			AddField("User ID", m.Member.User.ID).
+			AddField("System", strconv.FormatBool(m.Member.User.System)).
 			InlineAllFields().
 			SetFooter("Message delivered using Untitled Technology", "https://avatars.githubusercontent.com/u/66491677?s=400&u=07d8dd94266f97e22ee5bd96aebb6a5f9190b4ec&v=4").
 			SetColor(0xf1c40f).MessageEmbed
 
-		_, sendEmbed := s.ChannelMessageSendEmbed(m.ChannelID, embed)
-		if sendEmbed != nil {
-			return
-		}
+		_ = s.InteractionRespond(m.Interaction, &discordgo.InteractionResponse{
+			Type: discordgo.InteractionResponseChannelMessageWithSource,
+			Data: &discordgo.InteractionResponseData{
+				TTS:     false,
+				Content: "",
+				Flags:   discordgo.MessageFlagsEphemeral,
+				Embeds: []*discordgo.MessageEmbed{
+					embed,
+				},
+			},
+		})
 	}
 }
 
-func showServerInfo(s *discordgo.Session, m *discordgo.MessageCreate) {
+func showServerInfo(s *discordgo.Session, m *discordgo.InteractionCreate) {
 	guild, _ := s.State.Guild(m.GuildID)
 	owner, _ := s.User(guild.OwnerID)
 
@@ -122,9 +206,9 @@ func showServerInfo(s *discordgo.Session, m *discordgo.MessageCreate) {
 		break
 	}
 
-	//guildDescription := "None"
+	guildDescription := "None"
 	if len(guild.Description) > 2 {
-		//guildDescription = guild.Description
+		guildDescription = guild.Description
 	}
 	embed := NewEmbed().
 		SetTitle(guild.Name+" server information").
@@ -145,17 +229,22 @@ func showServerInfo(s *discordgo.Session, m *discordgo.MessageCreate) {
 		AddField("Boost Level", premiumTier).
 		AddField("Verification Level", verificationLevel).
 		InlineAllFields().
-		//AddField("Guild Description", guildDescription).
+		AddField("Guild Description", guildDescription).
 		SetFooter("Message delivered using Untitled Technology", "https://avatars.githubusercontent.com/u/66491677?s=400&u=07d8dd94266f97e22ee5bd96aebb6a5f9190b4ec&v=4").
 		SetColor(0xf1c40f).MessageEmbed
 
-	_, err := s.ChannelMessageSendEmbed(m.ChannelID, embed)
-	if err != nil {
-		return
-	}
+	_ = s.InteractionRespond(m.Interaction, &discordgo.InteractionResponse{
+		Type: discordgo.InteractionResponseChannelMessageWithSource,
+		Data: &discordgo.InteractionResponseData{
+			TTS:     false,
+			Content: "",
+			Flags:   discordgo.MessageFlagsEphemeral,
+			Embeds:  []*discordgo.MessageEmbed{embed},
+		},
+	})
 }
 
-func privacyPolicy(s *discordgo.Session, m *discordgo.MessageCreate) {
+func privacyPolicy(s *discordgo.Session, m *discordgo.InteractionCreate) {
 	embed := NewEmbed().
 		SetTitle("Privacy policy").
 		AddField("This bot is completely open source under the MIT permissive license", "https://github.com/MadLadSquad/MadLadSquadBot/blob/master/LICENSE").
@@ -164,26 +253,36 @@ func privacyPolicy(s *discordgo.Session, m *discordgo.MessageCreate) {
 		SetFooter("Message delivered using Untitled Technology", "https://avatars.githubusercontent.com/u/66491677?s=400&u=07d8dd94266f97e22ee5bd96aebb6a5f9190b4ec&v=4").
 		SetColor(0xf1c40f).MessageEmbed
 
-	_, err := s.ChannelMessageSendEmbed(m.ChannelID, embed)
-	if err != nil {
-		return
-	}
+	_ = s.InteractionRespond(m.Interaction, &discordgo.InteractionResponse{
+		Type: discordgo.InteractionResponseChannelMessageWithSource,
+		Data: &discordgo.InteractionResponseData{
+			TTS:     false,
+			Content: "",
+			Flags:   discordgo.MessageFlagsEphemeral,
+			Embeds:  []*discordgo.MessageEmbed{embed},
+		},
+	})
 }
 
-func termsOfService(s *discordgo.Session, m *discordgo.MessageCreate) {
+func termsOfService(s *discordgo.Session, m *discordgo.InteractionCreate) {
 	embed := NewEmbed().
 		SetTitle("Terms of service").
 		AddField("We don't have any!", "Use this bot for whatever you like as long as you respect it's licence: https://github.com/MadLadSquad/MadLadSquadBot/blob/master/LICENSE").
 		SetFooter("Message delivered using Untitled Technology", "https://avatars.githubusercontent.com/u/66491677?s=400&u=07d8dd94266f97e22ee5bd96aebb6a5f9190b4ec&v=4").
 		SetColor(0xf1c40f).MessageEmbed
 
-	_, err := s.ChannelMessageSendEmbed(m.ChannelID, embed)
-	if err != nil {
-		return
-	}
+	_ = s.InteractionRespond(m.Interaction, &discordgo.InteractionResponse{
+		Type: discordgo.InteractionResponseChannelMessageWithSource,
+		Data: &discordgo.InteractionResponseData{
+			TTS:     false,
+			Content: "",
+			Flags:   discordgo.MessageFlagsEphemeral,
+			Embeds:  []*discordgo.MessageEmbed{embed},
+		},
+	})
 }
 
-func about(s *discordgo.Session, m *discordgo.MessageCreate) {
+func about(s *discordgo.Session, m *discordgo.InteractionCreate) {
 	embed := NewEmbed().
 		SetTitle("About").
 		SetThumbnail("https://cdn.discordapp.com/avatars/697420452712284202/924342db89aa1f0acd5239646a835bec.png").
@@ -193,13 +292,18 @@ func about(s *discordgo.Session, m *discordgo.MessageCreate) {
 		SetFooter("Message delivered using Untitled Technology", "https://avatars.githubusercontent.com/u/66491677?s=400&u=07d8dd94266f97e22ee5bd96aebb6a5f9190b4ec&v=4").
 		SetColor(0xf1c40f).MessageEmbed
 
-	_, err := s.ChannelMessageSendEmbed(m.ChannelID, embed)
-	if err != nil {
-		return
-	}
+	_ = s.InteractionRespond(m.Interaction, &discordgo.InteractionResponse{
+		Type: discordgo.InteractionResponseChannelMessageWithSource,
+		Data: &discordgo.InteractionResponseData{
+			TTS:     false,
+			Content: "",
+			Flags:   discordgo.MessageFlagsEphemeral,
+			Embeds:  []*discordgo.MessageEmbed{embed},
+		},
+	})
 }
 
-func avatar(arg string, s *discordgo.Session, m *discordgo.MessageCreate) {
+func avatar(arg string, s *discordgo.Session, m *discordgo.InteractionCreate) {
 	if arg != "" {
 		usr, _ := s.User(sanitizePings(arg))
 
@@ -209,20 +313,34 @@ func avatar(arg string, s *discordgo.Session, m *discordgo.MessageCreate) {
 			SetFooter("Message delivered using Untitled Technology", "https://avatars.githubusercontent.com/u/66491677?s=400&u=07d8dd94266f97e22ee5bd96aebb6a5f9190b4ec&v=4").
 			SetColor(0xf1c40f).MessageEmbed
 
-		_, err := s.ChannelMessageSendEmbed(m.ChannelID, embed)
-		if err != nil {
-			return
-		}
+		_ = s.InteractionRespond(m.Interaction, &discordgo.InteractionResponse{
+			Type: discordgo.InteractionResponseChannelMessageWithSource,
+			Data: &discordgo.InteractionResponseData{
+				TTS:     false,
+				Content: "",
+				Flags:   discordgo.MessageFlagsEphemeral,
+				Embeds: []*discordgo.MessageEmbed{
+					embed,
+				},
+			},
+		})
 	} else {
 		embed := NewEmbed().
-			SetTitle(m.Author.Username+"'s avatar!").
-			SetImage(m.Author.AvatarURL("")).
+			SetTitle(m.Member.User.Username+"'s avatar!").
+			SetImage(m.Member.User.AvatarURL("")).
 			SetFooter("Message delivered using Untitled Technology", "https://avatars.githubusercontent.com/u/66491677?s=400&u=07d8dd94266f97e22ee5bd96aebb6a5f9190b4ec&v=4").
 			SetColor(0xf1c40f).MessageEmbed
 
-		_, err := s.ChannelMessageSendEmbed(m.ChannelID, embed)
-		if err != nil {
-			return
-		}
+		_ = s.InteractionRespond(m.Interaction, &discordgo.InteractionResponse{
+			Type: discordgo.InteractionResponseChannelMessageWithSource,
+			Data: &discordgo.InteractionResponseData{
+				TTS:     false,
+				Content: "",
+				Flags:   discordgo.MessageFlagsEphemeral,
+				Embeds: []*discordgo.MessageEmbed{
+					embed,
+				},
+			},
+		})
 	}
 }
