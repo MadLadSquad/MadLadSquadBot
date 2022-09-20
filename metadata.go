@@ -1,3 +1,4 @@
+// This file provides functions to create the commands for metadata change functions
 package main
 
 import (
@@ -10,8 +11,6 @@ var (
 	dmperm       = false
 	perm   int64 = 0
 )
-
-// This file provides functions to create the commands for metadata change functions
 
 func createSetChannel(s *discordgo.Session) {
 	command := &discordgo.ApplicationCommand{

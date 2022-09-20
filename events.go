@@ -15,6 +15,7 @@ func onReady(s *discordgo.Session, m *discordgo.Ready) {
 }
 
 func createApplicationCommands(s *discordgo.Session) {
+	// Information commands
 	createUserInfo(s)
 	createServerInfo(s)
 	createPrivacy(s)
@@ -22,20 +23,40 @@ func createApplicationCommands(s *discordgo.Session) {
 	createAbout(s)
 	createAvatar(s)
 	createInvite(s)
-	createAliasHelp(s)
-	createListAliases(s)
 
+	// Verify commands
 	createVerify(s)
 	createMember(s)
 
+	// Meme commands
 	createSus(s)
-	createPernik(s)
 
+	// Colour roles
 	createGiveColour(s)
 	createListColourRoles(s)
 
+	// Meta<role/data>
 	createMetaRole(s)
 	createSetChannel(s)
+
+	// Alias commands
+	createAlias(s)
+
+	// Removes unneeded commands
+	removeLegacy(s)
+}
+
+func removeLegacy(s *discordgo.Session) {
+	legacyCommands := []string{"alias-help", "list-aliases", "set-colour-role"}
+	cmds, _ := s.ApplicationCommands(s.State.User.ID, "")
+
+	for i := 0; i < len(cmds); i++ {
+		for j := 0; j < len(legacyCommands); j++ {
+			if strings.ToLower(cmds[i].Name) == legacyCommands[j] {
+				_ = s.ApplicationCommandDelete(s.State.User.ID, "", cmds[i].ID)
+			}
+		}
+	}
 }
 
 func onChannelCreate(s *discordgo.Session, m *discordgo.ChannelCreate) {

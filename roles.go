@@ -331,15 +331,6 @@ func createListColourRoles(s *discordgo.Session) {
 	_, _ = s.ApplicationCommandCreate(s.State.User.ID, "", command)
 }
 
-func createListAliases(s *discordgo.Session) {
-	command := &discordgo.ApplicationCommand{
-		Name:        "list-aliases",
-		Type:        discordgo.ChatApplicationCommand,
-		Description: "Lists the aliases in the given channel",
-	}
-	_, _ = s.ApplicationCommandCreate(s.State.User.ID, "", command)
-}
-
 func createMetaRole(s *discordgo.Session) {
 	command := &discordgo.ApplicationCommand{
 		Name:        "meta-role",
@@ -545,81 +536,6 @@ func giveMetarole(arg string, s *discordgo.Session, m *discordgo.InteractionCrea
 			Data: &discordgo.InteractionResponseData{
 				TTS:     false,
 				Content: "Couldn't add meta role, as the current channel is not marked for meta roles",
-				Flags:   discordgo.MessageFlagsEphemeral,
-			},
-		})
-	}
-}
-
-func listAliases(s *discordgo.Session, m *discordgo.InteractionCreate) {
-	channel, _ := s.Channel(m.ChannelID)
-	topic := strings.ToLower(channel.Topic)
-
-	if strings.Contains(topic, "ubot-macro:") {
-		i := strings.Index(topic, "ubot-macro:")
-
-		if i != -1 {
-			i += len("ubot-macro:")
-		} else {
-			return
-		}
-		var fields []*discordgo.MessageEmbedField
-		bAccumulateAlias := true
-		currentAlias := ""
-		currentCmd := ""
-
-		for j := i; j < len(topic); j++ {
-			if bAccumulateAlias {
-				if topic[j] == '>' {
-					bAccumulateAlias = false
-				} else {
-					currentAlias += string(topic[j])
-				}
-			} else {
-				if topic[j] == ';' || topic[j] == ' ' || topic[j] == '[' || topic[j] == ']' {
-					bAccumulateAlias = true
-
-					fields = append(fields, &discordgo.MessageEmbedField{
-						Name:   currentAlias,
-						Value:  currentCmd,
-						Inline: true,
-					})
-
-					currentCmd = ""
-					currentAlias = ""
-				} else {
-					currentCmd += string(topic[j])
-				}
-			}
-		}
-
-		embed := &discordgo.MessageEmbed{
-			Author: &discordgo.MessageEmbedAuthor{},
-			Color:  0xf1c40f,
-			Fields: fields,
-			Footer: &discordgo.MessageEmbedFooter{
-				IconURL: "https://avatars.githubusercontent.com/u/66491677?s=400&u=07d8dd94266f97e22ee5bd96aebb6a5f9190b4ec&v=4",
-				Text:    "Message delivered using Untitled Technology",
-			},
-			Title: "Aliases List",
-		}
-		_ = s.InteractionRespond(m.Interaction, &discordgo.InteractionResponse{
-			Type: discordgo.InteractionResponseChannelMessageWithSource,
-			Data: &discordgo.InteractionResponseData{
-				TTS:     false,
-				Content: "",
-				Flags:   discordgo.MessageFlagsEphemeral,
-				Embeds: []*discordgo.MessageEmbed{
-					embed,
-				},
-			},
-		})
-	} else {
-		_ = s.InteractionRespond(m.Interaction, &discordgo.InteractionResponse{
-			Type: discordgo.InteractionResponseChannelMessageWithSource,
-			Data: &discordgo.InteractionResponseData{
-				TTS:     false,
-				Content: "No aliases found in the channel",
 				Flags:   discordgo.MessageFlagsEphemeral,
 			},
 		})

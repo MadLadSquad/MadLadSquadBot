@@ -88,7 +88,9 @@ func onApplicationCommand(s *discordgo.Session, m *discordgo.InteractionCreate) 
 
 	data := m.ApplicationCommandData()
 	str := ""
-	switch data.Name {
+	checkVal := data.Name
+recheck:
+	switch checkVal {
 	case "userinfo":
 		if data.Options != nil && data.Options[0].Value != nil {
 			str = data.Options[0].StringValue()
@@ -124,17 +126,8 @@ func onApplicationCommand(s *discordgo.Session, m *discordgo.InteractionCreate) 
 	case "sus":
 		sus(s, m)
 		break
-	case "pernik":
-		pernik(s, m)
-		break
-	case "alias-help":
-		aliasHelp(s, m)
-		break
 	case "list-colour-roles":
 		listColours(s, m)
-		break
-	case "list-aliases":
-		listAliases(s, m)
 		break
 	case "set-channel":
 		switch data.Options[0].Name {
@@ -174,6 +167,32 @@ func onApplicationCommand(s *discordgo.Session, m *discordgo.InteractionCreate) 
 	case "set-colour-role":
 		giveColour(data.Options[0].StringValue(), s, m)
 		break
+	case "alias":
+		switch data.Options[0].Name {
+		case "list":
+			listAliases(s, m)
+			break
+		case "help":
+			aliasHelp(s, m)
+			break
+		case "refresh":
+			refresh(s, m)
+			break
+		}
+		break
+	default:
+		// The default behaviour after everything is done is to check if the command is a macro.
+		// Here we iterate all commands, check if the name is equal to one of the guild only commands,
+		// and if it is we change the check value to the value and recheck by doing a quick goto call
+		cmds, _ := s.ApplicationCommands(s.State.User.ID, m.GuildID)
+		for i := 0; i < len(cmds); i++ {
+			if data.Name == cmds[i].Name {
+				// Remove the first part from the description and the last symbol, assign checkVal and recheck
+				checkVal = cmds[i].Description[len("Custom command that calls is an alias for "):]
+				checkVal = checkVal[:len(checkVal)-1]
+				goto recheck
+			}
+		}
 	}
 
 }
