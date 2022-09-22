@@ -307,12 +307,32 @@ func createGiveColour(s *discordgo.Session) {
 		Name:        "set-colour-role",
 		Type:        discordgo.ChatApplicationCommand,
 		Description: "Gives the user a colour role",
+		NameLocalizations: &map[discordgo.Locale]string{
+			discordgo.EnglishGB: "set-colour-role",
+			discordgo.EnglishUS: "set-color-role",
+			discordgo.Bulgarian: "сложи-роля-за-цвят",
+		},
+		DescriptionLocalizations: &map[discordgo.Locale]string{
+			discordgo.EnglishGB: "Gives the user a colour role",
+			discordgo.EnglishUS: "Gives the user a color role",
+			discordgo.Bulgarian: "Дава на потребителя роля с даден цвят",
+		},
 		Options: []*discordgo.ApplicationCommandOption{
 			{
 				Name:        "colour",
 				Description: "The name of your colour, run the /list-colour-roles command for more info",
 				Type:        discordgo.ApplicationCommandOptionString,
 				Choices:     choices,
+				NameLocalizations: map[discordgo.Locale]string{
+					discordgo.EnglishGB: "colour",
+					discordgo.EnglishUS: "color",
+					discordgo.Bulgarian: "цвят",
+				},
+				DescriptionLocalizations: map[discordgo.Locale]string{
+					discordgo.EnglishGB: "The name of your colour, run the /list-colour-roles command for more info",
+					discordgo.EnglishUS: "The name of your color, run the /list-color-roles command for more info",
+					discordgo.Bulgarian: "Името на цвета, пуснете /покажи-цветовите-роли за повече информация",
+				},
 			},
 		},
 	}
@@ -327,6 +347,16 @@ func createListColourRoles(s *discordgo.Session) {
 		Name:        "list-colour-roles",
 		Type:        discordgo.ChatApplicationCommand,
 		Description: "Gives info on the colour roles",
+		NameLocalizations: &map[discordgo.Locale]string{
+			discordgo.EnglishGB: "list-color-roles",
+			discordgo.EnglishUS: "list-colour-roles",
+			discordgo.Bulgarian: "покажи-цветовите-роли",
+		},
+		DescriptionLocalizations: &map[discordgo.Locale]string{
+			discordgo.EnglishGB: "Gives info on the colour roles",
+			discordgo.EnglishUS: "Gives info on the colour roles",
+			discordgo.Bulgarian: "Дава информация за цветовите роли",
+		},
 	}
 	_, _ = s.ApplicationCommandCreate(s.State.User.ID, "", command)
 }
@@ -336,17 +366,47 @@ func createMetaRole(s *discordgo.Session) {
 		Name:        "meta-role",
 		Type:        discordgo.ChatApplicationCommand,
 		Description: "Manages meta roles",
+		NameLocalizations: &map[discordgo.Locale]string{
+			discordgo.EnglishGB: "meta-role",
+			discordgo.EnglishUS: "meta-role",
+			discordgo.Bulgarian: "мета-роля",
+		},
+		DescriptionLocalizations: &map[discordgo.Locale]string{
+			discordgo.EnglishGB: "Manages meta roles",
+			discordgo.EnglishUS: "Manages meta roles",
+			discordgo.Bulgarian: "Контролира мета ролите",
+		},
 		Options: []*discordgo.ApplicationCommandOption{
 			{
 				Name:        "give",
 				Type:        discordgo.ApplicationCommandOptionSubCommand,
 				Description: "Creates and/or gives the user a certain meta role",
+				NameLocalizations: map[discordgo.Locale]string{
+					discordgo.EnglishGB: "give",
+					discordgo.EnglishUS: "give",
+					discordgo.Bulgarian: "дай",
+				},
+				DescriptionLocalizations: map[discordgo.Locale]string{
+					discordgo.EnglishGB: "Creates and/or gives the user a certain meta role",
+					discordgo.EnglishUS: "Creates and/or gives the user a certain meta role",
+					discordgo.Bulgarian: "Създава и/или дава на потребителя дадена мета роля",
+				},
 				Options: []*discordgo.ApplicationCommandOption{
 					{
 						Name:        "role-name",
 						Type:        discordgo.ApplicationCommandOptionString,
 						Description: "The name of the role(case-sensitive)",
 						Required:    true,
+						NameLocalizations: map[discordgo.Locale]string{
+							discordgo.EnglishGB: "role-name",
+							discordgo.EnglishUS: "role-name",
+							discordgo.Bulgarian: "име-на-ролята",
+						},
+						DescriptionLocalizations: map[discordgo.Locale]string{
+							discordgo.EnglishGB: "The name of the role(case-sensitive)",
+							discordgo.EnglishUS: "The name of the role(case-sensitive)",
+							discordgo.Bulgarian: "Името на ролята(шрифта създава различни роли)",
+						},
 					},
 				},
 			},
@@ -354,12 +414,32 @@ func createMetaRole(s *discordgo.Session) {
 				Name:        "remove",
 				Type:        discordgo.ApplicationCommandOptionSubCommand,
 				Description: "Removes a meta role",
+				NameLocalizations: map[discordgo.Locale]string{
+					discordgo.EnglishGB: "remove",
+					discordgo.EnglishUS: "remove",
+					discordgo.Bulgarian: "премахни",
+				},
+				DescriptionLocalizations: map[discordgo.Locale]string{
+					discordgo.EnglishGB: "Removes a meta role",
+					discordgo.EnglishUS: "Removes a meta role",
+					discordgo.Bulgarian: "Премахва мета роля",
+				},
 				Options: []*discordgo.ApplicationCommandOption{
 					{
 						Name:        "role-name",
 						Type:        discordgo.ApplicationCommandOptionString,
 						Description: "The name of the role(case-sensitive)",
 						Required:    true,
+						NameLocalizations: map[discordgo.Locale]string{
+							discordgo.EnglishGB: "role-name",
+							discordgo.EnglishUS: "role-name",
+							discordgo.Bulgarian: "име-на-ролята",
+						},
+						DescriptionLocalizations: map[discordgo.Locale]string{
+							discordgo.EnglishGB: "The name of the role(case-sensitive)",
+							discordgo.EnglishUS: "The name of the role(case-sensitive)",
+							discordgo.Bulgarian: "Името на ролята(шрифта премахва различни роли)",
+						},
 					},
 				},
 			},

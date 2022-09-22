@@ -10,12 +10,32 @@ func createUserInfo(s *discordgo.Session) {
 		Name:        "userinfo",
 		Type:        discordgo.ChatApplicationCommand,
 		Description: "Returns information about the caller or the mentioned user",
+		NameLocalizations: &map[discordgo.Locale]string{
+			discordgo.EnglishGB: "userinfo",
+			discordgo.EnglishUS: "userinfo",
+			discordgo.Bulgarian: "потребителска-информация",
+		},
+		DescriptionLocalizations: &map[discordgo.Locale]string{
+			discordgo.EnglishGB: "Returns information about the caller or the mentioned user",
+			discordgo.EnglishUS: "Returns information about the caller or the mentioned user",
+			discordgo.Bulgarian: "Връща информация за потребителя, извикал командата, или споменатият потребител",
+		},
 		Options: []*discordgo.ApplicationCommandOption{
 			{
 				Name:        "The user's mention",
 				Type:        discordgo.ApplicationCommandOptionString,
 				Description: "Provide a mention to get the info of a user rather than yourself",
 				Required:    false,
+				NameLocalizations: map[discordgo.Locale]string{
+					discordgo.EnglishGB: "The user's mention",
+					discordgo.EnglishUS: "The user's mention",
+					discordgo.Bulgarian: "Пинг към друг потребител",
+				},
+				DescriptionLocalizations: map[discordgo.Locale]string{
+					discordgo.EnglishGB: "Provide a mention to get the info of a user rather than yourself",
+					discordgo.EnglishUS: "Provide a mention to get the info of a user rather than yourself",
+					discordgo.Bulgarian: "Споменете друг потребител, за да вземете инфомацията му, вместо вашата",
+				},
 			},
 		},
 	}
@@ -27,6 +47,16 @@ func createServerInfo(s *discordgo.Session) {
 		Name:        "serverinfo",
 		Type:        discordgo.ChatApplicationCommand,
 		Description: "Returns information about the current server",
+		NameLocalizations: &map[discordgo.Locale]string{
+			discordgo.EnglishGB: "serverinfo",
+			discordgo.EnglishUS: "serverinfo",
+			discordgo.Bulgarian: "сървърна-информация",
+		},
+		DescriptionLocalizations: &map[discordgo.Locale]string{
+			discordgo.EnglishGB: "Returns information about the current server",
+			discordgo.EnglishUS: "Returns information about the current server",
+			discordgo.Bulgarian: "Връща информация за даденият сървър",
+		},
 	}
 	_, _ = s.ApplicationCommandCreate(s.State.User.ID, "", command)
 }
@@ -36,6 +66,16 @@ func createPrivacy(s *discordgo.Session) {
 		Name:        "privacy",
 		Type:        discordgo.ChatApplicationCommand,
 		Description: "Returns the privacy policy statement",
+		NameLocalizations: &map[discordgo.Locale]string{
+			discordgo.EnglishGB: "privacy",
+			discordgo.EnglishUS: "privacy",
+			discordgo.Bulgarian: "поверителност",
+		},
+		DescriptionLocalizations: &map[discordgo.Locale]string{
+			discordgo.EnglishGB: "Returns the privacy policy statement",
+			discordgo.EnglishUS: "Returns the privacy policy statement",
+			discordgo.Bulgarian: "Връща информация, за поверителността и обработката на данни, която извършваме",
+		},
 	}
 	_, _ = s.ApplicationCommandCreate(s.State.User.ID, "", command)
 }
@@ -45,6 +85,16 @@ func createTos(s *discordgo.Session) {
 		Name:        "tos",
 		Type:        discordgo.ChatApplicationCommand,
 		Description: "Returns the terms of service statement",
+		NameLocalizations: &map[discordgo.Locale]string{
+			discordgo.EnglishGB: "tos",
+			discordgo.EnglishUS: "tos",
+			discordgo.Bulgarian: "правила-за-употреба",
+		},
+		DescriptionLocalizations: &map[discordgo.Locale]string{
+			discordgo.EnglishGB: "Returns the terms of service statement",
+			discordgo.EnglishUS: "Returns the terms of service statement",
+			discordgo.Bulgarian: "Връща правилата за употреба на продукта",
+		},
 	}
 	_, _ = s.ApplicationCommandCreate(s.State.User.ID, "", command)
 }
@@ -54,6 +104,16 @@ func createAbout(s *discordgo.Session) {
 		Name:        "about",
 		Type:        discordgo.ChatApplicationCommand,
 		Description: "Returns information about the bot and its developers",
+		NameLocalizations: &map[discordgo.Locale]string{
+			discordgo.EnglishGB: "about",
+			discordgo.EnglishUS: "about",
+			discordgo.Bulgarian: "за-бота",
+		},
+		DescriptionLocalizations: &map[discordgo.Locale]string{
+			discordgo.EnglishGB: "Returns information about the bot and its developers",
+			discordgo.EnglishUS: "Returns information about the bot and its developers",
+			discordgo.Bulgarian: "Връща информация, за бота и неговите разработчици",
+		},
 	}
 	_, _ = s.ApplicationCommandCreate(s.State.User.ID, "", command)
 }
@@ -63,12 +123,32 @@ func createAvatar(s *discordgo.Session) {
 		Name:        "avatar",
 		Type:        discordgo.ChatApplicationCommand,
 		Description: "Returns the avatar image of the caller or the mentioned user",
+		NameLocalizations: &map[discordgo.Locale]string{
+			discordgo.EnglishGB: "avatar",
+			discordgo.EnglishUS: "avatar",
+			discordgo.Bulgarian: "аватар",
+		},
+		DescriptionLocalizations: &map[discordgo.Locale]string{
+			discordgo.EnglishGB: "Returns the avatar image of the caller or the mentioned user",
+			discordgo.EnglishUS: "Returns the avatar image of the caller or the mentioned user",
+			discordgo.Bulgarian: "Връща аватара на, потребителя, извикал командата или на потребителя споменат като аргумент",
+		},
 		Options: []*discordgo.ApplicationCommandOption{
 			{
 				Name:        "mention",
 				Type:        discordgo.ApplicationCommandOptionString,
 				Description: "Provide a mention to get another person's avatar rather than yours",
 				Required:    false,
+				NameLocalizations: map[discordgo.Locale]string{
+					discordgo.EnglishGB: "mention",
+					discordgo.EnglishUS: "mention",
+					discordgo.Bulgarian: "споменат-потребител",
+				},
+				DescriptionLocalizations: map[discordgo.Locale]string{
+					discordgo.EnglishGB: "Provide a mention to get another person's avatar rather than yours",
+					discordgo.EnglishUS: "Provide a mention to get another person's avatar rather than yours",
+					discordgo.Bulgarian: "Споменете друг потребител, за да вземете неговият аватар, вместо вашият",
+				},
 			},
 		},
 	}

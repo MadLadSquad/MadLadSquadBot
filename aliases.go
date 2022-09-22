@@ -10,25 +10,65 @@ func createAlias(s *discordgo.Session) {
 	command := &discordgo.ApplicationCommand{
 		Name:        "alias",
 		Type:        discordgo.ChatApplicationCommand,
-		Description: "Returns information about the caller or the mentioned user",
+		Description: "Returns information about command aliases",
+		NameLocalizations: &map[discordgo.Locale]string{
+			discordgo.EnglishGB: "alias",
+			discordgo.EnglishUS: "alias",
+			discordgo.Bulgarian: "алиас",
+		},
+		DescriptionLocalizations: &map[discordgo.Locale]string{
+			discordgo.EnglishGB: "Returns information about command aliases",
+			discordgo.EnglishUS: "Returns information about command aliases",
+			discordgo.Bulgarian: "Връща информация за алиасите на команди",
+		},
 		Options: []*discordgo.ApplicationCommandOption{
 			{
 				Name:        "list",
 				Type:        discordgo.ApplicationCommandOptionSubCommand,
 				Description: "Lists all aliases",
 				Options:     nil,
+				NameLocalizations: map[discordgo.Locale]string{
+					discordgo.EnglishGB: "list",
+					discordgo.EnglishUS: "list",
+					discordgo.Bulgarian: "покажи",
+				},
+				DescriptionLocalizations: map[discordgo.Locale]string{
+					discordgo.EnglishGB: "Lists all aliases",
+					discordgo.EnglishUS: "Lists all aliases",
+					discordgo.Bulgarian: "Показва всички алиаси",
+				},
 			},
 			{
 				Name:        "help",
 				Type:        discordgo.ApplicationCommandOptionSubCommand,
 				Description: "Shows the user how to use command aliases",
 				Options:     nil,
+				NameLocalizations: map[discordgo.Locale]string{
+					discordgo.EnglishGB: "help",
+					discordgo.EnglishUS: "help",
+					discordgo.Bulgarian: "помощ",
+				},
+				DescriptionLocalizations: map[discordgo.Locale]string{
+					discordgo.EnglishGB: "Shows the user how to use command aliases",
+					discordgo.EnglishUS: "Shows the user how to use command aliases",
+					discordgo.Bulgarian: "Показва на потребителя, как да прави алиаси на команди",
+				},
 			},
 			{
 				Name:        "refresh",
 				Type:        discordgo.ApplicationCommandOptionSubCommand,
 				Description: "Refreshes the aliases for the server, might take a couple of minutes to update",
 				Options:     nil,
+				NameLocalizations: map[discordgo.Locale]string{
+					discordgo.EnglishGB: "refresh",
+					discordgo.EnglishUS: "refresh",
+					discordgo.Bulgarian: "актуализация",
+				},
+				DescriptionLocalizations: map[discordgo.Locale]string{
+					discordgo.EnglishGB: "Refreshes the aliases for the server, might take a couple of minutes to update",
+					discordgo.EnglishUS: "Refreshes the aliases for the server, might take a couple of minutes to update",
+					discordgo.Bulgarian: "Актуализира алиасите за сървъра, може да отнеме няколко минути за да завърши актуализацията",
+				},
 			},
 		},
 	}

@@ -13,6 +13,16 @@ func createVerify(s *discordgo.Session) {
 		Type:         discordgo.ChatApplicationCommand,
 		Description:  "Allows you to verify yourself",
 		DMPermission: &dmPerm,
+		NameLocalizations: &map[discordgo.Locale]string{
+			discordgo.EnglishGB: "verify",
+			discordgo.EnglishUS: "verify",
+			discordgo.Bulgarian: "верификация",
+		},
+		DescriptionLocalizations: &map[discordgo.Locale]string{
+			discordgo.EnglishGB: "Allows you to verify yourself",
+			discordgo.EnglishUS: "Allows you to verify yourself",
+			discordgo.Bulgarian: "Позволява ви да се верифицирате в даден сървър",
+		},
 	}
 	_, _ = s.ApplicationCommandCreate(s.State.User.ID, "", command)
 }
@@ -24,6 +34,16 @@ func createMember(s *discordgo.Session) {
 		Type:         discordgo.ChatApplicationCommand,
 		Description:  "Creates a Member role for the server",
 		DMPermission: &dmPerm,
+		NameLocalizations: &map[discordgo.Locale]string{
+			discordgo.EnglishGB: "generate-member-role",
+			discordgo.EnglishUS: "generate-member-role",
+			discordgo.Bulgarian: "генерирай-роля-за-член",
+		},
+		DescriptionLocalizations: &map[discordgo.Locale]string{
+			discordgo.EnglishGB: "Creates a Member role for the server",
+			discordgo.EnglishUS: "Creates a Member role for the server",
+			discordgo.Bulgarian: "Създава базова роля за нови членове, за която се получава след верификация",
+		},
 	}
 	_, _ = s.ApplicationCommandCreate(s.State.User.ID, "", command)
 }
