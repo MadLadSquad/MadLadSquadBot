@@ -47,7 +47,7 @@ func createApplicationCommands(s *discordgo.Session) {
 }
 
 func removeLegacy(s *discordgo.Session) {
-	legacyCommands := []string{"alias-help", "list-aliases", "set-colour-role"}
+	legacyCommands := []string{"alias-help", "list-aliases", "set-colour-role", "remove-meta-role", "pernik"}
 	cmds, _ := s.ApplicationCommands(s.State.User.ID, "")
 
 	for i := 0; i < len(cmds); i++ {

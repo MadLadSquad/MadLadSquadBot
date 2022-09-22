@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"github.com/MadLadSquad/discordgo"
 	"strconv"
 )
@@ -22,14 +23,14 @@ func createUserInfo(s *discordgo.Session) {
 		},
 		Options: []*discordgo.ApplicationCommandOption{
 			{
-				Name:        "The user's mention",
+				Name:        "mention",
 				Type:        discordgo.ApplicationCommandOptionString,
 				Description: "Provide a mention to get the info of a user rather than yourself",
 				Required:    false,
 				NameLocalizations: map[discordgo.Locale]string{
-					discordgo.EnglishGB: "The user's mention",
-					discordgo.EnglishUS: "The user's mention",
-					discordgo.Bulgarian: "Пинг към друг потребител",
+					discordgo.EnglishGB: "mention",
+					discordgo.EnglishUS: "mention",
+					discordgo.Bulgarian: "пинг-към-потребител",
 				},
 				DescriptionLocalizations: map[discordgo.Locale]string{
 					discordgo.EnglishGB: "Provide a mention to get the info of a user rather than yourself",
@@ -39,7 +40,10 @@ func createUserInfo(s *discordgo.Session) {
 			},
 		},
 	}
-	_, _ = s.ApplicationCommandCreate(s.State.User.ID, "", command)
+	_, err := s.ApplicationCommandCreate(s.State.User.ID, "", command)
+	if err != nil {
+		fmt.Println(err)
+	}
 }
 
 func createServerInfo(s *discordgo.Session) {
@@ -181,7 +185,7 @@ func showUserInfo(arg string, s *discordgo.Session, m *discordgo.InteractionCrea
 			AddField("User ID", usr.ID).
 			AddField("System", strconv.FormatBool(usr.System)).
 			InlineAllFields().
-			SetFooter("Message delivered using Untitled Technology", "https://avatars.githubusercontent.com/u/66491677?s=400&u=07d8dd94266f97e22ee5bd96aebb6a5f9190b4ec&v=4").
+			SetFooter(footerTranslations[m.Locale], "https://avatars.githubusercontent.com/u/66491677?s=400&u=07d8dd94266f97e22ee5bd96aebb6a5f9190b4ec&v=4").
 			SetColor(0xf1c40f).MessageEmbed
 
 		_ = s.InteractionRespond(m.Interaction, &discordgo.InteractionResponse{
@@ -220,7 +224,7 @@ func showUserInfo(arg string, s *discordgo.Session, m *discordgo.InteractionCrea
 			AddField("User ID", m.Member.User.ID).
 			AddField("System", strconv.FormatBool(m.Member.User.System)).
 			InlineAllFields().
-			SetFooter("Message delivered using Untitled Technology", "https://avatars.githubusercontent.com/u/66491677?s=400&u=07d8dd94266f97e22ee5bd96aebb6a5f9190b4ec&v=4").
+			SetFooter(footerTranslations[m.Locale], "https://avatars.githubusercontent.com/u/66491677?s=400&u=07d8dd94266f97e22ee5bd96aebb6a5f9190b4ec&v=4").
 			SetColor(0xf1c40f).MessageEmbed
 
 		_ = s.InteractionRespond(m.Interaction, &discordgo.InteractionResponse{
@@ -310,7 +314,7 @@ func showServerInfo(s *discordgo.Session, m *discordgo.InteractionCreate) {
 		AddField("Verification Level", verificationLevel).
 		InlineAllFields().
 		AddField("Guild Description", guildDescription).
-		SetFooter("Message delivered using Untitled Technology", "https://avatars.githubusercontent.com/u/66491677?s=400&u=07d8dd94266f97e22ee5bd96aebb6a5f9190b4ec&v=4").
+		SetFooter(footerTranslations[m.Locale], "https://avatars.githubusercontent.com/u/66491677?s=400&u=07d8dd94266f97e22ee5bd96aebb6a5f9190b4ec&v=4").
 		SetColor(0xf1c40f).MessageEmbed
 
 	_ = s.InteractionRespond(m.Interaction, &discordgo.InteractionResponse{
@@ -330,7 +334,7 @@ func privacyPolicy(s *discordgo.Session, m *discordgo.InteractionCreate) {
 		AddField("This bot is completely open source under the MIT permissive license", "https://github.com/MadLadSquad/MadLadSquadBot/blob/master/LICENSE").
 		AddField("This means that you can freely read or modify the code!", "This is important because you have the freedom and power to see which data is collected and possibly try to change that!").
 		AddField("That being said this bot stores no user data!", "All data necessary for the operation of this bot is acquired publicly using the Discord Bot API and is stored for no longer than the lifetime of the given command!").
-		SetFooter("Message delivered using Untitled Technology", "https://avatars.githubusercontent.com/u/66491677?s=400&u=07d8dd94266f97e22ee5bd96aebb6a5f9190b4ec&v=4").
+		SetFooter(footerTranslations[m.Locale], "https://avatars.githubusercontent.com/u/66491677?s=400&u=07d8dd94266f97e22ee5bd96aebb6a5f9190b4ec&v=4").
 		SetColor(0xf1c40f).MessageEmbed
 
 	_ = s.InteractionRespond(m.Interaction, &discordgo.InteractionResponse{
@@ -348,7 +352,7 @@ func termsOfService(s *discordgo.Session, m *discordgo.InteractionCreate) {
 	embed := NewEmbed().
 		SetTitle("Terms of service").
 		AddField("We don't have any!", "Use this bot for whatever you like as long as you respect it's licence: https://github.com/MadLadSquad/MadLadSquadBot/blob/master/LICENSE").
-		SetFooter("Message delivered using Untitled Technology", "https://avatars.githubusercontent.com/u/66491677?s=400&u=07d8dd94266f97e22ee5bd96aebb6a5f9190b4ec&v=4").
+		SetFooter(footerTranslations[m.Locale], "https://avatars.githubusercontent.com/u/66491677?s=400&u=07d8dd94266f97e22ee5bd96aebb6a5f9190b4ec&v=4").
 		SetColor(0xf1c40f).MessageEmbed
 
 	_ = s.InteractionRespond(m.Interaction, &discordgo.InteractionResponse{
@@ -369,7 +373,7 @@ func about(s *discordgo.Session, m *discordgo.InteractionCreate) {
 		AddField("This bot is developed and maintained by MadLad Squad", "https://github.com/MadLadSquad/ , https://madladsquad.com/").
 		AddField("If you have any problems, want to suggest a feature or just chat join our discord server", "https://discord.com/invite/heA4FpTaTj").
 		AddField("If you want to submit bug reports report them here", "https://github.com/MadLadSquad/MadLadSquadBot/issues").
-		SetFooter("Message delivered using Untitled Technology", "https://avatars.githubusercontent.com/u/66491677?s=400&u=07d8dd94266f97e22ee5bd96aebb6a5f9190b4ec&v=4").
+		SetFooter(footerTranslations[m.Locale], "https://avatars.githubusercontent.com/u/66491677?s=400&u=07d8dd94266f97e22ee5bd96aebb6a5f9190b4ec&v=4").
 		SetColor(0xf1c40f).MessageEmbed
 
 	_ = s.InteractionRespond(m.Interaction, &discordgo.InteractionResponse{
@@ -390,7 +394,7 @@ func avatar(arg string, s *discordgo.Session, m *discordgo.InteractionCreate) {
 		embed := NewEmbed().
 			SetTitle(usr.Username+"'s avatar!").
 			SetImage(usr.AvatarURL("")).
-			SetFooter("Message delivered using Untitled Technology", "https://avatars.githubusercontent.com/u/66491677?s=400&u=07d8dd94266f97e22ee5bd96aebb6a5f9190b4ec&v=4").
+			SetFooter(footerTranslations[m.Locale], "https://avatars.githubusercontent.com/u/66491677?s=400&u=07d8dd94266f97e22ee5bd96aebb6a5f9190b4ec&v=4").
 			SetColor(0xf1c40f).MessageEmbed
 
 		_ = s.InteractionRespond(m.Interaction, &discordgo.InteractionResponse{
@@ -408,7 +412,7 @@ func avatar(arg string, s *discordgo.Session, m *discordgo.InteractionCreate) {
 		embed := NewEmbed().
 			SetTitle(m.Member.User.Username+"'s avatar!").
 			SetImage(m.Member.User.AvatarURL("")).
-			SetFooter("Message delivered using Untitled Technology", "https://avatars.githubusercontent.com/u/66491677?s=400&u=07d8dd94266f97e22ee5bd96aebb6a5f9190b4ec&v=4").
+			SetFooter(footerTranslations[m.Locale], "https://avatars.githubusercontent.com/u/66491677?s=400&u=07d8dd94266f97e22ee5bd96aebb6a5f9190b4ec&v=4").
 			SetColor(0xf1c40f).MessageEmbed
 
 		_ = s.InteractionRespond(m.Interaction, &discordgo.InteractionResponse{

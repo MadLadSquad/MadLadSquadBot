@@ -465,7 +465,7 @@ func listColours(s *discordgo.Session, m *discordgo.InteractionCreate) {
 		AddField("#ffe4b5", "SandySahara").
 		AddField("#66cdaa", "Tropical-Green").
 		InlineAllFields().
-		SetFooter("Message delivered using Untitled Technology", "https://avatars.githubusercontent.com/u/66491677?s=400&u=07d8dd94266f97e22ee5bd96aebb6a5f9190b4ec&v=4").SetColor(0xf1c40f).MessageEmbed
+		SetFooter(footerTranslations[m.Locale], "https://avatars.githubusercontent.com/u/66491677?s=400&u=07d8dd94266f97e22ee5bd96aebb6a5f9190b4ec&v=4").SetColor(0xf1c40f).MessageEmbed
 
 	_ = s.InteractionRespond(m.Interaction, &discordgo.InteractionResponse{
 		Type: discordgo.InteractionResponseChannelMessageWithSource,
@@ -504,7 +504,7 @@ func giveColour(arg string, s *discordgo.Session, m *discordgo.InteractionCreate
 					embed := NewEmbed().
 						SetTitle("Added you to the "+name+" role!").
 						AddField("Role", roles[i].Mention()).
-						SetFooter("Message delivered using Untitled Technology", "https://avatars.githubusercontent.com/u/66491677?s=400&u=07d8dd94266f97e22ee5bd96aebb6a5f9190b4ec&v=4").
+						SetFooter(footerTranslations[m.Locale], "https://avatars.githubusercontent.com/u/66491677?s=400&u=07d8dd94266f97e22ee5bd96aebb6a5f9190b4ec&v=4").
 						SetColor(0xf1c40f).MessageEmbed
 					_ = s.InteractionRespond(m.Interaction, &discordgo.InteractionResponse{
 						Type: discordgo.InteractionResponseChannelMessageWithSource,
@@ -533,7 +533,7 @@ func giveColour(arg string, s *discordgo.Session, m *discordgo.InteractionCreate
 			embed := NewEmbed().
 				SetTitle("Added you to the "+name+" role!").
 				AddField("Role", role.Mention()).
-				SetFooter("Message delivered using Untitled Technology", "https://avatars.githubusercontent.com/u/66491677?s=400&u=07d8dd94266f97e22ee5bd96aebb6a5f9190b4ec&v=4").
+				SetFooter(footerTranslations[m.Locale], "https://avatars.githubusercontent.com/u/66491677?s=400&u=07d8dd94266f97e22ee5bd96aebb6a5f9190b4ec&v=4").
 				SetColor(0xf1c40f).MessageEmbed
 			_ = s.InteractionRespond(m.Interaction, &discordgo.InteractionResponse{
 				Type: discordgo.InteractionResponseChannelMessageWithSource,
@@ -580,7 +580,7 @@ func giveMetarole(arg string, s *discordgo.Session, m *discordgo.InteractionCrea
 				embed := NewEmbed().
 					SetTitle("Added you to the "+roles[i].Name+" role!").
 					AddField("Role", roles[i].Mention()).
-					SetFooter("Message delivered using Untitled Technology", "https://avatars.githubusercontent.com/u/66491677?s=400&u=07d8dd94266f97e22ee5bd96aebb6a5f9190b4ec&v=4").
+					SetFooter(footerTranslations[m.Locale], "https://avatars.githubusercontent.com/u/66491677?s=400&u=07d8dd94266f97e22ee5bd96aebb6a5f9190b4ec&v=4").
 					SetColor(0xf1c40f).MessageEmbed
 				_, _ = s.ChannelMessageSendEmbed(m.ChannelID, embed)
 				return
@@ -597,7 +597,7 @@ func giveMetarole(arg string, s *discordgo.Session, m *discordgo.InteractionCrea
 		embed := NewEmbed().
 			SetTitle("Added you to the "+role.Name+" role!").
 			AddField("Role", role.Mention()).
-			SetFooter("Message delivered using Untitled Technology", "https://avatars.githubusercontent.com/u/66491677?s=400&u=07d8dd94266f97e22ee5bd96aebb6a5f9190b4ec&v=4").
+			SetFooter(footerTranslations[m.Locale], "https://avatars.githubusercontent.com/u/66491677?s=400&u=07d8dd94266f97e22ee5bd96aebb6a5f9190b4ec&v=4").
 			SetColor(0xf1c40f).MessageEmbed
 		_ = s.InteractionRespond(m.Interaction, &discordgo.InteractionResponse{
 			Type: discordgo.InteractionResponseChannelMessageWithSource,
@@ -632,7 +632,7 @@ func removeMetarole(arg string, s *discordgo.Session, m *discordgo.InteractionCr
 			embed := NewEmbed().
 				SetTitle("Removed metarole!").
 				AddField("The following role has been removed", roles[i].Mention()).
-				SetFooter("Message delivered using Untitled Technology", "https://avatars.githubusercontent.com/u/66491677?s=400&u=07d8dd94266f97e22ee5bd96aebb6a5f9190b4ec&v=4").
+				SetFooter(footerTranslations[m.Locale], "https://avatars.githubusercontent.com/u/66491677?s=400&u=07d8dd94266f97e22ee5bd96aebb6a5f9190b4ec&v=4").
 				SetColor(0xf1c40f).MessageEmbed
 			_ = s.InteractionRespond(m.Interaction, &discordgo.InteractionResponse{
 				Type: discordgo.InteractionResponseChannelMessageWithSource,

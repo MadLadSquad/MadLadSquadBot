@@ -138,7 +138,7 @@ func listAliases(s *discordgo.Session, m *discordgo.InteractionCreate) {
 		Fields: fields,
 		Footer: &discordgo.MessageEmbedFooter{
 			IconURL: "https://avatars.githubusercontent.com/u/66491677?s=400&u=07d8dd94266f97e22ee5bd96aebb6a5f9190b4ec&v=4",
-			Text:    "Message delivered using Untitled Technology",
+			Text:    footerTranslations[m.Locale],
 		},
 		Title: "Aliases List",
 	}
@@ -194,7 +194,7 @@ func aliasHelp(s *discordgo.Session, m *discordgo.InteractionCreate) {
 		AddField("Symbols", "The \"ubot-macro:\", introduces a new macro sequence. The '>' character can be imagined as an arrow pointing to the command. The ';' symbol is used as a separator between aliases. The ']' symbol is used as a terminator for the expression").
 		InlineAllFields().
 		AddField("Example", "ubot-macro:set-game-role>set-meta-role;set-city>set-meta-role;set-fav-food-role>set-meta-role]").
-		SetFooter("Message delivered using Untitled Technology", "https://avatars.githubusercontent.com/u/66491677?s=400&u=07d8dd94266f97e22ee5bd96aebb6a5f9190b4ec&v=4").
+		SetFooter(footerTranslations[m.Locale], "https://avatars.githubusercontent.com/u/66491677?s=400&u=07d8dd94266f97e22ee5bd96aebb6a5f9190b4ec&v=4").
 		SetColor(0xf1c40f).MessageEmbed
 
 	_ = s.InteractionRespond(m.Interaction, &discordgo.InteractionResponse{

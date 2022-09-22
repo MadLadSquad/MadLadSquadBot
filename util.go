@@ -56,7 +56,7 @@ func channelChangeMetadata(arg string, s *discordgo.Session, m *discordgo.Intera
 		embed := NewEmbed().
 			SetTitle("Set a channel as a "+template2+" channel!").
 			AddField("Channel", channel.Mention()).
-			SetFooter("Message delivered using Untitled Technology", "https://avatars.githubusercontent.com/u/66491677?s=400&u=07d8dd94266f97e22ee5bd96aebb6a5f9190b4ec&v=4").
+			SetFooter(footerTranslations[m.Locale], "https://avatars.githubusercontent.com/u/66491677?s=400&u=07d8dd94266f97e22ee5bd96aebb6a5f9190b4ec&v=4").
 			SetColor(0xf1c40f).MessageEmbed
 
 		_ = s.InteractionRespond(m.Interaction, &discordgo.InteractionResponse{
