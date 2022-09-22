@@ -18,11 +18,12 @@ The official discord bot for the MadLadSquad discord server
 - Colour roles
 - Meta roles
 - Command translations to multiple languages including:
-   - Bulgarian - Full
-   - German - Partial(Full translation coming soon)
-   - Chinese(Simplified and Traditional) - Partial(Full translation coming soon)
-   - Romanian - Partial(Full translation coming soon)
-   - Russian - Partial(Full translation coming soon)
+   - Bulgarian 🇧🇬 - Full
+   - German 🇩🇪 - Partial(Full translation coming soon)
+   - Chinese(Simplified and Traditional)🇨🇳🇭🇰🇲🇴🇹🇼 - Partial(Full translation coming soon)
+   - Romanian 🇷🇴🇲🇩 - Partial(Full translation coming soon)
+   - Russian 🇷🇺 - Partial(Full translation coming soon)
+   - Japanese 🇯🇵 - Partial(Full translation coming soon)
 ## How to use
 To use the bot you can invite the UntitledDiscordBot using this 
 [link](https://discord.com/oauth2/authorize?client_id=697420452712284202&scope=bot&permissions=2134207679), 
