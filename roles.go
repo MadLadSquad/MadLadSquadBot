@@ -291,6 +291,39 @@ var (
 		"Electric-Yellow",
 		"Yellow-green",
 	}
+	roleName = map[discordgo.Locale]string{
+		discordgo.EnglishGB:    "Role",
+		discordgo.EnglishUS:    "Role",
+		discordgo.Bulgarian:    "Роля",
+		discordgo.ChineseCN:    "Role",
+		discordgo.ChineseTW:    "Role",
+		discordgo.Croatian:     "Role",
+		discordgo.Czech:        "Role",
+		discordgo.Danish:       "Role",
+		discordgo.Dutch:        "Role",
+		discordgo.Finnish:      "Role",
+		discordgo.French:       "Role",
+		discordgo.German:       "Role",
+		discordgo.Greek:        "Role",
+		discordgo.Hungarian:    "Role",
+		discordgo.Italian:      "Role",
+		discordgo.Japanese:     "Role",
+		discordgo.Korean:       "Role",
+		discordgo.Lithuanian:   "Role",
+		discordgo.Norwegian:    "Role",
+		discordgo.Polish:       "Role",
+		discordgo.PortugueseBR: "Role",
+		discordgo.Romanian:     "Role",
+		discordgo.Russian:      "Role",
+		discordgo.SpanishES:    "Role",
+		discordgo.Swedish:      "Role",
+		discordgo.Ukrainian:    "Role",
+		discordgo.Hindi:        "Role",
+		discordgo.Thai:         "Role",
+		discordgo.Turkish:      "Role",
+		discordgo.Vietnamese:   "Role",
+		discordgo.Unknown:      "Role",
+	}
 )
 
 func createGiveColour(s *discordgo.Session) {
@@ -323,6 +356,7 @@ func createGiveColour(s *discordgo.Session) {
 				Description: "The name of your colour, run the /list-colour-roles command for more info",
 				Type:        discordgo.ApplicationCommandOptionString,
 				Choices:     choices,
+				Options:     nil,
 				NameLocalizations: map[discordgo.Locale]string{
 					discordgo.EnglishGB: "colour",
 					discordgo.EnglishUS: "color",
@@ -452,12 +486,180 @@ func createMetaRole(s *discordgo.Session) {
 }
 
 func listColours(s *discordgo.Session, m *discordgo.InteractionCreate) {
+	embedStrings := []map[discordgo.Locale]string{
+		{
+			discordgo.EnglishGB:    "Available colour names",
+			discordgo.EnglishUS:    "Available color names",
+			discordgo.Bulgarian:    "Възможни имена за цветове",
+			discordgo.ChineseCN:    "Available colour names",
+			discordgo.ChineseTW:    "Available colour names",
+			discordgo.Croatian:     "Available colour names",
+			discordgo.Czech:        "Available colour names",
+			discordgo.Danish:       "Available colour names",
+			discordgo.Dutch:        "Available colour names",
+			discordgo.Finnish:      "Available colour names",
+			discordgo.French:       "Available colour names",
+			discordgo.German:       "Available colour names",
+			discordgo.Greek:        "Available colour names",
+			discordgo.Hungarian:    "Available colour names",
+			discordgo.Italian:      "Available colour names",
+			discordgo.Japanese:     "Available colour names",
+			discordgo.Korean:       "Available colour names",
+			discordgo.Lithuanian:   "Available colour names",
+			discordgo.Norwegian:    "Available colour names",
+			discordgo.Polish:       "Available colour names",
+			discordgo.PortugueseBR: "Available colour names",
+			discordgo.Romanian:     "Available colour names",
+			discordgo.Russian:      "Available colour names",
+			discordgo.SpanishES:    "Available colour names",
+			discordgo.Swedish:      "Available colour names",
+			discordgo.Ukrainian:    "Available colour names",
+			discordgo.Hindi:        "Available colour names",
+			discordgo.Thai:         "Available colour names",
+			discordgo.Turkish:      "Available colour names",
+			discordgo.Vietnamese:   "Available colour names",
+			discordgo.Unknown:      "Available colour names",
+		},
+		{
+			discordgo.EnglishGB:    "A color/name table can be found here",
+			discordgo.EnglishUS:    "A colour/name table can be found here",
+			discordgo.Bulgarian:    "Таблица с имена и цветове може да намерите тук",
+			discordgo.ChineseCN:    "A colour/name table can be found here",
+			discordgo.ChineseTW:    "A colour/name table can be found here",
+			discordgo.Croatian:     "A colour/name table can be found here",
+			discordgo.Czech:        "A colour/name table can be found here",
+			discordgo.Danish:       "A colour/name table can be found here",
+			discordgo.Dutch:        "A colour/name table can be found here",
+			discordgo.Finnish:      "A colour/name table can be found here",
+			discordgo.French:       "A colour/name table can be found here",
+			discordgo.German:       "A colour/name table can be found here",
+			discordgo.Greek:        "A colour/name table can be found here",
+			discordgo.Hungarian:    "A colour/name table can be found here",
+			discordgo.Italian:      "A colour/name table can be found here",
+			discordgo.Japanese:     "A colour/name table can be found here",
+			discordgo.Korean:       "A colour/name table can be found here",
+			discordgo.Lithuanian:   "A colour/name table can be found here",
+			discordgo.Norwegian:    "A colour/name table can be found here",
+			discordgo.Polish:       "A colour/name table can be found here",
+			discordgo.PortugueseBR: "A colour/name table can be found here",
+			discordgo.Romanian:     "A colour/name table can be found here",
+			discordgo.Russian:      "A colour/name table can be found here",
+			discordgo.SpanishES:    "A colour/name table can be found here",
+			discordgo.Swedish:      "A colour/name table can be found here",
+			discordgo.Ukrainian:    "A colour/name table can be found here",
+			discordgo.Hindi:        "A colour/name table can be found here",
+			discordgo.Thai:         "A colour/name table can be found here",
+			discordgo.Turkish:      "A colour/name table can be found here",
+			discordgo.Vietnamese:   "A colour/name table can be found here",
+			discordgo.Unknown:      "A colour/name table can be found here",
+		},
+		{
+			discordgo.EnglishGB:    "Usage",
+			discordgo.EnglishUS:    "Usage",
+			discordgo.Bulgarian:    "Употреба",
+			discordgo.ChineseCN:    "Usage",
+			discordgo.ChineseTW:    "Usage",
+			discordgo.Croatian:     "Usage",
+			discordgo.Czech:        "Usage",
+			discordgo.Danish:       "Usage",
+			discordgo.Dutch:        "Usage",
+			discordgo.Finnish:      "Usage",
+			discordgo.French:       "Usage",
+			discordgo.German:       "Usage",
+			discordgo.Greek:        "Usage",
+			discordgo.Hungarian:    "Usage",
+			discordgo.Italian:      "Usage",
+			discordgo.Japanese:     "Usage",
+			discordgo.Korean:       "Usage",
+			discordgo.Lithuanian:   "Usage",
+			discordgo.Norwegian:    "Usage",
+			discordgo.Polish:       "Usage",
+			discordgo.PortugueseBR: "Usage",
+			discordgo.Romanian:     "Usage",
+			discordgo.Russian:      "Usage",
+			discordgo.SpanishES:    "Usage",
+			discordgo.Swedish:      "Usage",
+			discordgo.Ukrainian:    "Usage",
+			discordgo.Hindi:        "Usage",
+			discordgo.Thai:         "Usage",
+			discordgo.Turkish:      "Usage",
+			discordgo.Vietnamese:   "Usage",
+			discordgo.Unknown:      "Usage",
+		},
+		{
+			discordgo.EnglishGB:    "Find a colour you like, get its name, fill any spaces with '-' and run the \"set-colour-role\" command with it",
+			discordgo.EnglishUS:    "Find a color you like, get its name, fill any spaces with '-' and run the \"set-color-role\" command with it",
+			discordgo.Bulgarian:    "Намерете цвят, който ви харесва, запишете му името, заместете всички пространства с '-' и пуснете командата \"сложи-роля-за-цвят\" command with it",
+			discordgo.ChineseCN:    "Find a colour you like, get its name, fill any spaces with '-' and run the \"set-colour-role\" command with it",
+			discordgo.ChineseTW:    "Find a colour you like, get its name, fill any spaces with '-' and run the \"set-colour-role\" command with it",
+			discordgo.Croatian:     "Find a colour you like, get its name, fill any spaces with '-' and run the \"set-colour-role\" command with it",
+			discordgo.Czech:        "Find a colour you like, get its name, fill any spaces with '-' and run the \"set-colour-role\" command with it",
+			discordgo.Danish:       "Find a colour you like, get its name, fill any spaces with '-' and run the \"set-colour-role\" command with it",
+			discordgo.Dutch:        "Find a colour you like, get its name, fill any spaces with '-' and run the \"set-colour-role\" command with it",
+			discordgo.Finnish:      "Find a colour you like, get its name, fill any spaces with '-' and run the \"set-colour-role\" command with it",
+			discordgo.French:       "Find a colour you like, get its name, fill any spaces with '-' and run the \"set-colour-role\" command with it",
+			discordgo.German:       "Find a colour you like, get its name, fill any spaces with '-' and run the \"set-colour-role\" command with it",
+			discordgo.Greek:        "Find a colour you like, get its name, fill any spaces with '-' and run the \"set-colour-role\" command with it",
+			discordgo.Hungarian:    "Find a colour you like, get its name, fill any spaces with '-' and run the \"set-colour-role\" command with it",
+			discordgo.Italian:      "Find a colour you like, get its name, fill any spaces with '-' and run the \"set-colour-role\" command with it",
+			discordgo.Japanese:     "Find a colour you like, get its name, fill any spaces with '-' and run the \"set-colour-role\" command with it",
+			discordgo.Korean:       "Find a colour you like, get its name, fill any spaces with '-' and run the \"set-colour-role\" command with it",
+			discordgo.Lithuanian:   "Find a colour you like, get its name, fill any spaces with '-' and run the \"set-colour-role\" command with it",
+			discordgo.Norwegian:    "Find a colour you like, get its name, fill any spaces with '-' and run the \"set-colour-role\" command with it",
+			discordgo.Polish:       "Find a colour you like, get its name, fill any spaces with '-' and run the \"set-colour-role\" command with it",
+			discordgo.PortugueseBR: "Find a colour you like, get its name, fill any spaces with '-' and run the \"set-colour-role\" command with it",
+			discordgo.Romanian:     "Find a colour you like, get its name, fill any spaces with '-' and run the \"set-colour-role\" command with it",
+			discordgo.Russian:      "Find a colour you like, get its name, fill any spaces with '-' and run the \"set-colour-role\" command with it",
+			discordgo.SpanishES:    "Find a colour you like, get its name, fill any spaces with '-' and run the \"set-colour-role\" command with it",
+			discordgo.Swedish:      "Find a colour you like, get its name, fill any spaces with '-' and run the \"set-colour-role\" command with it",
+			discordgo.Ukrainian:    "Find a colour you like, get its name, fill any spaces with '-' and run the \"set-colour-role\" command with it",
+			discordgo.Hindi:        "Find a colour you like, get its name, fill any spaces with '-' and run the \"set-colour-role\" command with it",
+			discordgo.Thai:         "Find a colour you like, get its name, fill any spaces with '-' and run the \"set-colour-role\" command with it",
+			discordgo.Turkish:      "Find a colour you like, get its name, fill any spaces with '-' and run the \"set-colour-role\" command with it",
+			discordgo.Vietnamese:   "Find a colour you like, get its name, fill any spaces with '-' and run the \"set-colour-role\" command with it",
+			discordgo.Unknown:      "Find a colour you like, get its name, fill any spaces with '-' and run the \"set-colour-role\" command with it",
+		},
+		{
+			discordgo.EnglishGB:    "The following colours don't have a name so we made up a name for them",
+			discordgo.EnglishUS:    "The following colors don't have a name so we made up a name for them",
+			discordgo.Bulgarian:    "Следните цветове нямат име, за това измислихме следните имена за тях",
+			discordgo.ChineseCN:    "The following colours don't have a name so we made up a name for them",
+			discordgo.ChineseTW:    "The following colours don't have a name so we made up a name for them",
+			discordgo.Croatian:     "The following colours don't have a name so we made up a name for them",
+			discordgo.Czech:        "The following colours don't have a name so we made up a name for them",
+			discordgo.Danish:       "The following colours don't have a name so we made up a name for them",
+			discordgo.Dutch:        "The following colours don't have a name so we made up a name for them",
+			discordgo.Finnish:      "The following colours don't have a name so we made up a name for them",
+			discordgo.French:       "The following colours don't have a name so we made up a name for them",
+			discordgo.German:       "The following colours don't have a name so we made up a name for them",
+			discordgo.Greek:        "The following colours don't have a name so we made up a name for them",
+			discordgo.Hungarian:    "The following colours don't have a name so we made up a name for them",
+			discordgo.Italian:      "The following colours don't have a name so we made up a name for them",
+			discordgo.Japanese:     "The following colours don't have a name so we made up a name for them",
+			discordgo.Korean:       "The following colours don't have a name so we made up a name for them",
+			discordgo.Lithuanian:   "The following colours don't have a name so we made up a name for them",
+			discordgo.Norwegian:    "The following colours don't have a name so we made up a name for them",
+			discordgo.Polish:       "The following colours don't have a name so we made up a name for them",
+			discordgo.PortugueseBR: "The following colours don't have a name so we made up a name for them",
+			discordgo.Romanian:     "The following colours don't have a name so we made up a name for them",
+			discordgo.Russian:      "The following colours don't have a name so we made up a name for them",
+			discordgo.SpanishES:    "The following colours don't have a name so we made up a name for them",
+			discordgo.Swedish:      "The following colours don't have a name so we made up a name for them",
+			discordgo.Ukrainian:    "The following colours don't have a name so we made up a name for them",
+			discordgo.Hindi:        "The following colours don't have a name so we made up a name for them",
+			discordgo.Thai:         "The following colours don't have a name so we made up a name for them",
+			discordgo.Turkish:      "The following colours don't have a name so we made up a name for them",
+			discordgo.Vietnamese:   "The following colours don't have a name so we made up a name for them",
+			discordgo.Unknown:      "The following colours don't have a name so we made up a name for them",
+		},
+	}
+
 	embed := NewEmbed().
-		SetTitle("Available colour names").
-		AddField("A colour/name table can be found here", "https://www.spycolor.com/w3c-colors").
-		AddField("How to use", "Find a colour you like, get its name, fill any spaces with '-' and run the \"set-colour-role\" command with it").
+		SetTitle(embedStrings[0][m.Locale]).
+		AddField(embedStrings[1][m.Locale], "https://www.spycolor.com/w3c-colors").
+		AddField(embedStrings[2][m.Locale], embedStrings[3][m.Locale]).
 		InlineAllFields().
-		AddField("The following colours don't have a name so we made up a name for them", "#40e0d0, #a0522d, #fa8072, #7f007f, #ffe4b5, #66cdaa").
+		AddField(embedStrings[4][m.Locale], "#40e0d0, #a0522d, #fa8072, #7f007f, #ffe4b5, #66cdaa").
 		AddField("#40e0d0", "Light-Cyan-2").
 		AddField("#a0522d", "Dark-Sand").
 		AddField("#fa8072", "Salmon").
@@ -481,6 +683,108 @@ func listColours(s *discordgo.Session, m *discordgo.InteractionCreate) {
 }
 
 func giveColour(arg string, s *discordgo.Session, m *discordgo.InteractionCreate) {
+	embedStrings := []map[discordgo.Locale]string{
+		{},
+		{
+			discordgo.EnglishGB:    "Couldn't add meta role, as the current channel is not marked for meta roles",
+			discordgo.EnglishUS:    "Couldn't add meta role, as the current channel is not marked for meta roles",
+			discordgo.Bulgarian:    "Не можахме да добавим мета роля, понеже канала в който сте, не е маркиран с тип за поставяне на мета роли, моля намерете канал с правилните права",
+			discordgo.ChineseCN:    "Couldn't add meta role, as the current channel is not marked for meta roles",
+			discordgo.ChineseTW:    "Couldn't add meta role, as the current channel is not marked for meta roles",
+			discordgo.Croatian:     "Couldn't add meta role, as the current channel is not marked for meta roles",
+			discordgo.Czech:        "Couldn't add meta role, as the current channel is not marked for meta roles",
+			discordgo.Danish:       "Couldn't add meta role, as the current channel is not marked for meta roles",
+			discordgo.Dutch:        "Couldn't add meta role, as the current channel is not marked for meta roles",
+			discordgo.Finnish:      "Couldn't add meta role, as the current channel is not marked for meta roles",
+			discordgo.French:       "Couldn't add meta role, as the current channel is not marked for meta roles",
+			discordgo.German:       "Couldn't add meta role, as the current channel is not marked for meta roles",
+			discordgo.Greek:        "Couldn't add meta role, as the current channel is not marked for meta roles",
+			discordgo.Hungarian:    "Couldn't add meta role, as the current channel is not marked for meta roles",
+			discordgo.Italian:      "Couldn't add meta role, as the current channel is not marked for meta roles",
+			discordgo.Japanese:     "Couldn't add meta role, as the current channel is not marked for meta roles",
+			discordgo.Korean:       "Couldn't add meta role, as the current channel is not marked for meta roles",
+			discordgo.Lithuanian:   "Couldn't add meta role, as the current channel is not marked for meta roles",
+			discordgo.Norwegian:    "Couldn't add meta role, as the current channel is not marked for meta roles",
+			discordgo.Polish:       "Couldn't add meta role, as the current channel is not marked for meta roles",
+			discordgo.PortugueseBR: "Couldn't add meta role, as the current channel is not marked for meta roles",
+			discordgo.Romanian:     "Couldn't add meta role, as the current channel is not marked for meta roles",
+			discordgo.Russian:      "Couldn't add meta role, as the current channel is not marked for meta roles",
+			discordgo.SpanishES:    "Couldn't add meta role, as the current channel is not marked for meta roles",
+			discordgo.Swedish:      "Couldn't add meta role, as the current channel is not marked for meta roles",
+			discordgo.Ukrainian:    "Couldn't add meta role, as the current channel is not marked for meta roles",
+			discordgo.Hindi:        "Couldn't add meta role, as the current channel is not marked for meta roles",
+			discordgo.Thai:         "Couldn't add meta role, as the current channel is not marked for meta roles",
+			discordgo.Turkish:      "Couldn't add meta role, as the current channel is not marked for meta roles",
+			discordgo.Vietnamese:   "Couldn't add meta role, as the current channel is not marked for meta roles",
+			discordgo.Unknown:      "Couldn't add meta role, as the current channel is not marked for meta roles",
+		},
+		{
+			discordgo.EnglishGB:    "Invalid colour! Run \"list-colour-roles\" to get a list of all available colours!",
+			discordgo.EnglishUS:    "Invalid colour! Run \"list-color-roles\" to get a list of all available colors!",
+			discordgo.Bulgarian:    "Грешен цвят! Пуснете командата \"покажи-цветовите-роли\" за да получите лист от всички възможни цветоте!",
+			discordgo.ChineseCN:    "Invalid colour! Run \"list-colour-roles\" to get a list of all available colours!",
+			discordgo.ChineseTW:    "Invalid colour! Run \"list-colour-roles\" to get a list of all available colours!",
+			discordgo.Croatian:     "Invalid colour! Run \"list-colour-roles\" to get a list of all available colours!",
+			discordgo.Czech:        "Invalid colour! Run \"list-colour-roles\" to get a list of all available colours!",
+			discordgo.Danish:       "Invalid colour! Run \"list-colour-roles\" to get a list of all available colours!",
+			discordgo.Dutch:        "Invalid colour! Run \"list-colour-roles\" to get a list of all available colours!",
+			discordgo.Finnish:      "Invalid colour! Run \"list-colour-roles\" to get a list of all available colours!",
+			discordgo.French:       "Invalid colour! Run \"list-colour-roles\" to get a list of all available colours!",
+			discordgo.German:       "Invalid colour! Run \"list-colour-roles\" to get a list of all available colours!",
+			discordgo.Greek:        "Invalid colour! Run \"list-colour-roles\" to get a list of all available colours!",
+			discordgo.Hungarian:    "Invalid colour! Run \"list-colour-roles\" to get a list of all available colours!",
+			discordgo.Italian:      "Invalid colour! Run \"list-colour-roles\" to get a list of all available colours!",
+			discordgo.Japanese:     "Invalid colour! Run \"list-colour-roles\" to get a list of all available colours!",
+			discordgo.Korean:       "Invalid colour! Run \"list-colour-roles\" to get a list of all available colours!",
+			discordgo.Lithuanian:   "Invalid colour! Run \"list-colour-roles\" to get a list of all available colours!",
+			discordgo.Norwegian:    "Invalid colour! Run \"list-colour-roles\" to get a list of all available colours!",
+			discordgo.Polish:       "Invalid colour! Run \"list-colour-roles\" to get a list of all available colours!",
+			discordgo.PortugueseBR: "Invalid colour! Run \"list-colour-roles\" to get a list of all available colours!",
+			discordgo.Romanian:     "Invalid colour! Run \"list-colour-roles\" to get a list of all available colours!",
+			discordgo.Russian:      "Invalid colour! Run \"list-colour-roles\" to get a list of all available colours!",
+			discordgo.SpanishES:    "Invalid colour! Run \"list-colour-roles\" to get a list of all available colours!",
+			discordgo.Swedish:      "Invalid colour! Run \"list-colour-roles\" to get a list of all available colours!",
+			discordgo.Ukrainian:    "Invalid colour! Run \"list-colour-roles\" to get a list of all available colours!",
+			discordgo.Hindi:        "Invalid colour! Run \"list-colour-roles\" to get a list of all available colours!",
+			discordgo.Thai:         "Invalid colour! Run \"list-colour-roles\" to get a list of all available colours!",
+			discordgo.Turkish:      "Invalid colour! Run \"list-colour-roles\" to get a list of all available colours!",
+			discordgo.Vietnamese:   "Invalid colour! Run \"list-colour-roles\" to get a list of all available colours!",
+			discordgo.Unknown:      "Invalid colour! Run \"list-colour-roles\" to get a list of all available colours!",
+		},
+		{
+			discordgo.EnglishGB:    "Channel not marked as \"ubot-colour-pick\", contact your server's moderator to run the \"set-channel colour-role\" command in order to set up colour roles!",
+			discordgo.EnglishUS:    "Channel not marked as \"ubot-colour-pick\", contact your server's moderator to run the \"set-channel color-role\" command in order to set up colour roles!",
+			discordgo.Bulgarian:    "Каналът, в който се намирате не е маркиран като \"ubot-colour-pick\", намерете друг канал или се свържете с модератора на сървъра и го накарайте да пусне командата \"променяне-на-канал цветови-роли\"!",
+			discordgo.ChineseCN:    "Channel not marked as \"ubot-colour-pick\", contact your server's moderator to run the \"set-channel colour-role\" command in order to set up colour roles!",
+			discordgo.ChineseTW:    "Channel not marked as \"ubot-colour-pick\", contact your server's moderator to run the \"set-channel colour-role\" command in order to set up colour roles!",
+			discordgo.Croatian:     "Channel not marked as \"ubot-colour-pick\", contact your server's moderator to run the \"set-channel colour-role\" command in order to set up colour roles!",
+			discordgo.Czech:        "Channel not marked as \"ubot-colour-pick\", contact your server's moderator to run the \"set-channel colour-role\" command in order to set up colour roles!",
+			discordgo.Danish:       "Channel not marked as \"ubot-colour-pick\", contact your server's moderator to run the \"set-channel colour-role\" command in order to set up colour roles!",
+			discordgo.Dutch:        "Channel not marked as \"ubot-colour-pick\", contact your server's moderator to run the \"set-channel colour-role\" command in order to set up colour roles!",
+			discordgo.Finnish:      "Channel not marked as \"ubot-colour-pick\", contact your server's moderator to run the \"set-channel colour-role\" command in order to set up colour roles!",
+			discordgo.French:       "Channel not marked as \"ubot-colour-pick\", contact your server's moderator to run the \"set-channel colour-role\" command in order to set up colour roles!",
+			discordgo.German:       "Channel not marked as \"ubot-colour-pick\", contact your server's moderator to run the \"set-channel colour-role\" command in order to set up colour roles!",
+			discordgo.Greek:        "Channel not marked as \"ubot-colour-pick\", contact your server's moderator to run the \"set-channel colour-role\" command in order to set up colour roles!",
+			discordgo.Hungarian:    "Channel not marked as \"ubot-colour-pick\", contact your server's moderator to run the \"set-channel colour-role\" command in order to set up colour roles!",
+			discordgo.Italian:      "Channel not marked as \"ubot-colour-pick\", contact your server's moderator to run the \"set-channel colour-role\" command in order to set up colour roles!",
+			discordgo.Japanese:     "Channel not marked as \"ubot-colour-pick\", contact your server's moderator to run the \"set-channel colour-role\" command in order to set up colour roles!",
+			discordgo.Korean:       "Channel not marked as \"ubot-colour-pick\", contact your server's moderator to run the \"set-channel colour-role\" command in order to set up colour roles!",
+			discordgo.Lithuanian:   "Channel not marked as \"ubot-colour-pick\", contact your server's moderator to run the \"set-channel colour-role\" command in order to set up colour roles!",
+			discordgo.Norwegian:    "Channel not marked as \"ubot-colour-pick\", contact your server's moderator to run the \"set-channel colour-role\" command in order to set up colour roles!",
+			discordgo.Polish:       "Channel not marked as \"ubot-colour-pick\", contact your server's moderator to run the \"set-channel colour-role\" command in order to set up colour roles!",
+			discordgo.PortugueseBR: "Channel not marked as \"ubot-colour-pick\", contact your server's moderator to run the \"set-channel colour-role\" command in order to set up colour roles!",
+			discordgo.Romanian:     "Channel not marked as \"ubot-colour-pick\", contact your server's moderator to run the \"set-channel colour-role\" command in order to set up colour roles!",
+			discordgo.Russian:      "Channel not marked as \"ubot-colour-pick\", contact your server's moderator to run the \"set-channel colour-role\" command in order to set up colour roles!",
+			discordgo.SpanishES:    "Channel not marked as \"ubot-colour-pick\", contact your server's moderator to run the \"set-channel colour-role\" command in order to set up colour roles!",
+			discordgo.Swedish:      "Channel not marked as \"ubot-colour-pick\", contact your server's moderator to run the \"set-channel colour-role\" command in order to set up colour roles!",
+			discordgo.Ukrainian:    "Channel not marked as \"ubot-colour-pick\", contact your server's moderator to run the \"set-channel colour-role\" command in order to set up colour roles!",
+			discordgo.Hindi:        "Channel not marked as \"ubot-colour-pick\", contact your server's moderator to run the \"set-channel colour-role\" command in order to set up colour roles!",
+			discordgo.Thai:         "Channel not marked as \"ubot-colour-pick\", contact your server's moderator to run the \"set-channel colour-role\" command in order to set up colour roles!",
+			discordgo.Turkish:      "Channel not marked as \"ubot-colour-pick\", contact your server's moderator to run the \"set-channel colour-role\" command in order to set up colour roles!",
+			discordgo.Vietnamese:   "Channel not marked as \"ubot-colour-pick\", contact your server's moderator to run the \"set-channel colour-role\" command in order to set up colour roles!",
+			discordgo.Unknown:      "Channel not marked as \"ubot-colour-pick\", contact your server's moderator to run the \"set-channel colour-role\" command in order to set up colour roles!",
+		},
+	}
 	channel, _ := s.Channel(m.ChannelID)
 	if strings.Contains(strings.ToLower(channel.Topic), "ubot-colour-pick") {
 		bFound := false
@@ -503,7 +807,7 @@ func giveColour(arg string, s *discordgo.Session, m *discordgo.InteractionCreate
 					_ = s.GuildMemberRoleAdd(m.GuildID, m.Member.User.ID, roles[i].ID)
 					embed := NewEmbed().
 						SetTitle("Added you to the "+name+" role!").
-						AddField("Role", roles[i].Mention()).
+						AddField(roleName[m.Locale], roles[i].Mention()).
 						SetFooter(footerTranslations[m.Locale], "https://avatars.githubusercontent.com/u/66491677?s=400&u=07d8dd94266f97e22ee5bd96aebb6a5f9190b4ec&v=4").
 						SetColor(0xf1c40f).MessageEmbed
 					_ = s.InteractionRespond(m.Interaction, &discordgo.InteractionResponse{
@@ -532,7 +836,7 @@ func giveColour(arg string, s *discordgo.Session, m *discordgo.InteractionCreate
 			_ = s.GuildMemberRoleAdd(m.GuildID, m.Member.User.ID, role.ID)
 			embed := NewEmbed().
 				SetTitle("Added you to the "+name+" role!").
-				AddField("Role", role.Mention()).
+				AddField(roleName[m.Locale], role.Mention()).
 				SetFooter(footerTranslations[m.Locale], "https://avatars.githubusercontent.com/u/66491677?s=400&u=07d8dd94266f97e22ee5bd96aebb6a5f9190b4ec&v=4").
 				SetColor(0xf1c40f).MessageEmbed
 			_ = s.InteractionRespond(m.Interaction, &discordgo.InteractionResponse{
@@ -551,7 +855,7 @@ func giveColour(arg string, s *discordgo.Session, m *discordgo.InteractionCreate
 				Type: discordgo.InteractionResponseChannelMessageWithSource,
 				Data: &discordgo.InteractionResponseData{
 					TTS:     false,
-					Content: "Invalid colour! Run \"list-colour-roles\" to get a list of all available colours!",
+					Content: embedStrings[2][m.Locale],
 					Flags:   discordgo.MessageFlagsEphemeral,
 				},
 			})
@@ -561,7 +865,7 @@ func giveColour(arg string, s *discordgo.Session, m *discordgo.InteractionCreate
 			Type: discordgo.InteractionResponseChannelMessageWithSource,
 			Data: &discordgo.InteractionResponseData{
 				TTS:     false,
-				Content: "Channel not marked as \"ubot-colour-pick\", contact your server's moderator to run the \"set-colour-role-channel\" command in order to set up colour roles!",
+				Content: embedStrings[3][m.Locale],
 				Flags:   discordgo.MessageFlagsEphemeral,
 			},
 		})
@@ -569,6 +873,43 @@ func giveColour(arg string, s *discordgo.Session, m *discordgo.InteractionCreate
 }
 
 func giveMetarole(arg string, s *discordgo.Session, m *discordgo.InteractionCreate) {
+	// Add translations for the header embed text
+	embedStrings := []map[discordgo.Locale]string{
+		{},
+		{
+			discordgo.EnglishGB:    "Couldn't add meta role, as the current channel is not marked for meta roles",
+			discordgo.EnglishUS:    "Couldn't add meta role, as the current channel is not marked for meta roles",
+			discordgo.Bulgarian:    "Не можахме да добавим мета роля, понеже канала в който сте, не е маркиран с тип за поставяне на мета роли, моля намерете канал с правилните права",
+			discordgo.ChineseCN:    "Couldn't add meta role, as the current channel is not marked for meta roles",
+			discordgo.ChineseTW:    "Couldn't add meta role, as the current channel is not marked for meta roles",
+			discordgo.Croatian:     "Couldn't add meta role, as the current channel is not marked for meta roles",
+			discordgo.Czech:        "Couldn't add meta role, as the current channel is not marked for meta roles",
+			discordgo.Danish:       "Couldn't add meta role, as the current channel is not marked for meta roles",
+			discordgo.Dutch:        "Couldn't add meta role, as the current channel is not marked for meta roles",
+			discordgo.Finnish:      "Couldn't add meta role, as the current channel is not marked for meta roles",
+			discordgo.French:       "Couldn't add meta role, as the current channel is not marked for meta roles",
+			discordgo.German:       "Couldn't add meta role, as the current channel is not marked for meta roles",
+			discordgo.Greek:        "Couldn't add meta role, as the current channel is not marked for meta roles",
+			discordgo.Hungarian:    "Couldn't add meta role, as the current channel is not marked for meta roles",
+			discordgo.Italian:      "Couldn't add meta role, as the current channel is not marked for meta roles",
+			discordgo.Japanese:     "Couldn't add meta role, as the current channel is not marked for meta roles",
+			discordgo.Korean:       "Couldn't add meta role, as the current channel is not marked for meta roles",
+			discordgo.Lithuanian:   "Couldn't add meta role, as the current channel is not marked for meta roles",
+			discordgo.Norwegian:    "Couldn't add meta role, as the current channel is not marked for meta roles",
+			discordgo.Polish:       "Couldn't add meta role, as the current channel is not marked for meta roles",
+			discordgo.PortugueseBR: "Couldn't add meta role, as the current channel is not marked for meta roles",
+			discordgo.Romanian:     "Couldn't add meta role, as the current channel is not marked for meta roles",
+			discordgo.Russian:      "Couldn't add meta role, as the current channel is not marked for meta roles",
+			discordgo.SpanishES:    "Couldn't add meta role, as the current channel is not marked for meta roles",
+			discordgo.Swedish:      "Couldn't add meta role, as the current channel is not marked for meta roles",
+			discordgo.Ukrainian:    "Couldn't add meta role, as the current channel is not marked for meta roles",
+			discordgo.Hindi:        "Couldn't add meta role, as the current channel is not marked for meta roles",
+			discordgo.Thai:         "Couldn't add meta role, as the current channel is not marked for meta roles",
+			discordgo.Turkish:      "Couldn't add meta role, as the current channel is not marked for meta roles",
+			discordgo.Vietnamese:   "Couldn't add meta role, as the current channel is not marked for meta roles",
+			discordgo.Unknown:      "Couldn't add meta role, as the current channel is not marked for meta roles",
+		},
+	}
 	channel, _ := s.Channel(m.ChannelID)
 
 	if strings.Contains(strings.ToLower(channel.Topic), "ubot-meta-role-pick") {
@@ -579,7 +920,7 @@ func giveMetarole(arg string, s *discordgo.Session, m *discordgo.InteractionCrea
 				_ = s.GuildMemberRoleAdd(m.GuildID, m.Member.User.ID, roles[i].ID)
 				embed := NewEmbed().
 					SetTitle("Added you to the "+roles[i].Name+" role!").
-					AddField("Role", roles[i].Mention()).
+					AddField(roleName[m.Locale], roles[i].Mention()).
 					SetFooter(footerTranslations[m.Locale], "https://avatars.githubusercontent.com/u/66491677?s=400&u=07d8dd94266f97e22ee5bd96aebb6a5f9190b4ec&v=4").
 					SetColor(0xf1c40f).MessageEmbed
 				_, _ = s.ChannelMessageSendEmbed(m.ChannelID, embed)
@@ -596,7 +937,7 @@ func giveMetarole(arg string, s *discordgo.Session, m *discordgo.InteractionCrea
 		_ = s.GuildMemberRoleAdd(m.GuildID, m.Member.User.ID, role.ID)
 		embed := NewEmbed().
 			SetTitle("Added you to the "+role.Name+" role!").
-			AddField("Role", role.Mention()).
+			AddField(roleName[m.Locale], role.Mention()).
 			SetFooter(footerTranslations[m.Locale], "https://avatars.githubusercontent.com/u/66491677?s=400&u=07d8dd94266f97e22ee5bd96aebb6a5f9190b4ec&v=4").
 			SetColor(0xf1c40f).MessageEmbed
 		_ = s.InteractionRespond(m.Interaction, &discordgo.InteractionResponse{
@@ -615,7 +956,7 @@ func giveMetarole(arg string, s *discordgo.Session, m *discordgo.InteractionCrea
 			Type: discordgo.InteractionResponseChannelMessageWithSource,
 			Data: &discordgo.InteractionResponseData{
 				TTS:     false,
-				Content: "Couldn't add meta role, as the current channel is not marked for meta roles",
+				Content: embedStrings[1][m.Locale],
 				Flags:   discordgo.MessageFlagsEphemeral,
 			},
 		})
@@ -623,6 +964,41 @@ func giveMetarole(arg string, s *discordgo.Session, m *discordgo.InteractionCrea
 }
 
 func removeMetarole(arg string, s *discordgo.Session, m *discordgo.InteractionCreate) {
+	embedStrings := []map[discordgo.Locale]string{
+		{
+			discordgo.EnglishGB:    "Removed metarole",
+			discordgo.EnglishUS:    "Removed metarole",
+			discordgo.Bulgarian:    "Изтрихме мета роля",
+			discordgo.ChineseCN:    "Removed metarole",
+			discordgo.ChineseTW:    "Removed metarole",
+			discordgo.Croatian:     "Removed metarole",
+			discordgo.Czech:        "Removed metarole",
+			discordgo.Danish:       "Removed metarole",
+			discordgo.Dutch:        "Removed metarole",
+			discordgo.Finnish:      "Removed metarole",
+			discordgo.French:       "Removed metarole",
+			discordgo.German:       "Removed metarole",
+			discordgo.Greek:        "Removed metarole",
+			discordgo.Hungarian:    "Removed metarole",
+			discordgo.Italian:      "Removed metarole",
+			discordgo.Japanese:     "Removed metarole",
+			discordgo.Korean:       "Removed metarole",
+			discordgo.Lithuanian:   "Removed metarole",
+			discordgo.Norwegian:    "Removed metarole",
+			discordgo.Polish:       "Removed metarole",
+			discordgo.PortugueseBR: "Removed metarole",
+			discordgo.Romanian:     "Removed metarole",
+			discordgo.Russian:      "Removed metarole",
+			discordgo.SpanishES:    "Removed metarole",
+			discordgo.Swedish:      "Removed metarole",
+			discordgo.Ukrainian:    "Removed metarole",
+			discordgo.Hindi:        "Removed metarole",
+			discordgo.Thai:         "Removed metarole",
+			discordgo.Turkish:      "Removed metarole",
+			discordgo.Vietnamese:   "Removed metarole",
+			discordgo.Unknown:      "Removed metarole",
+		},
+	}
 	g, _ := s.Guild(m.GuildID)
 	roles := g.Roles
 
@@ -630,8 +1006,8 @@ func removeMetarole(arg string, s *discordgo.Session, m *discordgo.InteractionCr
 		if strings.ToLower(arg) == strings.ToLower(roles[i].Name) && roles[i].Permissions == 0 {
 			_ = s.GuildMemberRoleRemove(m.GuildID, m.Member.User.ID, roles[i].ID)
 			embed := NewEmbed().
-				SetTitle("Removed metarole!").
-				AddField("The following role has been removed", roles[i].Mention()).
+				SetTitle(embedStrings[0][m.Locale]).
+				AddField(roleName[m.Locale], roles[i].Mention()).
 				SetFooter(footerTranslations[m.Locale], "https://avatars.githubusercontent.com/u/66491677?s=400&u=07d8dd94266f97e22ee5bd96aebb6a5f9190b4ec&v=4").
 				SetColor(0xf1c40f).MessageEmbed
 			_ = s.InteractionRespond(m.Interaction, &discordgo.InteractionResponse{

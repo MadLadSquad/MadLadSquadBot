@@ -24,6 +24,29 @@ The official discord bot for the MadLadSquad discord server
    - Romanian 🇷🇴🇲🇩 - Partial(Full translation coming soon)
    - Russian 🇷🇺 - Partial(Full translation coming soon)
    - Japanese 🇯🇵 - Partial(Full translation coming soon)
+## We're looking for help
+We're looking for help with translating the bot to all languages that discord offers, if you're a speaker of any of these languages please create a pr, localization strings are stored in the source code and can easily be found:
+- Czech
+- Danish
+- Dutch
+- Finnish
+- French
+- Greek
+- Hungarian
+- Italian
+- Korean
+- Lithuanian
+- Norwegian
+- Polish
+- PortugueseBR
+- SpanishES
+- Swedish
+- Ukrainian
+- Hindi
+- Thai
+- Turkish
+- Vietnamese
+
 ## How to use
 To use the bot you can invite the UntitledDiscordBot using this 
 [link](https://discord.com/oauth2/authorize?client_id=697420452712284202&scope=bot&permissions=2134207679), 
