@@ -7,7 +7,7 @@ import (
 )
 
 func onReady(s *discordgo.Session, m *discordgo.Ready) {
-	err := s.UpdateStreamingStatus(1, "&help | Click watch for music!", "https://www.youtube.com/watch?v=XoX6zS5-jOY&list=PL8yFU3veFghtteYYFdSnc-vaBZ3hHh4Wc&index=1")
+	err := s.UpdateStreamingStatus(1, "Type / for commands | Click watch for music!", "https://open.spotify.com/playlist/0UA5R74EvBpUJdNWMokC1y")
 	if err != nil {
 		return
 	}
