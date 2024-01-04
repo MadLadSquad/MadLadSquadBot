@@ -372,7 +372,7 @@ func onGuildUpdate(s *discordgo.Session, m *discordgo.GuildUpdate) {
 	}
 	embed := NewEmbed().
 		SetTitle(m.Guild.Name+" was updated!").
-		SetThumbnail(m.Guild.IconURL()).
+		SetThumbnail(m.Guild.IconURL("256")).
 		AddField("Member Count", strconv.Itoa(len(m.Guild.Members))).
 		AddField("Region", m.Guild.Region).
 		AddField("Channel Count", strconv.Itoa(len(m.Guild.Channels))).

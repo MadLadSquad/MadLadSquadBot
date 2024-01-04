@@ -296,7 +296,7 @@ func showServerInfo(s *discordgo.Session, m *discordgo.InteractionCreate) {
 	}
 	embed := NewEmbed().
 		SetTitle(guild.Name+" server information").
-		SetThumbnail(guild.IconURL()).
+		SetThumbnail(guild.IconURL("256")).
 		AddField("Member Count", strconv.Itoa(len(guild.Members))).
 		AddField("Region", guild.Region).
 		AddField("Channel Count", strconv.Itoa(len(guild.Channels))).

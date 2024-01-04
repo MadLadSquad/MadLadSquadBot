@@ -76,7 +76,7 @@ func channelChangeMetadata(arg string, s *discordgo.Session, m *discordgo.Intera
 			Name:                 channel.Name,
 			Topic:                channel.Topic + template1,
 			NSFW:                 &channel.NSFW,
-			Position:             channel.Position,
+			Position:             &channel.Position,
 			Bitrate:              channel.Bitrate,
 			UserLimit:            channel.UserLimit,
 			PermissionOverwrites: channel.PermissionOverwrites,
