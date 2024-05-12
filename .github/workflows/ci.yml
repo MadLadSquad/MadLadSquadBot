@@ -12,7 +12,7 @@ jobs:
   Linux:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Get dependencies
       shell: bash
       run: sudo snap install --classic go 
@@ -22,7 +22,7 @@ jobs:
   Windows:
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Get dependencies
         run: choco install golang
       - name: Compile
@@ -30,7 +30,7 @@ jobs:
   MacOS:
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Get dependencies
         run: brew install go@1.21 || brew link --overwrite go
       - name: Compile
