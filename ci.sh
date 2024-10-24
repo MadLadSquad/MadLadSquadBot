@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 vertmp=$(grep "github.com/MadLadSquad/discordgo" go.mod)
 ver=${vertmp: -7}
 
